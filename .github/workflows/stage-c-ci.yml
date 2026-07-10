@@ -1,0 +1,26 @@
+name: Stage C CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  unreal-automation:
+    runs-on: [self-hosted, Windows, X64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and run Unreal Automation Test
+        shell: powershell
+        run: ./stage-c/Build/RunStageCAcceptance.ps1
+
+      - name: Upload Stage C evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-c-evidence
+          path: out/stage-c/test-output/
+          if-no-files-found: error
+

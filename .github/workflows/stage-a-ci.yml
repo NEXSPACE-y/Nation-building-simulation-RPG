@@ -1,0 +1,38 @@
+name: Stage A CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure C++23 project
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build fixture generator
+        run: cmake --build build --target stage_a_fixture_generator --parallel
+
+      - name: Verify committed JSON fixture is reproducible
+        run: |
+          ./build/stage_a_fixture_generator data/stage_a_fixture.generated.json
+          cmp data/stage_a_fixture.json data/stage_a_fixture.generated.json
+
+      - name: Build Stage A
+        run: cmake --build build --target nation_cli nation_tests --parallel
+
+      - name: Run acceptance tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Upload Stage A evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-a-evidence
+          path: build/test-output/
+          if-no-files-found: warn
+

@@ -1,0 +1,13 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.8",
+  "Category": "Simulation",
+  "Description": "Stage C Unreal Engine C++ causal-system validation project.",
+  "Modules": [
+    {
+      "Name": "NationSimulationStageC",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ]
+}

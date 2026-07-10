@@ -1,0 +1,47 @@
+name: Stage B CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  godot-csharp-acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Download Godot 4.7 .NET
+        run: |
+          curl -L "https://downloads.godotengine.org/?flavor=stable&platform=linux.64&slug=mono_linux_x86_64.zip&version=4.7" -o godot.zip
+          unzip -q godot.zip -d .godot-engine
+          find .godot-engine -type f -name 'Godot_v4.7-stable_mono_linux*' -exec chmod +x {} \;
+          find .godot-engine -type f -name 'Godot_v4.7-stable_mono_linux*' | head -n 1 > godot-path.txt
+
+      - name: Build Stage B C# project
+        run: dotnet build stage-b/NationSimulation.StageB.csproj -c Debug
+
+      - name: Import Godot project
+        run: |
+          GODOT="$(cat godot-path.txt)"
+          "$GODOT" --headless --editor --path stage-b --quit
+
+      - name: Run Godot headless acceptance suite
+        env:
+          STAGE_B_EVIDENCE_DIR: ${{ github.workspace }}/out/stage-b/test-output
+        run: |
+          GODOT="$(cat godot-path.txt)"
+          "$GODOT" --headless --path stage-b -- --acceptance
+
+      - name: Upload Stage B evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-b-evidence
+          path: out/stage-b/test-output/
+          if-no-files-found: error
