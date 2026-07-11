@@ -73,6 +73,9 @@ struct TransitionRule {
     std::string perception;
     double min_credibility{0.0};
     double max_credibility{1.0};
+    double min_evidence{0.0};
+    double max_evidence{1.0};
+    std::string required_actor_id;
     int target_state_id{};
     int priority{};
     std::int64_t cooldown{};
@@ -81,6 +84,23 @@ struct TransitionRule {
     std::string relationship_metric;
     int relationship_delta{};
     std::string relationship_target;
+    int min_relationship{-1000000};
+    int max_relationship{1000000};
+    std::string country_parameter;
+    int min_country{-1000000};
+    int max_country{1000000};
+    int min_player_evaluation{-1000000};
+    int max_player_evaluation{1000000};
+    std::int64_t min_state_minutes{};
+};
+
+struct TimeBasedRule {
+    std::string rule_id;
+    std::int64_t after_game_minutes{};
+    int target_state_id{};
+    int priority{};
+    bool once_only{};
+    std::int64_t repeat_interval_minutes{};
 };
 
 struct StateDefinition {
@@ -91,10 +111,27 @@ struct StateDefinition {
     std::vector<DialogueCandidate> dialogue_candidates;
     std::vector<ActionCandidate> action_candidates;
     std::vector<TransitionRule> transition_rules;
+    std::vector<TimeBasedRule> time_based_rules;
     std::string goal_modifier;
+    std::string current_goal;
     int player_evaluation_modifier{};
+    std::map<std::string, int> relationship_modifiers;
+    std::vector<CountryEffect> world_effect_candidates;
     int priority{};
     bool is_terminal{};
+};
+
+struct EvidenceEvaluation {
+    std::string source_event_id;
+    double credibility{};
+    double evidence_level{};
+    std::string perception{"NONE"};
+};
+
+struct RuleEvaluation {
+    std::string rule_id;
+    bool selected{};
+    std::string reason;
 };
 
 struct AiNpcState {
@@ -120,6 +157,12 @@ struct AiNpcState {
     std::map<std::string, std::int64_t> rule_last_used_tick;
     std::set<std::string> used_dialogues;
     std::map<std::string, std::int64_t> dialogue_last_used_tick;
+    std::int64_t state_entered_at{};
+    std::optional<std::int64_t> timed_transition_at;
+    bool legacy_state_pending_stage_e_entry{};
+    EvidenceEvaluation evidence_evaluation;
+    std::string last_transition_reason;
+    std::vector<RuleEvaluation> last_rule_evaluations;
     std::int64_t created_at{};
     std::int64_t updated_at{};
 };
@@ -177,6 +220,7 @@ struct AuditEntry {
     std::string selected_action;
     std::vector<std::string> generated_events;
     std::vector<std::string> country_state_changes;
+    std::vector<std::string> rejected_rules;
     std::uint64_t random_seed{};
 };
 
@@ -195,6 +239,13 @@ public:
     static Simulation from_fixture(const std::filesystem::path& fixture_path);
     static Simulation load_save(const std::filesystem::path& fixture_path,
                                 const std::filesystem::path& save_path);
+    static Simulation from_fixture_with_overlay(const std::filesystem::path& fixture_path,
+                                                const std::filesystem::path& overlay_path,
+                                                const std::string& definition_sha256 = {});
+    static Simulation load_save_with_overlay(const std::filesystem::path& fixture_path,
+                                             const std::filesystem::path& overlay_path,
+                                             const std::filesystem::path& save_path,
+                                             const std::string& definition_sha256 = {});
 
     std::string enqueue_player_action(const std::string& action,
                                       const std::string& target_id = {},
@@ -232,6 +283,18 @@ public:
     std::int64_t simulation_tick() const noexcept { return simulation_tick_; }
     std::uint64_t world_seed() const noexcept { return world_seed_; }
     int chain_limit() const noexcept { return chain_limit_; }
+    bool stage_e_active() const noexcept { return stage_e_active_; }
+    const std::string& stage_e_overlay_id() const noexcept { return stage_e_overlay_id_; }
+    const std::string& stage_e_definition_sha256() const noexcept { return stage_e_definition_sha256_; }
+    void set_relationship_metric(const std::string& npc_id, const std::string& target_id,
+                                 const std::string& metric, int value);
+    void set_country_parameter(const std::string& parameter, int value);
+    void configure_stage_e_migration(std::string source_schema_version,
+                                     std::string source_simulation_version,
+                                     std::string source_save_sha256,
+                                     std::string source_metadata_sha256,
+                                     std::string source_backup_path,
+                                     std::string metadata_backup_path);
     void set_chain_limit_for_test(int limit);
 
 private:
@@ -239,6 +302,18 @@ private:
     std::string fixture_id_;
     std::string schema_version_;
     std::string simulation_version_;
+    std::string fixture_schema_version_;
+    std::string fixture_simulation_version_;
+    bool stage_e_active_{};
+    std::string stage_e_overlay_id_;
+    std::string stage_e_overlay_schema_version_;
+    std::string stage_e_definition_sha256_;
+    std::string stage_e_source_schema_version_;
+    std::string stage_e_source_simulation_version_;
+    std::string stage_e_source_save_sha256_;
+    std::string stage_e_source_metadata_sha256_;
+    std::string stage_e_source_backup_path_;
+    std::string stage_e_metadata_backup_path_;
     std::uint64_t world_seed_{};
     std::int64_t current_world_time_minutes_{};
     std::int64_t last_simulated_at_{};
@@ -269,14 +344,20 @@ private:
     std::vector<Event> derive_perception_event(Event& event);
     std::vector<Event> execute_ai_reaction(AiNpcState& npc, const Event& perception,
                                            AuditEntry& audit);
-    std::vector<const TransitionRule*> matching_rules(const AiNpcState& npc,
-                                                      const Event& perception) const;
+    std::vector<const TransitionRule*> matching_rules(AiNpcState& npc,
+                                                      const Event& perception);
+    std::string rule_rejection_reason(const AiNpcState& npc, const TransitionRule& rule,
+                                      const Event& perception) const;
     const StateDefinition& state_definition(const AiNpcState& npc, int state_id) const;
     AiNpcState& mutable_ai_npc(const std::string& npc_id);
     NonAiNpcState& mutable_non_ai_npc(const std::string& npc_id);
     int* mutable_country_parameter(const std::string& parameter);
     bool is_allowed_action(const std::string& action) const;
     std::uint64_t deterministic_hash(const std::string& value) const;
+    void apply_stage_e_overlay(const std::filesystem::path& overlay_path,
+                               const std::string& definition_sha256,
+                               bool initialize_stage_e_states);
+    void ensure_stage_e_defaults(AiNpcState& npc, const std::map<std::string, std::map<std::string, int>>& defaults);
     void append_history(Event event);
     void append_chain_limit_event(const std::string& root_event_id,
                                   std::size_t remaining,

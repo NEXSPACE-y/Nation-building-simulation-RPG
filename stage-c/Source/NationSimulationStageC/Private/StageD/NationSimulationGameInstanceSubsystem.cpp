@@ -11,6 +11,7 @@
 #include "StageD/StageDCoreBoundary.h"
 #include "StageD/StageDNpcActor.h"
 #include "StageD/StageDSaveMetadata.h"
+#include "StageE/StageESaveMigration.h"
 #include "nation_sim/simulation.hpp"
 
 #include <filesystem>
@@ -62,6 +63,20 @@ FString UNationSimulationGameInstanceSubsystem::ResolveFixturePath() const
     return Candidates.Last();
 }
 
+FString UNationSimulationGameInstanceSubsystem::ResolveStageEOverlayPath() const
+{
+    const TArray<FString> Candidates = {
+        FPaths::Combine(FPlatformProcess::BaseDir(), TEXT("Data/StageE/stage_e_state_definitions.json")),
+        FPaths::ConvertRelativePathToFull(FPaths::Combine(
+            FPaths::ProjectDir(), TEXT("Data/StageE/stage_e_state_definitions.json")))
+    };
+    for (const FString& Candidate : Candidates)
+    {
+        if (FPaths::FileExists(Candidate)) return FPaths::ConvertRelativePathToFull(Candidate);
+    }
+    return Candidates.Last();
+}
+
 FString UNationSimulationGameInstanceSubsystem::SavePath() const
 {
     return FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("SaveGames/stage_d_save.json"));
@@ -80,11 +95,33 @@ bool UNationSimulationGameInstanceSubsystem::LoadCore(bool bApplyOfflineElapsed)
         LastActionRejection.Reset();
         DeferredOfflineSeconds = 0;
         const FString Fixture = ResolveFixturePath();
+        const FString Overlay = ResolveStageEOverlayPath();
         const FString Save = SavePath();
+        FString DefinitionSha256;
+        FString HashError;
+        if (!FStageESaveMigration::Sha256File(Overlay, DefinitionSha256, HashError))
+        {
+            RecordErrorMessage(TEXT("LoadCore Stage E overlay"), HashError);
+            return false;
+        }
         if (FPaths::FileExists(Save))
         {
+            const FStageESaveMigrationResult Migration = FStageESaveMigration::MigrateIfNeeded(
+                Save, SaveMetadataPath(), Fixture, Overlay);
+            if (!Migration.bSuccess)
+            {
+                RecordErrorMessage(TEXT("LoadCore Stage D to Stage E migration"), Migration.Error);
+                return false;
+            }
             Core->Simulation = MakeUnique<nation_sim::Simulation>(
-                nation_sim::Simulation::load_save(NativePath(Fixture), NativePath(Save)));
+                nation_sim::Simulation::load_save_with_overlay(
+                    NativePath(Fixture), NativePath(Overlay), NativePath(Save), TCHAR_TO_UTF8(*DefinitionSha256)));
+            if (Migration.bMigrated)
+            {
+                UE_LOG(LogNationSimulationStageD, Display,
+                    TEXT("STAGE_E_SAVE_MIGRATED save=%s backup=%s metadata_backup=%s source_sha256=%s"),
+                    *Save, *Migration.SaveBackupPath, *Migration.MetadataBackupPath, *Migration.SourceSaveSha256);
+            }
             if (bApplyOfflineElapsed)
             {
                 const FStageDSaveMetadataReadResult Metadata =
@@ -106,9 +143,13 @@ bool UNationSimulationGameInstanceSubsystem::LoadCore(bool bApplyOfflineElapsed)
         else
         {
             Core->Simulation = MakeUnique<nation_sim::Simulation>(
-                nation_sim::Simulation::from_fixture(NativePath(Fixture)));
+                nation_sim::Simulation::from_fixture_with_overlay(
+                    NativePath(Fixture), NativePath(Overlay), TCHAR_TO_UTF8(*DefinitionSha256)));
         }
-        RecentEvent = TEXT("Causal core ready");
+        RecentEvent = TEXT("Stage E causal core ready");
+        UE_LOG(LogNationSimulationStageD, Display,
+            TEXT("STAGE_E_CORE_READY overlay=stage_e_behavioral_depth_v1 definition_sha256=%s save=%s"),
+            *DefinitionSha256, *Save);
         OnCoreStateChanged.Broadcast();
         return true;
     }
@@ -345,7 +386,44 @@ FStageDNpcView UNationSimulationGameInstanceSubsystem::GetNpcView(const FString&
         View.Role = ToFString(AiIt->role);
         View.LocationId = ToFString(AiIt->current_location_id);
         View.CurrentStateId = AiIt->current_state_id;
+        if (AiIt->current_state_id >= 1 && AiIt->current_state_id <= static_cast<int>(AiIt->states.size()))
+        {
+            View.CurrentStateName = ToFString(AiIt->states[static_cast<size_t>(AiIt->current_state_id - 1)].state_name);
+        }
+        View.CurrentGoal = ToFString(AiIt->current_goal);
         View.PlayerEvaluation = AiIt->player_evaluation;
+        View.LastTransitionReason = ToFString(AiIt->last_transition_reason);
+        View.StateResidenceMinutes = FMath::Max<int64>(0, Simulation.current_world_time_minutes() - AiIt->state_entered_at);
+        View.NextTimedTransitionAt = AiIt->timed_transition_at ? *AiIt->timed_transition_at : -1;
+        TArray<FString> RelationshipRows;
+        for (const auto& [TargetId, Metrics] : AiIt->relationships)
+        {
+            TArray<FString> MetricRows;
+            for (const auto& [Metric, Value] : Metrics)
+            {
+                MetricRows.Add(FString::Printf(TEXT("%s=%d"), *ToFString(Metric), Value));
+            }
+            if (!MetricRows.IsEmpty())
+            {
+                RelationshipRows.Add(FString::Printf(TEXT("%s{%s}"), *ToFString(TargetId), *FString::Join(MetricRows, TEXT(", "))));
+            }
+        }
+        View.MajorRelationships = FString::Join(RelationshipRows, TEXT(" | "));
+        View.EvidenceEvaluation = FString::Printf(TEXT("source=%s | credibility=%.3f | evidence=%.3f | perception=%s"),
+            *ToFString(AiIt->evidence_evaluation.source_event_id), AiIt->evidence_evaluation.credibility,
+            AiIt->evidence_evaluation.evidence_level, *ToFString(AiIt->evidence_evaluation.perception));
+        TArray<FString> CandidateRows;
+        TArray<FString> RejectedRows;
+        for (const nation_sim::RuleEvaluation& Evaluation : AiIt->last_rule_evaluations)
+        {
+            CandidateRows.Add(ToFString(Evaluation.rule_id));
+            if (!Evaluation.selected)
+            {
+                RejectedRows.Add(FString::Printf(TEXT("%s: %s"), *ToFString(Evaluation.rule_id), *ToFString(Evaluation.reason)));
+            }
+        }
+        View.CandidateRules = FString::Join(CandidateRows, TEXT(", "));
+        View.RejectedReasons = FString::Join(RejectedRows, TEXT(" | "));
         for (auto It = Simulation.audit_log().rbegin(); It != Simulation.audit_log().rend(); ++It)
         {
             if (It->decision_npc_id != Id) continue;
@@ -353,6 +431,12 @@ FStageDNpcView UNationSimulationGameInstanceSubsystem::GetNpcView(const FString&
             View.SelectedAction = ToFString(It->selected_action);
             View.SelectedTargetId = ToFString(It->target_id);
             View.RootEventId = ToFString(It->root_event_id);
+            if (View.RejectedReasons.IsEmpty())
+            {
+                TArray<FString> RejectedAuditRows;
+                for (const std::string& Rejected : It->rejected_rules) RejectedAuditRows.Add(ToFString(Rejected));
+                View.RejectedReasons = FString::Join(RejectedAuditRows, TEXT(" | "));
+            }
             if (!It->selected_dialogue.empty() && AiIt->current_state_id >= 1 && AiIt->current_state_id <= static_cast<int>(AiIt->states.size()))
             {
                 const auto& State = AiIt->states[static_cast<size_t>(AiIt->current_state_id - 1)];

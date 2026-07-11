@@ -70,6 +70,7 @@ private:
     float InteractionRange = 350.0f;
 
     FString ResolveFixturePath() const;
+    FString ResolveStageEOverlayPath() const;
     FString SavePath() const;
     FString SaveMetadataPath() const;
     bool LoadCore(bool bApplyOfflineElapsed);

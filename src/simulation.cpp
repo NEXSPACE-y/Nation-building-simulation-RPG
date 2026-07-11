@@ -74,6 +74,7 @@ json audit_to_json(const AuditEntry& audit) {
         {"selected_action", audit.selected_action},
         {"generated_events", audit.generated_events},
         {"country_state_changes", audit.country_state_changes},
+        {"rejected_rules", audit.rejected_rules},
         {"random_seed", audit.random_seed}
     };
 }
@@ -95,6 +96,7 @@ AuditEntry audit_from_json(const json& value) {
     audit.selected_action = value.value("selected_action", "");
     audit.generated_events = value.value("generated_events", std::vector<std::string>{});
     audit.country_state_changes = value.value("country_state_changes", std::vector<std::string>{});
+    audit.rejected_rules = value.value("rejected_rules", std::vector<std::string>{});
     audit.random_seed = value.value("random_seed", std::uint64_t{});
     return audit;
 }
@@ -199,6 +201,133 @@ bool contains_string(const std::vector<std::string>& values, const std::string& 
     return std::find(values.begin(), values.end(), value) != values.end();
 }
 
+TransitionRule stage_e_rule_from_json(const json& value) {
+    TransitionRule rule;
+    rule.rule_id = required<std::string>(value, "rule_id");
+    rule.trigger_event_type = required<std::string>(value, "trigger_event_type");
+    rule.subject_event_type = required<std::string>(value, "subject_event_type");
+    rule.perception = required<std::string>(value, "perception");
+    rule.min_credibility = value.value("min_credibility", 0.0);
+    rule.max_credibility = value.value("max_credibility", 1.0);
+    rule.min_evidence = value.value("min_evidence", 0.0);
+    rule.max_evidence = value.value("max_evidence", 1.0);
+    rule.required_actor_id = value.value("required_actor_id", "");
+    rule.target_state_id = required<int>(value, "target_state_id");
+    rule.priority = required<int>(value, "priority");
+    rule.cooldown = value.value("cooldown", std::int64_t{});
+    rule.once_only = value.value("once_only", false);
+    rule.player_evaluation_delta = value.value("player_evaluation_delta", 0);
+    rule.relationship_metric = value.value("relationship_metric", "");
+    rule.relationship_delta = value.value("relationship_delta", 0);
+    rule.relationship_target = value.value("relationship_target", "");
+    rule.min_relationship = value.value("min_relationship", -1000000);
+    rule.max_relationship = value.value("max_relationship", 1000000);
+    rule.country_parameter = value.value("country_parameter", "");
+    rule.min_country = value.value("min_country", -1000000);
+    rule.max_country = value.value("max_country", 1000000);
+    rule.min_player_evaluation = value.value("min_player_evaluation", -1000000);
+    rule.max_player_evaluation = value.value("max_player_evaluation", 1000000);
+    rule.min_state_minutes = value.value("min_state_minutes", std::int64_t{});
+    return rule;
+}
+
+StateDefinition stage_e_state_from_json(const json& value) {
+    StateDefinition state;
+    state.state_id = required<int>(value, "state_id");
+    state.state_name = required<std::string>(value, "state_name");
+    state.state_description = required<std::string>(value, "state_description");
+    state.undefined = false;
+    state.current_goal = required<std::string>(value, "current_goal");
+    state.goal_modifier = state.current_goal;
+    for (const auto& dialogue_value : value.at("dialogue_candidates")) {
+        state.dialogue_candidates.push_back({
+            required<std::string>(dialogue_value, "dialogue_id"),
+            required<std::string>(dialogue_value, "text"),
+            required<std::string>(dialogue_value, "tone"),
+            required<int>(dialogue_value, "priority"),
+            dialogue_value.value("once_only", false),
+            dialogue_value.value("cooldown", std::int64_t{})
+        });
+    }
+    for (const auto& action_value : value.at("action_candidates")) {
+        ActionCandidate action;
+        action.action_type = required<std::string>(action_value, "type");
+        action.target_id = action_value.value("target_id", "");
+        action.priority = required<int>(action_value, "priority");
+        action.credibility_factor = action_value.value("credibility_factor", 1.0);
+        for (const auto& effect_value : action_value.at("country_effects")) {
+            action.country_effects.push_back({required<std::string>(effect_value, "parameter"),
+                                              required<int>(effect_value, "delta"),
+                                              required<std::string>(effect_value, "reason")});
+        }
+        state.action_candidates.push_back(std::move(action));
+    }
+    for (const auto& rule_value : value.at("transition_rules")) {
+        state.transition_rules.push_back(stage_e_rule_from_json(rule_value));
+    }
+    for (const auto& time_value : value.at("time_based_rules")) {
+        state.time_based_rules.push_back({required<std::string>(time_value, "rule_id"),
+                                          required<std::int64_t>(time_value, "after_game_minutes"),
+                                          required<int>(time_value, "target_state_id"),
+                                          required<int>(time_value, "priority"),
+                                          time_value.value("once_only", false),
+                                          time_value.value("repeat_interval_minutes", std::int64_t{})});
+    }
+    state.player_evaluation_modifier = value.value("player_evaluation_modifier", 0);
+    state.relationship_modifiers = value.value("relationship_modifiers", std::map<std::string, int>{});
+    for (const auto& effect_value : value.at("world_effect_candidates")) {
+        state.world_effect_candidates.push_back({required<std::string>(effect_value, "parameter"),
+                                                 required<int>(effect_value, "delta"),
+                                                 required<std::string>(effect_value, "reason")});
+    }
+    state.priority = required<int>(value, "priority");
+    state.is_terminal = value.value("is_terminal", false);
+    return state;
+}
+
+json stage_e_runtime_to_json(const AiNpcState& npc) {
+    json evaluations = json::array();
+    for (const auto& evaluation : npc.last_rule_evaluations) {
+        evaluations.push_back({{"rule_id", evaluation.rule_id}, {"selected", evaluation.selected},
+                               {"reason", evaluation.reason}});
+    }
+    return {
+        {"state_entered_at", npc.state_entered_at},
+        {"timed_transition_at", npc.timed_transition_at ? json(*npc.timed_transition_at) : json(nullptr)},
+        {"legacy_state_pending_stage_e_entry", npc.legacy_state_pending_stage_e_entry},
+        {"evidence_evaluation", {{"source_event_id", npc.evidence_evaluation.source_event_id},
+                                  {"credibility", npc.evidence_evaluation.credibility},
+                                  {"evidence_level", npc.evidence_evaluation.evidence_level},
+                                  {"perception", npc.evidence_evaluation.perception}}},
+        {"last_transition_reason", npc.last_transition_reason},
+        {"last_rule_evaluations", evaluations}
+    };
+}
+
+void load_stage_e_runtime(AiNpcState& npc, const json& value, std::int64_t world_minutes) {
+    npc.state_entered_at = value.value("state_entered_at", world_minutes);
+    if (value.contains("timed_transition_at") && !value.at("timed_transition_at").is_null()) {
+        npc.timed_transition_at = value.at("timed_transition_at").get<std::int64_t>();
+    } else {
+        npc.timed_transition_at.reset();
+    }
+    npc.legacy_state_pending_stage_e_entry = value.value(
+        "legacy_state_pending_stage_e_entry", npc.current_state_id >= 1 && npc.current_state_id <= 5);
+    const auto& evidence = value.contains("evidence_evaluation")
+        ? value.at("evidence_evaluation") : json::object();
+    npc.evidence_evaluation.source_event_id = evidence.value("source_event_id", "");
+    npc.evidence_evaluation.credibility = evidence.value("credibility", 0.0);
+    npc.evidence_evaluation.evidence_level = evidence.value("evidence_level", 0.0);
+    npc.evidence_evaluation.perception = evidence.value("perception", "NONE");
+    npc.last_transition_reason = value.value("last_transition_reason", "MIGRATED_FROM_STAGE_D");
+    npc.last_rule_evaluations.clear();
+    for (const auto& evaluation : value.value("last_rule_evaluations", json::array())) {
+        npc.last_rule_evaluations.push_back({evaluation.value("rule_id", ""),
+                                             evaluation.value("selected", false),
+                                             evaluation.value("reason", "")});
+    }
+}
+
 } // namespace
 
 Simulation Simulation::from_fixture(const std::filesystem::path& fixture_path) {
@@ -217,6 +346,8 @@ Simulation Simulation::from_fixture(const std::filesystem::path& fixture_path) {
     }
     simulation.schema_version_ = required<std::string>(root, "schema_version");
     simulation.simulation_version_ = required<std::string>(root, "simulation_version");
+    simulation.fixture_schema_version_ = simulation.schema_version_;
+    simulation.fixture_simulation_version_ = simulation.simulation_version_;
 
     const auto& world = root.at("world");
     simulation.world_seed_ = required<std::uint64_t>(world, "world_seed");
@@ -370,6 +501,208 @@ Simulation Simulation::from_fixture(const std::filesystem::path& fixture_path) {
     }
     if (simulation.non_ai_npcs_.size() != 20) {
         throw std::runtime_error("Stage A fixture must contain exactly 20 NON AI NPCs");
+    }
+    return simulation;
+}
+
+void Simulation::ensure_stage_e_defaults(
+    AiNpcState& npc, const std::map<std::string, std::map<std::string, int>>& defaults) {
+    for (const auto& [target, metrics] : defaults) {
+        for (const auto& [metric, value] : metrics) {
+            npc.relationships[target].try_emplace(metric, value);
+        }
+    }
+}
+
+void Simulation::apply_stage_e_overlay(const std::filesystem::path& overlay_path,
+                                       const std::string& definition_sha256,
+                                       bool initialize_stage_e_states) {
+    std::ifstream input(overlay_path, std::ios::binary);
+    if (!input) throw std::runtime_error("cannot open Stage E overlay: " + overlay_path.string());
+    json root;
+    input >> root;
+    if (required<std::string>(root, "base_fixture_id") != fixture_id_) {
+        throw std::runtime_error("Stage E overlay base fixture mismatch");
+    }
+    if (required<std::vector<int>>(root, "state_id_range") != std::vector<int>{6, 25}) {
+        throw std::runtime_error("Stage E overlay state range must be 6..25");
+    }
+    stage_e_active_ = true;
+    stage_e_overlay_id_ = required<std::string>(root, "overlay_id");
+    stage_e_overlay_schema_version_ = required<std::string>(root, "overlay_schema_version");
+    stage_e_definition_sha256_ = definition_sha256;
+    if (stage_e_definition_sha256_.empty()) {
+        std::ostringstream hash;
+        hash << std::hex << deterministic_hash(root.dump());
+        stage_e_definition_sha256_ = hash.str();
+    }
+    schema_version_ = "stage_e_save_schema_v1";
+    simulation_version_ = required<std::string>(root, "simulation_version");
+    if (simulation_version_ != "stage-e-0.1.0") {
+        throw std::runtime_error("Stage E overlay simulation_version mismatch");
+    }
+
+    std::unordered_set<std::string> loaded;
+    for (const auto& npc_value : root.at("npcs")) {
+        const std::string npc_id = required<std::string>(npc_value, "npc_id");
+        auto& npc = mutable_ai_npc(npc_id);
+        if (npc.role != required<std::string>(npc_value, "expected_role")) {
+            throw std::runtime_error("Stage E overlay role mismatch for " + npc_id);
+        }
+        const auto defaults = npc_value.value(
+            "relationship_defaults", std::map<std::string, std::map<std::string, int>>{});
+        ensure_stage_e_defaults(npc, defaults);
+        std::unordered_set<int> ids;
+        for (const auto& state_value : npc_value.at("states")) {
+            StateDefinition state = stage_e_state_from_json(state_value);
+            if (state.state_id < 6 || state.state_id > 25 || !ids.insert(state.state_id).second) {
+                throw std::runtime_error("invalid or duplicate Stage E state for " + npc_id);
+            }
+            for (const auto& time_rule : state.time_based_rules) {
+                TransitionRule converted;
+                converted.rule_id = time_rule.rule_id;
+                converted.trigger_event_type = "AI_NPC_OBSERVED_EVENT";
+                converted.subject_event_type = "TIME_ELAPSED";
+                converted.perception = "TIME";
+                converted.target_state_id = time_rule.target_state_id;
+                converted.priority = time_rule.priority;
+                converted.once_only = time_rule.once_only;
+                converted.min_state_minutes = time_rule.after_game_minutes;
+                state.transition_rules.push_back(std::move(converted));
+            }
+            npc.states[static_cast<std::size_t>(state.state_id - 1)] = std::move(state);
+        }
+        if (ids.size() != 20) throw std::runtime_error(npc_id + " must define 20 Stage E states");
+        std::unordered_set<int> legacy_sources;
+        for (const auto& entry_value : npc_value.at("legacy_entry_rules")) {
+            const int source = required<int>(entry_value, "source_state_id");
+            if (source < 1 || source > 5 || !legacy_sources.insert(source).second) {
+                throw std::runtime_error("invalid Stage E legacy entry for " + npc_id);
+            }
+            npc.states[static_cast<std::size_t>(source - 1)].transition_rules.push_back(
+                stage_e_rule_from_json(entry_value));
+        }
+        if (legacy_sources.size() != 5) throw std::runtime_error(npc_id + " must define five legacy entries");
+        if (initialize_stage_e_states) {
+            npc.current_state_id = required<int>(npc_value, "initial_state_id");
+            npc.current_goal = state_definition(npc, npc.current_state_id).current_goal;
+            npc.state_entered_at = current_world_time_minutes_;
+            npc.legacy_state_pending_stage_e_entry = false;
+            const auto& state = state_definition(npc, npc.current_state_id);
+            if (!state.time_based_rules.empty()) {
+                npc.timed_transition_at = current_world_time_minutes_ + state.time_based_rules.front().after_game_minutes;
+            }
+        } else {
+            npc.legacy_state_pending_stage_e_entry = npc.current_state_id >= 1 && npc.current_state_id <= 5;
+            npc.state_entered_at = current_world_time_minutes_;
+            npc.last_transition_reason = "MIGRATED_FROM_STAGE_D";
+        }
+        loaded.insert(npc_id);
+    }
+    if (loaded != std::unordered_set<std::string>{"ai_npc_001", "ai_npc_012", "ai_npc_002"}) {
+        throw std::runtime_error("Stage E overlay target NPC set mismatch");
+    }
+    for (const auto& rule_value : root.value("cross_npc_rules", json::array())) {
+        auto& npc = mutable_ai_npc(required<std::string>(rule_value, "npc_id"));
+        const int source = required<int>(rule_value, "source_state_id");
+        if (source < 1 || source > 255) throw std::runtime_error("invalid cross-NPC source state");
+        npc.states[static_cast<std::size_t>(source - 1)].transition_rules.push_back(
+            stage_e_rule_from_json(rule_value));
+    }
+}
+
+Simulation Simulation::from_fixture_with_overlay(const std::filesystem::path& fixture_path,
+                                                 const std::filesystem::path& overlay_path,
+                                                 const std::string& definition_sha256) {
+    Simulation simulation = from_fixture(fixture_path);
+    simulation.apply_stage_e_overlay(overlay_path, definition_sha256, true);
+    return simulation;
+}
+
+Simulation Simulation::load_save_with_overlay(const std::filesystem::path& fixture_path,
+                                              const std::filesystem::path& overlay_path,
+                                              const std::filesystem::path& save_path,
+                                              const std::string& definition_sha256) {
+    std::ifstream input(save_path, std::ios::binary);
+    if (!input) throw std::runtime_error("cannot open save: " + save_path.string());
+    json root;
+    input >> root;
+    const std::string save_schema = required<std::string>(root, "schema_version");
+    if (save_schema != "stage_e_save_schema_v1") {
+        Simulation legacy = load_save(fixture_path, save_path);
+        legacy.stage_e_source_schema_version_ = legacy.schema_version_;
+        legacy.stage_e_source_simulation_version_ = legacy.simulation_version_;
+        legacy.apply_stage_e_overlay(overlay_path, definition_sha256, false);
+        return legacy;
+    }
+
+    Simulation simulation = from_fixture_with_overlay(fixture_path, overlay_path, definition_sha256);
+    if (required<std::string>(root, "fixture_id") != simulation.fixture_id_ ||
+        required<std::string>(root, "simulation_version") != "stage-e-0.1.0" ||
+        required<std::string>(root, "fixture_schema_version") != simulation.fixture_schema_version_) {
+        throw std::runtime_error("Stage E save version or fixture mismatch");
+    }
+    const auto& overlay = root.at("stage_e_overlay");
+    if (required<std::string>(overlay, "overlay_id") != simulation.stage_e_overlay_id_ ||
+        required<std::string>(overlay, "overlay_schema_version") != simulation.stage_e_overlay_schema_version_ ||
+        required<std::string>(overlay, "definition_sha256") != simulation.stage_e_definition_sha256_) {
+        throw std::runtime_error("Stage E save overlay mismatch");
+    }
+    const auto& world = root.at("world");
+    simulation.world_seed_ = required<std::uint64_t>(world, "world_seed");
+    simulation.current_world_time_minutes_ = required<std::int64_t>(world, "current_world_time_minutes");
+    simulation.last_simulated_at_ = required<std::int64_t>(world, "last_simulated_at");
+    simulation.simulation_tick_ = required<std::int64_t>(world, "simulation_tick");
+    simulation.next_event_sequence_ = required<std::uint64_t>(world, "next_event_sequence");
+    simulation.chain_limit_ = required<int>(world, "chain_limit");
+    load_country_runtime(simulation.country_, root.at("country"));
+    load_player_runtime(simulation.player_, root.at("player"));
+    for (const auto& value : root.at("ai_runtime")) {
+        auto& npc = simulation.mutable_ai_npc(required<std::string>(value, "npc_id"));
+        const auto defaults = npc.relationships;
+        npc.current_location_id = required<std::string>(value, "current_location_id");
+        npc.current_state_id = required<int>(value, "current_state_id");
+        if (simulation.state_definition(npc, npc.current_state_id).undefined) {
+            throw std::runtime_error("Stage E save attempted to load an UNDEFINED AI state");
+        }
+        npc.player_evaluation = value.value("player_evaluation", 0);
+        npc.relationships = value.value("relationships", std::map<std::string, std::map<std::string, int>>{});
+        simulation.ensure_stage_e_defaults(npc, defaults);
+        npc.current_goal = value.value("current_goal", "");
+        npc.known_events = value.value("known_events", std::vector<std::string>{});
+        npc.active_action = value.value("active_action", "");
+        npc.status = value.value("status", "ACTIVE");
+        npc.updated_at = value.value("updated_at", npc.updated_at);
+        npc.used_rules = value.value("used_rules", std::set<std::string>{});
+        npc.rule_last_used_tick = value.value("rule_last_used_tick", std::map<std::string, std::int64_t>{});
+        npc.used_dialogues = value.value("used_dialogues", std::set<std::string>{});
+        npc.dialogue_last_used_tick = value.value("dialogue_last_used_tick", std::map<std::string, std::int64_t>{});
+        if (value.contains("stage_e_runtime")) {
+            load_stage_e_runtime(npc, value.at("stage_e_runtime"), simulation.current_world_time_minutes_);
+        } else {
+            load_stage_e_runtime(npc, json::object(), simulation.current_world_time_minutes_);
+        }
+    }
+    for (const auto& value : root.at("non_ai_runtime")) {
+        auto& npc = simulation.mutable_non_ai_npc(required<std::string>(value, "npc_id"));
+        npc.current_location_id = required<std::string>(value, "current_location_id");
+        npc.current_activity = value.value("current_activity", npc.current_activity);
+        npc.temporary_memory = value.value("temporary_memory", std::vector<std::string>{});
+        npc.spawned_at = value.value("spawned_at", npc.spawned_at);
+        npc.despawn_policy = value.value("despawn_policy", npc.despawn_policy);
+    }
+    for (const auto& value : root.at("event_history")) simulation.event_history_.push_back(event_from_json(value));
+    for (const auto& value : root.at("audit_log")) simulation.audit_log_.push_back(audit_from_json(value));
+    for (const auto& value : root.at("pending_events")) simulation.pending_events_.push_back(event_from_json(value));
+    simulation.root_processed_counts_ = root.value("root_processed_counts", std::map<std::string, std::size_t>{});
+    if (root.contains("migration")) {
+        const auto& migration = root.at("migration");
+        simulation.stage_e_source_schema_version_ = migration.value("source_schema_version", "");
+        simulation.stage_e_source_simulation_version_ = migration.value("source_simulation_version", "");
+        simulation.stage_e_source_save_sha256_ = migration.value("source_save_sha256", "");
+        simulation.stage_e_source_metadata_sha256_ = migration.value("source_metadata_sha256", "");
+        simulation.stage_e_source_backup_path_ = migration.value("source_backup_path", "");
+        simulation.stage_e_metadata_backup_path_ = migration.value("metadata_backup_path", "");
     }
     return simulation;
 }
@@ -631,6 +964,20 @@ std::vector<Event> Simulation::derive_player_event(Event& event) {
             completed.payload["elapsed_game_minutes"] = std::to_string(minutes);
             generated.push_back(std::move(completed));
         }
+        if (stage_e_active_) {
+            for (const auto& npc : ai_npcs_) {
+                if (npc.npc_id != "ai_npc_001" && npc.npc_id != "ai_npc_012" && npc.npc_id != "ai_npc_002") continue;
+                Event elapsed = make_event("AI_NPC_OBSERVED_EVENT", "world_001", "WORLD",
+                                           npc.npc_id, "AI_NPC", npc.current_location_id);
+                elapsed.credibility = 1.0;
+                elapsed.evidence_level = 0.0;
+                elapsed.payload["subject_event_id"] = event.event_id;
+                elapsed.payload["subject_event_type"] = "TIME_ELAPSED";
+                elapsed.payload["perception"] = "TIME";
+                elapsed.payload["game_minutes"] = std::to_string(minutes);
+                generated.push_back(std::move(elapsed));
+            }
+        }
         return generated;
     }
 
@@ -710,27 +1057,59 @@ std::vector<Event> Simulation::derive_rumor_event(Event& event) {
     return generated;
 }
 
-std::vector<const TransitionRule*> Simulation::matching_rules(const AiNpcState& npc,
-                                                              const Event& perception) const {
-    const auto& state = state_definition(npc, npc.current_state_id);
-    if (state.undefined) {
-        throw std::runtime_error("attempted to use UNDEFINED state for " + npc.npc_id);
-    }
+std::string Simulation::rule_rejection_reason(const AiNpcState& npc, const TransitionRule& rule,
+                                              const Event& perception) const {
     const std::string subject = perception.payload.contains("subject_event_type")
         ? perception.payload.at("subject_event_type") : "";
     const std::string perception_kind = perception.payload.contains("perception")
         ? perception.payload.at("perception") : "";
+    if (rule.trigger_event_type != perception.event_type) return "trigger_event_type mismatch";
+    if (rule.subject_event_type != subject) return "subject_event_type mismatch";
+    if (rule.perception != perception_kind) return "perception mismatch";
+    if (!rule.required_actor_id.empty() && rule.required_actor_id != perception.actor_id) return "event actor mismatch";
+    if (perception.credibility < rule.min_credibility || perception.credibility > rule.max_credibility) return "credibility out of range";
+    if (perception.evidence_level < rule.min_evidence || perception.evidence_level > rule.max_evidence) return "evidence out of range";
+    if (npc.player_evaluation < rule.min_player_evaluation || npc.player_evaluation > rule.max_player_evaluation) return "player evaluation out of range";
+    if (!rule.relationship_metric.empty()) {
+        const auto target = npc.relationships.find(rule.relationship_target);
+        const auto metric = target == npc.relationships.end()
+            ? std::map<std::string, int>::const_iterator{}
+            : target->second.find(rule.relationship_metric);
+        const int value = target == npc.relationships.end() || metric == target->second.end() ? 0 : metric->second;
+        if (value < rule.min_relationship || value > rule.max_relationship) return "relationship metric out of range";
+    }
+    if (!rule.country_parameter.empty()) {
+        int value = 0;
+        if (rule.country_parameter == "stability") value = country_.stability;
+        else if (rule.country_parameter == "security") value = country_.security;
+        else if (rule.country_parameter == "economy") value = country_.economy;
+        else if (rule.country_parameter == "food") value = country_.food;
+        else if (rule.country_parameter == "military") value = country_.military;
+        else if (rule.country_parameter == "public_support") value = country_.public_support;
+        else if (rule.country_parameter == "authority") value = country_.authority;
+        else if (rule.country_parameter == "crime_level") value = country_.crime_level;
+        else return "unknown country parameter";
+        if (value < rule.min_country || value > rule.max_country) return "country parameter out of range";
+    }
+    if (current_world_time_minutes_ - npc.state_entered_at < rule.min_state_minutes) return "state duration not reached";
+    if (rule.once_only && npc.used_rules.contains(rule.rule_id)) return "once_only consumed";
+    const auto last = npc.rule_last_used_tick.find(rule.rule_id);
+    if (last != npc.rule_last_used_tick.end() && simulation_tick_ - last->second < rule.cooldown) return "cooldown active";
+    return {};
+}
+
+std::vector<const TransitionRule*> Simulation::matching_rules(AiNpcState& npc,
+                                                              const Event& perception) {
+    const auto& state = state_definition(npc, npc.current_state_id);
+    if (state.undefined) {
+        throw std::runtime_error("attempted to use UNDEFINED state for " + npc.npc_id);
+    }
     std::vector<const TransitionRule*> matches;
+    npc.last_rule_evaluations.clear();
     for (const auto& rule : state.transition_rules) {
-        if (rule.trigger_event_type != perception.event_type ||
-            rule.subject_event_type != subject || rule.perception != perception_kind ||
-            perception.credibility < rule.min_credibility || perception.credibility > rule.max_credibility) {
-            continue;
-        }
-        if (rule.once_only && npc.used_rules.contains(rule.rule_id)) continue;
-        const auto last = npc.rule_last_used_tick.find(rule.rule_id);
-        if (last != npc.rule_last_used_tick.end() &&
-            simulation_tick_ - last->second < rule.cooldown) continue;
+        const std::string reason = rule_rejection_reason(npc, rule, perception);
+        npc.last_rule_evaluations.push_back({rule.rule_id, false, reason.empty() ? "matched" : reason});
+        if (!reason.empty()) continue;
         matches.push_back(&rule);
     }
     return matches;
@@ -758,6 +1137,11 @@ std::vector<Event> Simulation::execute_ai_reaction(AiNpcState& npc, const Event&
                                                    AuditEntry& audit) {
     const auto matches = matching_rules(npc, perception);
     for (const auto* rule : matches) audit.matched_rules.push_back(rule->rule_id);
+    for (const auto& evaluation : npc.last_rule_evaluations) {
+        if (!evaluation.reason.empty() && evaluation.reason != "matched") {
+            audit.rejected_rules.push_back(evaluation.rule_id + ":" + evaluation.reason);
+        }
+    }
     if (matches.empty()) {
         audit.next_state = npc.current_state_id;
         return {};
@@ -774,6 +1158,15 @@ std::vector<Event> Simulation::execute_ai_reaction(AiNpcState& npc, const Event&
     audit.selected_rule = selected->rule_id;
     npc.used_rules.insert(selected->rule_id);
     npc.rule_last_used_tick[selected->rule_id] = simulation_tick_ + 1;
+    for (auto& evaluation : npc.last_rule_evaluations) {
+        if (evaluation.rule_id == selected->rule_id) {
+            evaluation.selected = true;
+            evaluation.reason = "selected highest priority";
+        } else if (evaluation.reason == "matched") {
+            evaluation.reason = "not selected: lower priority";
+            audit.rejected_rules.push_back(evaluation.rule_id + ":lower priority");
+        }
+    }
 
     const int old_state = npc.current_state_id;
     const auto& next_state = state_definition(npc, selected->target_state_id);
@@ -781,8 +1174,23 @@ std::vector<Event> Simulation::execute_ai_reaction(AiNpcState& npc, const Event&
         throw std::runtime_error("transition selected UNDEFINED state for " + npc.npc_id);
     }
     npc.current_state_id = selected->target_state_id;
-    npc.player_evaluation += selected->player_evaluation_delta;
+    npc.player_evaluation += selected->player_evaluation_delta + next_state.player_evaluation_modifier;
     if (!next_state.goal_modifier.empty()) npc.current_goal = next_state.goal_modifier;
+    npc.state_entered_at = current_world_time_minutes_;
+    npc.timed_transition_at.reset();
+    if (!next_state.time_based_rules.empty()) {
+        const auto earliest = std::min_element(next_state.time_based_rules.begin(), next_state.time_based_rules.end(),
+            [](const auto& lhs, const auto& rhs) { return lhs.after_game_minutes < rhs.after_game_minutes; });
+        npc.timed_transition_at = current_world_time_minutes_ + earliest->after_game_minutes;
+    }
+    npc.legacy_state_pending_stage_e_entry = false;
+    npc.evidence_evaluation.source_event_id = perception.payload.contains("subject_event_id")
+        ? perception.payload.at("subject_event_id") : perception.event_id;
+    npc.evidence_evaluation.credibility = perception.credibility;
+    npc.evidence_evaluation.evidence_level = perception.evidence_level;
+    npc.evidence_evaluation.perception = perception.payload.contains("perception")
+        ? perception.payload.at("perception") : "NONE";
+    npc.last_transition_reason = selected->rule_id;
     npc.updated_at = current_world_time_minutes_;
     audit.next_state = npc.current_state_id;
 
@@ -863,8 +1271,14 @@ std::vector<Event> Simulation::execute_ai_reaction(AiNpcState& npc, const Event&
         heard.root_event_id = perception.root_event_id;
         heard.credibility = std::clamp(perception.credibility * action->credibility_factor, 0.0, 1.0);
         heard.evidence_level = perception.evidence_level;
-        heard.payload["subject_event_id"] = perception.payload.at("subject_event_id");
-        heard.payload["subject_event_type"] = perception.payload.at("subject_event_type");
+        const auto subject_id = perception.payload.find("subject_event_id");
+        const auto original_id = perception.payload.find("original_event_id");
+        heard.payload["subject_event_id"] = subject_id != perception.payload.end()
+            ? subject_id->second
+            : (original_id != perception.payload.end() ? original_id->second : perception.source_event_id);
+        const auto subject_type = perception.payload.find("subject_event_type");
+        heard.payload["subject_event_type"] = subject_type != perception.payload.end()
+            ? subject_type->second : perception.event_type;
         heard.payload["perception"] = "HEARD";
         heard.payload["reported_by"] = npc.npc_id;
         generated.push_back(std::move(heard));
@@ -958,6 +1372,24 @@ void Simulation::save(const std::filesystem::path& save_path) const {
     root["fixture_id"] = fixture_id_;
     root["schema_version"] = schema_version_;
     root["simulation_version"] = simulation_version_;
+    if (stage_e_active_) {
+        root["fixture_schema_version"] = fixture_schema_version_;
+        root["stage_e_overlay"] = {
+            {"overlay_id", stage_e_overlay_id_},
+            {"overlay_schema_version", stage_e_overlay_schema_version_},
+            {"base_fixture_id", fixture_id_},
+            {"definition_sha256", stage_e_definition_sha256_}
+        };
+        root["migration"] = {
+            {"migration_id", "stage_d_to_stage_e_v1"},
+            {"source_schema_version", stage_e_source_schema_version_.empty() ? fixture_schema_version_ : stage_e_source_schema_version_},
+            {"source_simulation_version", stage_e_source_simulation_version_.empty() ? fixture_simulation_version_ : stage_e_source_simulation_version_},
+            {"source_save_sha256", stage_e_source_save_sha256_},
+            {"source_metadata_sha256", stage_e_source_metadata_sha256_},
+            {"source_backup_path", stage_e_source_backup_path_},
+            {"metadata_backup_path", stage_e_metadata_backup_path_}
+        };
+    }
     root["world"] = {
         {"world_seed", world_seed_}, {"current_world_time_minutes", current_world_time_minutes_},
         {"last_simulated_at", last_simulated_at_}, {"simulation_tick", simulation_tick_},
@@ -966,7 +1398,13 @@ void Simulation::save(const std::filesystem::path& save_path) const {
     root["country"] = country_to_json(country_);
     root["player"] = player_to_json(player_);
     root["ai_runtime"] = json::array();
-    for (const auto& npc : ai_npcs_) root["ai_runtime"].push_back(ai_runtime_to_json(npc));
+    for (const auto& npc : ai_npcs_) {
+        json runtime = ai_runtime_to_json(npc);
+        if (stage_e_active_ && (npc.npc_id == "ai_npc_001" || npc.npc_id == "ai_npc_012" || npc.npc_id == "ai_npc_002")) {
+            runtime["stage_e_runtime"] = stage_e_runtime_to_json(npc);
+        }
+        root["ai_runtime"].push_back(std::move(runtime));
+    }
     root["non_ai_runtime"] = json::array();
     for (const auto& npc : non_ai_npcs_) root["non_ai_runtime"].push_back(non_ai_runtime_to_json(npc));
     root["event_history"] = json::array();
@@ -1029,6 +1467,12 @@ std::vector<std::string> Simulation::causal_path(const std::string& event_id) co
 
 std::string Simulation::canonical_snapshot() const {
     json root;
+    root["stage_e_active"] = stage_e_active_;
+    if (stage_e_active_) {
+        root["stage_e_overlay"] = {{"overlay_id", stage_e_overlay_id_},
+                                    {"overlay_schema_version", stage_e_overlay_schema_version_},
+                                    {"definition_sha256", stage_e_definition_sha256_}};
+    }
     root["world_seed"] = world_seed_;
     root["current_world_time_minutes"] = current_world_time_minutes_;
     root["last_simulated_at"] = last_simulated_at_;
@@ -1037,7 +1481,13 @@ std::string Simulation::canonical_snapshot() const {
     root["country"] = country_to_json(country_);
     root["player"] = player_to_json(player_);
     root["ai_runtime"] = json::array();
-    for (const auto& npc : ai_npcs_) root["ai_runtime"].push_back(ai_runtime_to_json(npc));
+    for (const auto& npc : ai_npcs_) {
+        json runtime = ai_runtime_to_json(npc);
+        if (stage_e_active_ && (npc.npc_id == "ai_npc_001" || npc.npc_id == "ai_npc_012" || npc.npc_id == "ai_npc_002")) {
+            runtime["stage_e_runtime"] = stage_e_runtime_to_json(npc);
+        }
+        root["ai_runtime"].push_back(std::move(runtime));
+    }
     root["non_ai_runtime"] = json::array();
     for (const auto& npc : non_ai_npcs_) root["non_ai_runtime"].push_back(non_ai_runtime_to_json(npc));
     root["event_history"] = json::array();
@@ -1126,6 +1576,30 @@ std::uint64_t Simulation::deterministic_hash(const std::string& value) const {
 void Simulation::set_chain_limit_for_test(int limit) {
     if (limit <= 0) throw std::invalid_argument("chain limit must be positive");
     chain_limit_ = limit;
+}
+
+void Simulation::set_relationship_metric(const std::string& npc_id, const std::string& target_id,
+                                         const std::string& metric, int value) {
+    mutable_ai_npc(npc_id).relationships[target_id][metric] = value;
+}
+
+void Simulation::set_country_parameter(const std::string& parameter, int value) {
+    *mutable_country_parameter(parameter) = value;
+}
+
+void Simulation::configure_stage_e_migration(std::string source_schema_version,
+                                             std::string source_simulation_version,
+                                             std::string source_save_sha256,
+                                             std::string source_metadata_sha256,
+                                             std::string source_backup_path,
+                                             std::string metadata_backup_path) {
+    if (!stage_e_active_) throw std::logic_error("Stage E migration metadata requires an active overlay");
+    stage_e_source_schema_version_ = std::move(source_schema_version);
+    stage_e_source_simulation_version_ = std::move(source_simulation_version);
+    stage_e_source_save_sha256_ = std::move(source_save_sha256);
+    stage_e_source_metadata_sha256_ = std::move(source_metadata_sha256);
+    stage_e_source_backup_path_ = std::move(source_backup_path);
+    stage_e_metadata_backup_path_ = std::move(metadata_backup_path);
 }
 
 } // namespace nation_sim

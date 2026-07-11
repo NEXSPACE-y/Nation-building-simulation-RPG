@@ -54,7 +54,7 @@ void UStageDHudWidget::NativeOnInitialized()
 
     UVerticalBox* Root = WidgetTree->ConstructWidget<UVerticalBox>();
     Backdrop->SetContent(Root);
-    AddText(WidgetTree, Root, TEXT("STAGE D | プレイ可能な検証版"), 16, FLinearColor(0.2f, 0.85f, 1.0f));
+    AddText(WidgetTree, Root, TEXT("STAGE E | NPC行動深度検証版"), 16, FLinearColor(0.2f, 0.85f, 1.0f));
     WorldText = AddText(WidgetTree, Root, TEXT("因果コアを読み込み中..."), 13, FLinearColor::White);
     TargetText = AddText(WidgetTree, Root, TEXT("対象: なし | NPCへ近づいてTab"), 15, FLinearColor(1.0f, 0.35f, 0.9f));
 
@@ -124,9 +124,28 @@ void UStageDHudWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
     ActionStatusText->SetText(FText::FromString(World.ActionBlockedReason.IsEmpty()
         ? TEXT("行動可能")
         : TEXT("行動不可: ") + World.ActionBlockedReason));
+    const FString TimedTransition = Npc.NextTimedTransitionAt < 0
+        ? TEXT("なし")
+        : FString::Printf(TEXT("game minute %lld"), Npc.NextTimedTransitionAt);
     DebugText->SetText(FText::FromString(FString::Printf(
-        TEXT("current_state_id=%d | player_evaluation=%d\nselected_rule=%s\nselected_action=%s | root_event_id=%s"),
-        Npc.CurrentStateId, Npc.PlayerEvaluation, *Npc.SelectedRule, *Npc.SelectedAction, *Npc.RootEventId)));
+        TEXT("状態: %d / %s | 滞在 %lld分 | 次の時間遷移: %s\n")
+        TEXT("目標: %s | player_evaluation=%d\n")
+        TEXT("主要関係値: %s\n")
+        TEXT("証拠評価: %s\n")
+        TEXT("候補規則: %s\n")
+        TEXT("採用規則: %s | 遷移理由: %s\n")
+        TEXT("不採用理由: %s\n")
+        TEXT("選択行動: %s | root_event_id=%s"),
+        Npc.CurrentStateId, *Npc.CurrentStateName, Npc.StateResidenceMinutes, *TimedTransition,
+        *Npc.CurrentGoal, Npc.PlayerEvaluation,
+        Npc.MajorRelationships.IsEmpty() ? TEXT("-") : *Npc.MajorRelationships,
+        *Npc.EvidenceEvaluation,
+        Npc.CandidateRules.IsEmpty() ? TEXT("-") : *Npc.CandidateRules,
+        Npc.SelectedRule.IsEmpty() ? TEXT("-") : *Npc.SelectedRule,
+        Npc.LastTransitionReason.IsEmpty() ? TEXT("-") : *Npc.LastTransitionReason,
+        Npc.RejectedReasons.IsEmpty() ? TEXT("-") : *Npc.RejectedReasons,
+        Npc.SelectedAction.IsEmpty() ? TEXT("-") : *Npc.SelectedAction,
+        Npc.RootEventId.IsEmpty() ? TEXT("-") : *Npc.RootEventId)));
 }
 
 void UStageDHudWidget::Submit(const FString& Action)

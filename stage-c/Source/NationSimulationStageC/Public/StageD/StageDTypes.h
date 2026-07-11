@@ -13,11 +13,20 @@ struct FStageDNpcView
     UPROPERTY(BlueprintReadOnly) FString LocationId;
     UPROPERTY(BlueprintReadOnly) bool bIsAi = false;
     UPROPERTY(BlueprintReadOnly) int32 CurrentStateId = 0;
+    UPROPERTY(BlueprintReadOnly) FString CurrentStateName;
+    UPROPERTY(BlueprintReadOnly) FString CurrentGoal;
     UPROPERTY(BlueprintReadOnly) int32 PlayerEvaluation = 0;
+    UPROPERTY(BlueprintReadOnly) FString MajorRelationships;
+    UPROPERTY(BlueprintReadOnly) FString EvidenceEvaluation;
+    UPROPERTY(BlueprintReadOnly) FString CandidateRules;
     UPROPERTY(BlueprintReadOnly) FString SelectedRule;
+    UPROPERTY(BlueprintReadOnly) FString RejectedReasons;
     UPROPERTY(BlueprintReadOnly) FString SelectedAction;
     UPROPERTY(BlueprintReadOnly) FString SelectedTargetId;
     UPROPERTY(BlueprintReadOnly) FString RootEventId;
+    UPROPERTY(BlueprintReadOnly) FString LastTransitionReason;
+    UPROPERTY(BlueprintReadOnly) int64 StateResidenceMinutes = 0;
+    UPROPERTY(BlueprintReadOnly) int64 NextTimedTransitionAt = -1;
     UPROPERTY(BlueprintReadOnly) FString Dialogue;
 };
 

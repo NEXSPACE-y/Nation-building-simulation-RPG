@@ -35,6 +35,14 @@ target_compile_definitions(nation_cli PRIVATE
 )
 
 add_executable(stage_a_fixture_generator tools/generate_stage_a_fixture.cpp)
+
+add_executable(stage_e_state_validator
+    stage-c/Tools/StageEStateValidatorMain.cpp
+    stage-c/Tools/StageEStateValidator.cpp
+)
+target_include_directories(stage_e_state_validator PRIVATE stage-c/Tools)
+target_link_libraries(stage_e_state_validator PRIVATE nlohmann_json::nlohmann_json)
+target_compile_features(stage_e_state_validator PRIVATE cxx_std_23)
 if(MSVC)
     target_compile_options(stage_a_fixture_generator PRIVATE /W4 /permissive- /utf-8)
 endif()

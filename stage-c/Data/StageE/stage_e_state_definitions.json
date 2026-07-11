@@ -1,0 +1,2807 @@
+{
+  "overlay_id": "stage_e_behavioral_depth_v1",
+  "overlay_schema_version": "stage_e_state_overlay_v1",
+  "base_fixture_id": "stage_a_fixture_v1",
+  "simulation_version": "stage-e-0.1.0",
+  "state_id_range": [
+    6,
+    25
+  ],
+  "target_npc_ids": [
+    "ai_npc_001",
+    "ai_npc_012",
+    "ai_npc_002"
+  ],
+  "allowed_action_types": [
+    "ARREST",
+    "CHANGE_COUNTRY_STATE",
+    "FLEE",
+    "HELP",
+    "INVESTIGATE",
+    "PROTECT",
+    "REFUSE_TRADE",
+    "REPORT",
+    "SPREAD_RUMOR",
+    "TALK",
+    "WAIT",
+    "WARN"
+  ],
+  "relationship_metrics": [
+    "trust",
+    "fear",
+    "loyalty",
+    "commercial_interest",
+    "utility"
+  ],
+  "cross_npc_rules": [
+    {
+      "npc_id": "ai_npc_012",
+      "source_state_id": 6,
+      "rule_id": "broker_heard_report_guard",
+      "trigger_event_type": "AI_NPC_HEARD_EVENT",
+      "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+      "perception": "HEARD",
+      "target_state_id": 18,
+      "priority": 270,
+      "relationship_target": "player_001",
+      "relationship_metric": "commercial_interest",
+      "min_relationship": 70
+    },
+    {
+      "npc_id": "ai_npc_001",
+      "source_state_id": 6,
+      "rule_id": "guard_broker_report_superior",
+      "trigger_event_type": "AI_NPC_HEARD_EVENT",
+      "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+      "perception": "HEARD",
+      "required_actor_id": "ai_npc_012",
+      "target_state_id": 15,
+      "priority": 270
+    }
+  ],
+  "npcs": [
+    {
+      "npc_id": "ai_npc_001",
+      "expected_role": "GUARD",
+      "initial_state_id": 6,
+      "relationship_defaults": {
+        "player_001": {
+          "trust": 50,
+          "fear": 0
+        },
+        "ai_npc_002": {
+          "loyalty": 50
+        }
+      },
+      "legacy_entry_rules": [
+        {
+          "rule_id": "guard_legacy_1",
+          "source_state_id": 1,
+          "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "OBSERVED",
+          "target_state_id": 6,
+          "priority": 300
+        },
+        {
+          "rule_id": "guard_legacy_2",
+          "source_state_id": 2,
+          "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "OBSERVED",
+          "target_state_id": 9,
+          "priority": 300
+        },
+        {
+          "rule_id": "guard_legacy_3",
+          "source_state_id": 3,
+          "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "OBSERVED",
+          "target_state_id": 16,
+          "priority": 300
+        },
+        {
+          "rule_id": "guard_legacy_4",
+          "source_state_id": 4,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 21,
+          "priority": 300
+        },
+        {
+          "rule_id": "guard_legacy_5",
+          "source_state_id": 5,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 15,
+          "priority": 300
+        }
+      ],
+      "states": [
+        {
+          "state_id": 6,
+          "state_name": "guard_normal_patrol",
+          "state_description": "marketを平常監視する衛兵状態",
+          "current_goal": "marketの平常監視",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_06",
+              "text": "市場を巡回中です。",
+              "tone": "neutral",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WAIT",
+              "target_id": "",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_harm_low_security",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 8,
+              "priority": 230,
+              "country_parameter": "security",
+              "max_country": 40
+            },
+            {
+              "rule_id": "guard_harm_high_trust",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 9,
+              "priority": 220,
+              "relationship_target": "player_001",
+              "relationship_metric": "trust",
+              "min_relationship": 60
+            },
+            {
+              "rule_id": "guard_harm_low_trust",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 16,
+              "priority": 210,
+              "relationship_target": "player_001",
+              "relationship_metric": "trust",
+              "max_relationship": 59
+            },
+            {
+              "rule_id": "guard_heard_doubt",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 21,
+              "priority": 200,
+              "max_evidence": 0.599
+            },
+            {
+              "rule_id": "guard_heard_alert",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 7,
+              "priority": 190,
+              "min_evidence": 0.6
+            },
+            {
+              "rule_id": "guard_steal_watch",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_STOLE",
+              "perception": "OBSERVED",
+              "target_state_id": 10,
+              "priority": 180
+            },
+            {
+              "rule_id": "guard_talk_question",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TALKED",
+              "perception": "OBSERVED",
+              "target_state_id": 11,
+              "priority": 170
+            },
+            {
+              "rule_id": "guard_help_protect",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HELPED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 12,
+              "priority": 160
+            },
+            {
+              "rule_id": "guard_trade_bribe",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "OBSERVED",
+              "target_state_id": 23,
+              "priority": 150
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 7,
+          "state_name": "guard_light_alert",
+          "state_description": "未確認事件へ軽度警戒する状態",
+          "current_goal": "未確認事件の警戒",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_07",
+              "text": "未確認の通報を調べています。",
+              "tone": "cautious",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WARN",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_alert_escalate",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 8,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "guard_alert_decay",
+              "after_game_minutes": 360,
+              "target_state_id": 6,
+              "priority": 50,
+              "once_only": false,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 8,
+          "state_name": "guard_high_alert",
+          "state_description": "明白な危害へ強警戒する状態",
+          "current_goal": "明白な危害への即時対応",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_08",
+              "text": "現場から離れてください。",
+              "tone": "urgent",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WARN",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_secure_scene",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 13,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": -2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 9,
+          "state_name": "guard_verbal_warning",
+          "state_description": "プレイヤーへ停止を要求する状態",
+          "current_goal": "プレイヤーへ停止を要求",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_09",
+              "text": "これは最終警告です。",
+              "tone": "firm",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WARN",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_warning_ignored",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 16,
+              "priority": 210
+            }
+          ],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 10,
+          "state_name": "guard_continue_surveillance",
+          "state_description": "対象を監視して証拠を補う状態",
+          "current_goal": "対象を監視して証拠を補う",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_10",
+              "text": "行動を監視しています。",
+              "tone": "cautious",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_surveillance_bribe",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "OBSERVED",
+              "target_state_id": 23,
+              "priority": 180
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 11,
+          "state_name": "guard_questioning",
+          "state_description": "当事者から事実確認する状態",
+          "current_goal": "当事者・目撃者から事実確認",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_11",
+              "text": "見たことを順に話してください。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_question_doubt",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 22,
+              "priority": 180,
+              "max_evidence": 0.4
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 12,
+          "state_name": "guard_victim_protection",
+          "state_description": "被害者を保護する状態",
+          "current_goal": "被害者の安全を確保",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_12",
+              "text": "被害者の安全を確保します。",
+              "tone": "supportive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "PROTECT",
+              "target_id": "non_ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "guard_protection_complete",
+              "after_game_minutes": 360,
+              "target_state_id": 6,
+              "priority": 50,
+              "once_only": false,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 13,
+          "state_name": "guard_scene_seal",
+          "state_description": "現場を保全する状態",
+          "current_goal": "現場を保全し追加被害を防ぐ",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_13",
+              "text": "現場を封鎖します。",
+              "tone": "urgent",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "PROTECT",
+              "target_id": "non_ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_scene_support",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 14,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 14,
+          "state_name": "guard_call_support",
+          "state_description": "上官へ応援要請する状態",
+          "current_goal": "上官へ応援を要請",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_14",
+              "text": "応援を要請します。",
+              "tone": "urgent",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 0.95,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_support_report",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 15,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 15,
+          "state_name": "guard_report_superior",
+          "state_description": "上官へ証拠付き報告する状態",
+          "current_goal": "ai_npc_002へ証拠付きで報告",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_15",
+              "text": "上官へ報告します。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 0.95,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_captain_order_low_trust",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "required_actor_id": "ai_npc_002",
+              "target_state_id": 16,
+              "priority": 240,
+              "relationship_target": "player_001",
+              "relationship_metric": "trust",
+              "max_relationship": 59
+            },
+            {
+              "rule_id": "guard_captain_order_high_trust",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "required_actor_id": "ai_npc_002",
+              "target_state_id": 9,
+              "priority": 230,
+              "relationship_target": "player_001",
+              "relationship_metric": "trust",
+              "min_relationship": 60
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 16,
+          "state_name": "guard_prepare_detention",
+          "state_description": "拘束要件を確認する状態",
+          "current_goal": "拘束の要件を確認",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_16",
+              "text": "拘束要件を確認しました。",
+              "tone": "firm",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_detain_repeat_harm",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 17,
+              "priority": 250
+            }
+          ],
+          "player_evaluation_modifier": -2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 17,
+          "state_name": "guard_execute_detention",
+          "state_description": "加害対象を拘束する状態",
+          "current_goal": "加害対象を拘束",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_17",
+              "text": "あなたを拘束します。",
+              "tone": "firm",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "ARREST",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_detention_failed",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 18,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": -3,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 18,
+          "state_name": "guard_detention_failure",
+          "state_description": "拘束失敗を記録する状態",
+          "current_goal": "失敗を記録して安全を確保",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_18",
+              "text": "拘束に失敗、追跡へ移行します。",
+              "tone": "urgent",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "FLEE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_failure_pursuit",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 19,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 19,
+          "state_name": "guard_pursuit",
+          "state_description": "逃走対象を追跡する状態",
+          "current_goal": "逃走対象を追跡",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_19",
+              "text": "対象を追跡します。",
+              "tone": "urgent",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "guard_pursuit_lost",
+              "after_game_minutes": 360,
+              "target_state_id": 20,
+              "priority": 50,
+              "once_only": false,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 20,
+          "state_name": "guard_lost_sight",
+          "state_description": "最終目撃地点を確認する状態",
+          "current_goal": "最終目撃地点を再確認",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_20",
+              "text": "対象を見失いました。",
+              "tone": "cautious",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 21,
+          "state_name": "guard_insufficient_evidence",
+          "state_description": "追加証拠を待つ状態",
+          "current_goal": "追加証拠を待つ",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_21",
+              "text": "証拠が不足しています。",
+              "tone": "skeptical",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_evidence_doubt",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 22,
+              "priority": 180,
+              "max_evidence": 0.4
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 22,
+          "state_name": "guard_misidentification_doubt",
+          "state_description": "誤認を避ける状態",
+          "current_goal": "誤認を避けて再照合",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_22",
+              "text": "人物の特定をやり直します。",
+              "tone": "skeptical",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 23,
+          "state_name": "guard_bribe_temptation",
+          "state_description": "不正提案を記録する状態",
+          "current_goal": "不正提案を記録し判断を保留",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_23",
+              "text": "その提案は記録します。",
+              "tone": "conflicted",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_bribe_discipline",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 24,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 24,
+          "state_name": "guard_discipline_priority",
+          "state_description": "規律を優先する状態",
+          "current_goal": "規律に従い上官へ報告",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_24",
+              "text": "規律に従い報告します。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 0.95,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "guard_discipline_conflict",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 25,
+              "priority": 200,
+              "required_actor_id": "ai_npc_002"
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 25,
+          "state_name": "guard_order_conflict",
+          "state_description": "不当命令と保護を比較する状態",
+          "current_goal": "不当命令と被害者保護を比較",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_guard_25",
+              "text": "命令と保護責任が衝突しています。",
+              "tone": "conflicted",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 0.9,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        }
+      ]
+    },
+    {
+      "npc_id": "ai_npc_012",
+      "expected_role": "BROKER",
+      "initial_state_id": 6,
+      "relationship_defaults": {
+        "player_001": {
+          "trust": 50,
+          "fear": 0,
+          "commercial_interest": 50
+        },
+        "ai_npc_001": {
+          "trust": 50
+        },
+        "ai_npc_002": {
+          "trust": 50
+        }
+      },
+      "legacy_entry_rules": [
+        {
+          "rule_id": "broker_legacy_1",
+          "source_state_id": 1,
+          "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "OBSERVED",
+          "target_state_id": 6,
+          "priority": 300
+        },
+        {
+          "rule_id": "broker_legacy_2",
+          "source_state_id": 2,
+          "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+          "subject_event_type": "PLAYER_HELPED_NON_AI_NPC",
+          "perception": "OBSERVED",
+          "target_state_id": 7,
+          "priority": 300
+        },
+        {
+          "rule_id": "broker_legacy_3",
+          "source_state_id": 3,
+          "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "OBSERVED",
+          "target_state_id": 9,
+          "priority": 300
+        },
+        {
+          "rule_id": "broker_legacy_4",
+          "source_state_id": 4,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 13,
+          "priority": 300
+        },
+        {
+          "rule_id": "broker_legacy_5",
+          "source_state_id": 5,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 14,
+          "priority": 300
+        }
+      ],
+      "states": [
+        {
+          "state_id": 6,
+          "state_name": "broker_normal_trade",
+          "state_description": "市場で通常取引を維持する状態",
+          "current_goal": "市場で通常取引を維持",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_06",
+              "text": "通常どおり取引しています。",
+              "tone": "neutral",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WAIT",
+              "target_id": "",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_harm_fear",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 21,
+              "priority": 260,
+              "relationship_target": "player_001",
+              "relationship_metric": "fear",
+              "min_relationship": 60
+            },
+            {
+              "rule_id": "broker_harm_report_guard",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 18,
+              "priority": 250,
+              "relationship_target": "player_001",
+              "relationship_metric": "commercial_interest",
+              "min_relationship": 70
+            },
+            {
+              "rule_id": "broker_harm_refuse",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 9,
+              "priority": 240,
+              "relationship_target": "player_001",
+              "relationship_metric": "trust",
+              "max_relationship": 39
+            },
+            {
+              "rule_id": "broker_harm_raise",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 10,
+              "priority": 200
+            },
+            {
+              "rule_id": "broker_heard_gather",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 13,
+              "priority": 210,
+              "max_evidence": 0.599
+            },
+            {
+              "rule_id": "broker_heard_cautious",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 8,
+              "priority": 200,
+              "min_evidence": 0.6
+            },
+            {
+              "rule_id": "broker_help_friendly",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HELPED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 7,
+              "priority": 190
+            },
+            {
+              "rule_id": "broker_steal_hide",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_STOLE",
+              "perception": "OBSERVED",
+              "target_state_id": 12,
+              "priority": 180
+            },
+            {
+              "rule_id": "broker_trade_discount",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "OBSERVED",
+              "target_state_id": 11,
+              "priority": 170
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 7,
+          "state_name": "broker_friendly_trade",
+          "state_description": "好意的に営業する状態",
+          "current_goal": "評価の高い相手との取引を維持",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_07",
+              "text": "あなたとは良い取引ができそうです。",
+              "tone": "positive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_help_victim",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HELPED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 16,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": 2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 8,
+          "state_name": "broker_cautious_trade",
+          "state_description": "事件下で損失を避ける状態",
+          "current_goal": "事件下で損失を避ける",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_08",
+              "text": "今は慎重に取引します。",
+              "tone": "cautious",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "broker_caution_decay",
+              "after_game_minutes": 360,
+              "target_state_id": 6,
+              "priority": 50,
+              "once_only": false,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 9,
+          "state_name": "broker_refuse_trade",
+          "state_description": "プレイヤーとの取引を拒否する状態",
+          "current_goal": "プレイヤーとの取引を拒否",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_09",
+              "text": "あなたとの取引は拒否します。",
+              "tone": "firm",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REFUSE_TRADE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_refusal_authority",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 17,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": -2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 10,
+          "state_name": "broker_raise_price",
+          "state_description": "危険を価格へ反映する状態",
+          "current_goal": "危険・損失を価格へ反映",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_10",
+              "text": "危険手当を価格に加えます。",
+              "tone": "businesslike",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 11,
+          "state_name": "broker_lower_price",
+          "state_description": "信頼回復のため条件を緩和する状態",
+          "current_goal": "信頼回復のため条件を緩和",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_11",
+              "text": "今回は条件を緩めましょう。",
+              "tone": "positive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 12,
+          "state_name": "broker_hide_inventory",
+          "state_description": "在庫を守る状態",
+          "current_goal": "略奪・損失から在庫を守る",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_12",
+              "text": "在庫は見せられません。",
+              "tone": "cautious",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REFUSE_TRADE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 13,
+          "state_name": "broker_gather_rumors",
+          "state_description": "事件情報を比較する状態",
+          "current_goal": "事件情報の信頼度を比較",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_13",
+              "text": "噂の出所を確認しています。",
+              "tone": "skeptical",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_rumor_spread",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 14,
+              "priority": 200,
+              "min_evidence": 0.4
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 14,
+          "state_name": "broker_spread_rumors",
+          "state_description": "確度付き情報を市場へ流す状態",
+          "current_goal": "確度付き情報を市場へ流す",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_14",
+              "text": "確認できた範囲だけ共有します。",
+              "tone": "businesslike",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "SPREAD_RUMOR",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 0.8,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_rumor_competitor",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "OBSERVED",
+              "target_state_id": 15,
+              "priority": 180
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 15,
+          "state_name": "broker_exclude_competitor",
+          "state_description": "競合へ対抗する状態",
+          "current_goal": "競合を不利にする情報を集める",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_15",
+              "text": "競合の動きも調べています。",
+              "tone": "calculating",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "SPREAD_RUMOR",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 0.8,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 16,
+          "state_name": "broker_support_victim",
+          "state_description": "被害者を支援する状態",
+          "current_goal": "被害者を支援して市場損失を抑える",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_16",
+              "text": "被害者の支援を優先します。",
+              "tone": "supportive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "HELP",
+              "target_id": "non_ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 17,
+          "state_name": "broker_approach_authority",
+          "state_description": "権力者へ市場情報を伝える状態",
+          "current_goal": "ai_npc_002へ市場情報を伝える",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_17",
+              "text": "市場の状況を権限者へ伝えます。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 0.9,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_authority_coverup",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 19,
+              "priority": 180,
+              "required_actor_id": "ai_npc_002"
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 18,
+          "state_name": "broker_report_guard",
+          "state_description": "衛兵へ事件を通報する状態",
+          "current_goal": "ai_npc_001へ事件を通報",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_18",
+              "text": "衛兵へ通報します。",
+              "tone": "urgent",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 0.9,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 19,
+          "state_name": "broker_request_coverup",
+          "state_description": "非公開処理を打診する状態",
+          "current_goal": "ai_npc_002へ非公開処理を打診",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_19",
+              "text": "市場内で収める方法を相談します。",
+              "tone": "calculating",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "ai_npc_002",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_coverup_bribe",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "OBSERVED",
+              "target_state_id": 20,
+              "priority": 180
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 20,
+          "state_name": "broker_offer_bribe",
+          "state_description": "利害を比較して提案する状態",
+          "current_goal": "利益と危険を比較して提案",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_20",
+              "text": "別の条件を提示できます。",
+              "tone": "calculating",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 21,
+          "state_name": "broker_threatened",
+          "state_description": "自身の安全を優先する状態",
+          "current_goal": "自身の安全を優先",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_21",
+              "text": "今は安全を優先します。",
+              "tone": "fearful",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "FLEE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "broker_threat_flee",
+              "after_game_minutes": 60,
+              "target_state_id": 22,
+              "priority": 100,
+              "once_only": true,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 22,
+          "state_name": "broker_prepare_flee",
+          "state_description": "市場離脱を準備する状態",
+          "current_goal": "市場からの離脱を準備",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_22",
+              "text": "市場を離れる準備をします。",
+              "tone": "fearful",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "FLEE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "broker_flee_close",
+              "after_game_minutes": 60,
+              "target_state_id": 23,
+              "priority": 100,
+              "once_only": true,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 23,
+          "state_name": "broker_closed",
+          "state_description": "危険下で取引を停止する状態",
+          "current_goal": "危険下で取引を停止",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_23",
+              "text": "本日は閉店します。",
+              "tone": "firm",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REFUSE_TRADE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "broker_close_reopen",
+              "after_game_minutes": 360,
+              "target_state_id": 24,
+              "priority": 100,
+              "once_only": true,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 24,
+          "state_name": "broker_reopen_negotiation",
+          "state_description": "安全条件を交渉する状態",
+          "current_goal": "安全条件を交渉して再開",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_24",
+              "text": "再開条件を話し合いましょう。",
+              "tone": "businesslike",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "broker_reopen_distrust",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 25,
+              "priority": 200
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 25,
+          "state_name": "broker_long_term_distrust",
+          "state_description": "再発防止まで取引を制限する状態",
+          "current_goal": "再発防止まで取引を制限",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_broker_25",
+              "text": "信頼が戻るまで取引を制限します。",
+              "tone": "firm",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REFUSE_TRADE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -3,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        }
+      ]
+    },
+    {
+      "npc_id": "ai_npc_002",
+      "expected_role": "CAPTAIN",
+      "initial_state_id": 6,
+      "relationship_defaults": {
+        "player_001": {
+          "trust": 50,
+          "fear": 0,
+          "utility": 0
+        },
+        "ai_npc_001": {
+          "trust": 50
+        },
+        "ai_npc_012": {
+          "trust": 50
+        }
+      },
+      "legacy_entry_rules": [
+        {
+          "rule_id": "captain_legacy_1",
+          "source_state_id": 1,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 6,
+          "priority": 300
+        },
+        {
+          "rule_id": "captain_legacy_2",
+          "source_state_id": 2,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HELPED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 14,
+          "priority": 300
+        },
+        {
+          "rule_id": "captain_legacy_3",
+          "source_state_id": 3,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 9,
+          "priority": 300
+        },
+        {
+          "rule_id": "captain_legacy_4",
+          "source_state_id": 4,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 7,
+          "priority": 300
+        },
+        {
+          "rule_id": "captain_legacy_5",
+          "source_state_id": 5,
+          "trigger_event_type": "AI_NPC_HEARD_EVENT",
+          "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+          "perception": "HEARD",
+          "target_state_id": 10,
+          "priority": 300
+        }
+      ],
+      "states": [
+        {
+          "state_id": 6,
+          "state_name": "captain_neutral_observation",
+          "state_description": "事件の初期情報を収集する状態",
+          "current_goal": "事件の初期情報を収集",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_06",
+              "text": "まず事実を確認します。",
+              "tone": "neutral",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WAIT",
+              "target_id": "",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "captain_low_evidence",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 7,
+              "priority": 260,
+              "max_evidence": 0.599
+            },
+            {
+              "rule_id": "captain_emergency_order",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "required_actor_id": "ai_npc_001",
+              "target_state_id": 25,
+              "priority": 300,
+              "country_parameter": "security",
+              "max_country": 40
+            },
+            {
+              "rule_id": "captain_political_use",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 13,
+              "priority": 290,
+              "relationship_target": "player_001",
+              "relationship_metric": "utility",
+              "min_relationship": 60
+            },
+            {
+              "rule_id": "captain_cover_broker",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "required_actor_id": "ai_npc_012",
+              "target_state_id": 11,
+              "priority": 280,
+              "relationship_target": "ai_npc_012",
+              "relationship_metric": "trust",
+              "min_relationship": 70
+            },
+            {
+              "rule_id": "captain_public_accusation",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 9,
+              "priority": 270,
+              "min_evidence": 0.6
+            },
+            {
+              "rule_id": "captain_help_recruit",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HELPED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 14,
+              "priority": 210
+            },
+            {
+              "rule_id": "captain_direct_exclude",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_HARMED_AI_NPC",
+              "perception": "OBSERVED",
+              "target_state_id": 15,
+              "priority": 250
+            },
+            {
+              "rule_id": "captain_guard_control",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_STOLE",
+              "perception": "HEARD",
+              "relationship_target": "player_001",
+              "relationship_metric": "utility",
+              "max_relationship": 19,
+              "target_state_id": 16,
+              "priority": 200
+            },
+            {
+              "rule_id": "captain_broker_protect",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HELPED_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 17,
+              "priority": 190
+            },
+            {
+              "rule_id": "captain_broker_abandon",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 18,
+              "priority": 180
+            },
+            {
+              "rule_id": "captain_public_opinion",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_TALKED",
+              "perception": "HEARD",
+              "target_state_id": 19,
+              "priority": 170
+            },
+            {
+              "rule_id": "captain_authority_maintain",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "HEARD",
+              "target_state_id": 20,
+              "priority": 160
+            },
+            {
+              "rule_id": "captain_avoid_responsibility",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 21,
+              "priority": 150,
+              "max_credibility": 0.3
+            },
+            {
+              "rule_id": "captain_offer_deal",
+              "trigger_event_type": "AI_NPC_OBSERVED_EVENT",
+              "subject_event_type": "PLAYER_TRADED",
+              "perception": "OBSERVED",
+              "target_state_id": 22,
+              "priority": 150
+            },
+            {
+              "rule_id": "captain_gain_leverage",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_STOLE",
+              "perception": "HEARD",
+              "relationship_target": "player_001",
+              "relationship_metric": "utility",
+              "min_relationship": 20,
+              "target_state_id": 23,
+              "priority": 150
+            },
+            {
+              "rule_id": "captain_consult_faction",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "required_actor_id": "ai_npc_012",
+              "target_state_id": 24,
+              "priority": 140
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 7,
+          "state_name": "captain_collect_information",
+          "state_description": "複数情報源を照合する状態",
+          "current_goal": "複数情報源を照合",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_07",
+              "text": "複数の報告を集めます。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [
+            {
+              "rule_id": "captain_information_verify",
+              "trigger_event_type": "AI_NPC_HEARD_EVENT",
+              "subject_event_type": "PLAYER_HARMED_NON_AI_NPC",
+              "perception": "HEARD",
+              "target_state_id": 8,
+              "priority": 200,
+              "min_evidence": 0.4
+            }
+          ],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "captain_information_decay",
+              "after_game_minutes": 360,
+              "target_state_id": 6,
+              "priority": 50,
+              "once_only": false,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 8,
+          "state_name": "captain_verify_facts",
+          "state_description": "証拠と伝聞を区別する状態",
+          "current_goal": "証拠と伝聞を区別",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_08",
+              "text": "証拠と伝聞を分けて確認します。",
+              "tone": "skeptical",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 9,
+          "state_name": "captain_consider_accusation",
+          "state_description": "公的対応条件を評価する状態",
+          "current_goal": "公的対応の条件を評価",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_09",
+              "text": "告発に足る条件を確認します。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "captain_accusation_execute",
+              "after_game_minutes": 60,
+              "target_state_id": 10,
+              "priority": 100,
+              "once_only": true,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 10,
+          "state_name": "captain_execute_accusation",
+          "state_description": "衛兵へ公的対応を指示する状態",
+          "current_goal": "衛兵へ公的対応を指示",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_10",
+              "text": "公的手続を開始します。",
+              "tone": "decisive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 11,
+          "state_name": "captain_consider_coverup",
+          "state_description": "非公開処理の利害を評価する状態",
+          "current_goal": "非公開処理の利害を評価",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_11",
+              "text": "公開範囲を検討します。",
+              "tone": "calculating",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "ai_npc_012",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [
+            {
+              "rule_id": "captain_coverup_execute",
+              "after_game_minutes": 60,
+              "target_state_id": 12,
+              "priority": 100,
+              "once_only": true,
+              "repeat_interval_minutes": 0
+            }
+          ],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 12,
+          "state_name": "captain_execute_coverup",
+          "state_description": "BROKERへ限定対応を伝える状態",
+          "current_goal": "BROKERへ限定対応を伝える",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_12",
+              "text": "この件は限定対応とします。",
+              "tone": "decisive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_012",
+              "priority": 100,
+              "credibility_factor": 0.9,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 13,
+          "state_name": "captain_political_use",
+          "state_description": "事件の政治的価値を利用する状態",
+          "current_goal": "事件の政治的価値を利用",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_13",
+              "text": "この事件には利用価値があります。",
+              "tone": "calculating",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 0.9,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 14,
+          "state_name": "captain_recruit_player",
+          "state_description": "プレイヤーの利用価値を提示する状態",
+          "current_goal": "プレイヤーの利用価値を提示",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_14",
+              "text": "協力する意思はありますか。",
+              "tone": "persuasive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 2,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 15,
+          "state_name": "captain_exclude_player",
+          "state_description": "衛兵へ排除方針を伝える状態",
+          "current_goal": "衛兵へ排除方針を伝える",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_15",
+              "text": "プレイヤーを排除対象とします。",
+              "tone": "decisive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -3,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 16,
+          "state_name": "captain_control_guard",
+          "state_description": "衛兵方針を統制する状態",
+          "current_goal": "ai_npc_001の方針を統制",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_16",
+              "text": "衛兵の対応方針を統一します。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 17,
+          "state_name": "captain_protect_broker",
+          "state_description": "BROKERの市場活動を保護する状態",
+          "current_goal": "ai_npc_012の市場活動を保護",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_17",
+              "text": "市場活動を保護します。",
+              "tone": "supportive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_012",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 18,
+          "state_name": "captain_abandon_broker",
+          "state_description": "BROKERとの関係を切り離す状態",
+          "current_goal": "BROKERとの関係を切り離す",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_18",
+              "text": "市場側の責任として処理します。",
+              "tone": "cold",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": -1,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 19,
+          "state_name": "captain_consider_public_opinion",
+          "state_description": "民意低下を抑える状態",
+          "current_goal": "public_support低下を抑える",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_19",
+              "text": "市民への説明を優先します。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 20,
+          "state_name": "captain_maintain_authority",
+          "state_description": "authorityを維持する状態",
+          "current_goal": "authorityを維持",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_20",
+              "text": "統制を維持します。",
+              "tone": "decisive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 21,
+          "state_name": "captain_avoid_responsibility",
+          "state_description": "即断を避ける状態",
+          "current_goal": "即断を避けて責任を遅延",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_21",
+              "text": "追加報告を待ちます。",
+              "tone": "evasive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "WAIT",
+              "target_id": "",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 22,
+          "state_name": "captain_offer_deal",
+          "state_description": "利害に基づく取引を提示する状態",
+          "current_goal": "利害に基づく取引を提示",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_22",
+              "text": "条件付きの取引を提案します。",
+              "tone": "persuasive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "TALK",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 23,
+          "state_name": "captain_gain_leverage",
+          "state_description": "相手の弱みを確認する状態",
+          "current_goal": "相手の弱みを確認",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_23",
+              "text": "交渉材料を確認します。",
+              "tone": "calculating",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "INVESTIGATE",
+              "target_id": "player_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 24,
+          "state_name": "captain_consult_faction",
+          "state_description": "利害関係者へ相談する状態",
+          "current_goal": "BROKERを含む利害関係者へ相談",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_24",
+              "text": "関係者の意見を集めます。",
+              "tone": "formal",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_012",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        },
+        {
+          "state_id": 25,
+          "state_name": "captain_issue_public_order",
+          "state_description": "衛兵へ公的命令を発行する状態",
+          "current_goal": "ai_npc_001へ命令を発行",
+          "dialogue_candidates": [
+            {
+              "dialogue_id": "dlg_captain_25",
+              "text": "公的命令を発行します。",
+              "tone": "decisive",
+              "priority": 100,
+              "once_only": false,
+              "cooldown": 0
+            }
+          ],
+          "action_candidates": [
+            {
+              "type": "REPORT",
+              "target_id": "ai_npc_001",
+              "priority": 100,
+              "credibility_factor": 1.0,
+              "country_effects": []
+            }
+          ],
+          "transition_rules": [],
+          "player_evaluation_modifier": 0,
+          "relationship_modifiers": {},
+          "world_effect_candidates": [],
+          "time_based_rules": [],
+          "priority": 100,
+          "is_terminal": false
+        }
+      ]
+    }
+  ]
+}
