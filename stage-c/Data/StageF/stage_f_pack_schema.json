@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stage_f_data_pack_schema_v1",
+  "title": "Stage F fixture-only production-scale data pack",
+  "type": "object",
+  "required": [
+    "fixture_only",
+    "production_content",
+    "schema_version",
+    "pack_version",
+    "world_seed",
+    "counts",
+    "country_manifests",
+    "state_index",
+    "definition_hash_manifest"
+  ],
+  "properties": {
+    "fixture_only": { "const": true },
+    "production_content": { "const": false },
+    "schema_version": { "const": "stage_f_world_manifest_v1" },
+    "pack_version": { "const": "stage-f-scale-0.1.0" },
+    "world_seed": { "type": "integer" },
+    "counts": {
+      "type": "object",
+      "required": ["countries", "ai_npcs", "state_slots", "resident_population_slots", "mobile_population_slots"]
+    },
+    "country_manifests": { "type": "array", "minItems": 5, "maxItems": 5 },
+    "state_index": { "type": "string" },
+    "definition_hash_manifest": { "type": "string" }
+  }
+}

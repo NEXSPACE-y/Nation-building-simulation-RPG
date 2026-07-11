@@ -1,0 +1,24 @@
+{
+  "fixture_only": true,
+  "production_content": false,
+  "contract_id": "stage_f_count_hash_contract_v1",
+  "hash_algorithm": "SHA-256",
+  "text_encoding": "UTF-8",
+  "json_serialization": "nlohmann ordered object keys, indent 2, LF terminator",
+  "required_counts": {
+    "countries": 5,
+    "ai_npcs_per_country": 500,
+    "ai_npcs": 2500,
+    "state_slots_per_ai_npc": 255,
+    "state_slots": 637500,
+    "resident_population_slots": 250000000,
+    "mobile_population_slots": 100000000
+  },
+  "required_hash_edges": [
+    "world manifest -> country manifests",
+    "world manifest -> state index",
+    "world manifest -> definition hash manifest",
+    "state index -> AI NPC state shards",
+    "definition hash manifest -> every generated manifest and state shard"
+  ]
+}

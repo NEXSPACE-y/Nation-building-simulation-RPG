@@ -2,3 +2,4 @@
 // into the Unreal module. Unreal-specific automation and lifecycle code stays
 // in this module; the causal rules remain data-driven and engine-independent.
 #include "../../../../src/simulation.cpp"
+#include "../../../../src/stage_f_runtime.cpp"

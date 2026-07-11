@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stage_f_save_schema_v1",
+  "title": "Stage F current generation save manifest",
+  "type": "object",
+  "required": [
+    "fixture_only",
+    "production_content",
+    "schema_version",
+    "simulation_version",
+    "generation_id",
+    "parent_generation_id",
+    "manifest_hash",
+    "generation_manifest_path",
+    "scale_data_sha256",
+    "migration"
+  ],
+  "properties": {
+    "fixture_only": { "const": true },
+    "production_content": { "const": false },
+    "schema_version": { "const": "stage_f_save_schema_v1" },
+    "simulation_version": { "const": "stage-f-0.1.0" },
+    "generation_id": { "type": "string", "pattern": "^gen_[0-9]{12}$" },
+    "parent_generation_id": { "type": "string" },
+    "manifest_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "generation_manifest_path": { "type": "string" },
+    "scale_data_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "migration": { "type": "object" }
+  }
+}

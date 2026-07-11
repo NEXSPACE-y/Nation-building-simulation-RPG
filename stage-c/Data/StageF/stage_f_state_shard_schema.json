@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stage_f_state_shard_v1",
+  "title": "Stage F per-NPC fixture state shard",
+  "type": "object",
+  "required": [
+    "fixture_only",
+    "production_content",
+    "schema_version",
+    "pack_version",
+    "npc_id",
+    "country_id",
+    "external_transition_rules",
+    "states"
+  ],
+  "properties": {
+    "fixture_only": { "const": true },
+    "production_content": { "const": false },
+    "schema_version": { "const": "stage_f_state_shard_v1" },
+    "pack_version": { "const": "stage-f-scale-0.1.0" },
+    "npc_id": { "type": "string", "pattern": "^ai_npc_[0-9]{3,4}$" },
+    "country_id": { "type": "string", "pattern": "^country_00[1-5]$" },
+    "external_transition_rules": { "type": "array" },
+    "states": { "type": "array", "minItems": 255, "maxItems": 255 }
+  }
+}

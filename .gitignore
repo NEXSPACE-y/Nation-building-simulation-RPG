@@ -16,3 +16,4 @@ stage-c/.vs/
 *.tmp
 *.bak
 test-output/
+stage-c/Data/StageF/Generated/

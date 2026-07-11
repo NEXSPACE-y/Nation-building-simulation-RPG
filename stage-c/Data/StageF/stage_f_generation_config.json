@@ -1,0 +1,24 @@
+{
+  "fixture_only": true,
+  "production_content": false,
+  "schema_version": "stage_f_scale_config_v1",
+  "pack_version": "stage-f-scale-0.1.0",
+  "simulation_version": "stage-f-0.1.0",
+  "world_seed": 104729,
+  "country_count": 5,
+  "ai_npc_per_country": 500,
+  "ai_npc_total": 2500,
+  "state_slots_per_ai_npc": 255,
+  "state_slot_total": 637500,
+  "resident_population_slots_per_country": 50000000,
+  "resident_population_slots_total": 250000000,
+  "mobile_population_slots": 100000000,
+  "state_cache_capacity": 32,
+  "log_segment_entry_limit": 1000,
+  "background_interval_game_minutes": 360,
+  "offline_limit_real_seconds": 604800,
+  "stage_f_event_types": [
+    "STAGE_F_FIXTURE_SIGNAL",
+    "STAGE_F_FIXTURE_CROSS_COUNTRY"
+  ]
+}

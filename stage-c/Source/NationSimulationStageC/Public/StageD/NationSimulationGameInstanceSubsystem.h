@@ -37,6 +37,9 @@ public:
     UFUNCTION(BlueprintPure, Category="Stage D|Causal Core")
     FStageDWorldView GetWorldView() const;
 
+    UFUNCTION(BlueprintPure, Category="Stage F|Production Runtime")
+    FStageFRuntimeView GetStageFRuntimeView() const;
+
     UFUNCTION(BlueprintPure, Category="Stage D|Causal Core")
     FStageDNpcView GetNpcView(const FString& NpcId) const;
 
@@ -71,6 +74,8 @@ private:
 
     FString ResolveFixturePath() const;
     FString ResolveStageEOverlayPath() const;
+    FString ResolveStageFDataPath() const;
+    FString StageFLogArchivePath() const;
     FString SavePath() const;
     FString SaveMetadataPath() const;
     bool LoadCore(bool bApplyOfflineElapsed);

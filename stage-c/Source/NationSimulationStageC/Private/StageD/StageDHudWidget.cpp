@@ -54,7 +54,7 @@ void UStageDHudWidget::NativeOnInitialized()
 
     UVerticalBox* Root = WidgetTree->ConstructWidget<UVerticalBox>();
     Backdrop->SetContent(Root);
-    AddText(WidgetTree, Root, TEXT("STAGE E | NPC行動深度検証版"), 16, FLinearColor(0.2f, 0.85f, 1.0f));
+    AddText(WidgetTree, Root, TEXT("STAGE F | 本番規模ランタイム基盤"), 16, FLinearColor(0.2f, 0.85f, 1.0f));
     WorldText = AddText(WidgetTree, Root, TEXT("因果コアを読み込み中..."), 13, FLinearColor::White);
     TargetText = AddText(WidgetTree, Root, TEXT("対象: なし | NPCへ近づいてTab"), 15, FLinearColor(1.0f, 0.35f, 0.9f));
 
@@ -94,6 +94,7 @@ void UStageDHudWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
     const auto* Subsystem = GetGameInstance()->GetSubsystem<UNationSimulationGameInstanceSubsystem>();
     if (!Subsystem) return;
     const FStageDWorldView World = Subsystem->GetWorldView();
+    const FStageFRuntimeView StageF = Subsystem->GetStageFRuntimeView();
     const FStageDNpcView Npc = Subsystem->GetNpcView(World.TargetNpcId);
     WorldText->SetText(FText::FromString(FString::Printf(
         TEXT("現在地: %s | 治安 %d | 犯罪 %d | tick %lld | 未処理 %d | オフライン +%lld秒"),
@@ -135,7 +136,11 @@ void UStageDHudWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
         TEXT("候補規則: %s\n")
         TEXT("採用規則: %s | 遷移理由: %s\n")
         TEXT("不採用理由: %s\n")
-        TEXT("選択行動: %s | root_event_id=%s"),
+        TEXT("選択行動: %s | root_event_id=%s\n")
+        TEXT("Stage F: countries=%d | AI=%d | ACTIVE=%d | BACKGROUND=%d | DORMANT=%d\n")
+        TEXT("NON AI: materialized=%d | promoted=%d | pending=%d | due=%d\n")
+        TEXT("save generation=%lld | loaded shards=%d | cache=%d\n")
+        TEXT("offline=%lld秒 | save=%lldms | load=%lldms | data=%s"),
         Npc.CurrentStateId, *Npc.CurrentStateName, Npc.StateResidenceMinutes, *TimedTransition,
         *Npc.CurrentGoal, Npc.PlayerEvaluation,
         Npc.MajorRelationships.IsEmpty() ? TEXT("-") : *Npc.MajorRelationships,
@@ -145,7 +150,12 @@ void UStageDHudWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
         Npc.LastTransitionReason.IsEmpty() ? TEXT("-") : *Npc.LastTransitionReason,
         Npc.RejectedReasons.IsEmpty() ? TEXT("-") : *Npc.RejectedReasons,
         Npc.SelectedAction.IsEmpty() ? TEXT("-") : *Npc.SelectedAction,
-        Npc.RootEventId.IsEmpty() ? TEXT("-") : *Npc.RootEventId)));
+        Npc.RootEventId.IsEmpty() ? TEXT("-") : *Npc.RootEventId,
+        StageF.LoadedCountryCount, StageF.AiNpcTotalCount, StageF.ActiveCount, StageF.BackgroundCount, StageF.DormantCount,
+        StageF.MaterializedNonAiCount, StageF.PromotedNonAiCount, StageF.PendingEventCount, StageF.NextDueCount,
+        StageF.CurrentSaveGeneration, StageF.LoadedStateShardCount, StageF.StateCacheSize,
+        StageF.LastOfflineDurationSeconds, StageF.LastSaveDurationMilliseconds, StageF.LastLoadDurationMilliseconds,
+        StageF.DatasetSha256.IsEmpty() ? TEXT("-") : *StageF.DatasetSha256)));
 }
 
 void UStageDHudWidget::Submit(const FString& Action)

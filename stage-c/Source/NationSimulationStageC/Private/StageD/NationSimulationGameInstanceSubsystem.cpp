@@ -1,6 +1,7 @@
 #include "StageD/NationSimulationGameInstanceSubsystem.h"
 
 #include "HAL/PlatformFileManager.h"
+#include "HAL/FileManager.h"
 #include "Engine/GameInstance.h"
 #include "EngineUtils.h"
 #include "GameFramework/Pawn.h"
@@ -13,6 +14,7 @@
 #include "StageD/StageDSaveMetadata.h"
 #include "StageE/StageESaveMigration.h"
 #include "nation_sim/simulation.hpp"
+#include "nation_sim/stage_f_runtime.hpp"
 
 #include <filesystem>
 
@@ -34,6 +36,7 @@ FString ToFString(const std::string& Value)
 struct UNationSimulationGameInstanceSubsystem::FCoreStorage
 {
     TUniquePtr<nation_sim::Simulation> Simulation;
+    TUniquePtr<nation_sim::StageFProductionRuntime> StageFRuntime;
 };
 
 void UNationSimulationGameInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collection)
@@ -77,6 +80,26 @@ FString UNationSimulationGameInstanceSubsystem::ResolveStageEOverlayPath() const
     return Candidates.Last();
 }
 
+FString UNationSimulationGameInstanceSubsystem::ResolveStageFDataPath() const
+{
+    const TArray<FString> Candidates = {
+        FPaths::Combine(FPlatformProcess::BaseDir(), TEXT("Data/StageF")),
+        FPaths::ConvertRelativePathToFull(FPaths::Combine(
+            FPaths::ProjectDir(), TEXT("Data/StageF/Generated")))
+    };
+    for (const FString& Candidate : Candidates)
+    {
+        if (FPaths::FileExists(FPaths::Combine(Candidate, TEXT("world_manifest.json"))))
+            return FPaths::ConvertRelativePathToFull(Candidate);
+    }
+    return Candidates.Last();
+}
+
+FString UNationSimulationGameInstanceSubsystem::StageFLogArchivePath() const
+{
+    return FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("SaveGames/StageFLogs"));
+}
+
 FString UNationSimulationGameInstanceSubsystem::SavePath() const
 {
     return FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("SaveGames/stage_d_save.json"));
@@ -96,6 +119,8 @@ bool UNationSimulationGameInstanceSubsystem::LoadCore(bool bApplyOfflineElapsed)
         DeferredOfflineSeconds = 0;
         const FString Fixture = ResolveFixturePath();
         const FString Overlay = ResolveStageEOverlayPath();
+        const FString StageFData = ResolveStageFDataPath();
+        const FString StageFLogs = StageFLogArchivePath();
         const FString Save = SavePath();
         FString DefinitionSha256;
         FString HashError;
@@ -104,24 +129,67 @@ bool UNationSimulationGameInstanceSubsystem::LoadCore(bool bApplyOfflineElapsed)
             RecordErrorMessage(TEXT("LoadCore Stage E overlay"), HashError);
             return false;
         }
+        if (!FPaths::FileExists(FPaths::Combine(StageFData, TEXT("world_manifest.json"))))
+        {
+            RecordErrorMessage(TEXT("LoadCore Stage F data"), TEXT("world_manifest.json was not found"));
+            return false;
+        }
         if (FPaths::FileExists(Save))
         {
-            const FStageESaveMigrationResult Migration = FStageESaveMigration::MigrateIfNeeded(
-                Save, SaveMetadataPath(), Fixture, Overlay);
-            if (!Migration.bSuccess)
+            FString SaveText;
+            if (!FFileHelper::LoadFileToString(SaveText, *Save))
             {
-                RecordErrorMessage(TEXT("LoadCore Stage D to Stage E migration"), Migration.Error);
+                RecordErrorMessage(TEXT("LoadCore Stage F save"), TEXT("save manifest could not be read"));
                 return false;
             }
+            if (!SaveText.Contains(TEXT("\"stage_f_save_schema_v1\"")))
+            {
+                const FStageESaveMigrationResult StageEMigration = FStageESaveMigration::MigrateIfNeeded(
+                    Save, SaveMetadataPath(), Fixture, Overlay);
+                if (!StageEMigration.bSuccess)
+                {
+                    RecordErrorMessage(TEXT("LoadCore Stage D to Stage E migration"), StageEMigration.Error);
+                    return false;
+                }
+                const FStageDSaveMetadataReadResult SourceMetadata =
+                    FStageDSaveMetadata::ReadValidated(Save, SaveMetadataPath());
+                if (!SourceMetadata.bValid)
+                {
+                    RecordErrorMessage(TEXT("LoadCore Stage E metadata"), SourceMetadata.Error);
+                    return false;
+                }
+                const auto StageFMigration = nation_sim::StageFProductionRuntime::migrate_stage_e_save(
+                    NativePath(StageFData), NativePath(Save), NativePath(SaveMetadataPath()),
+                    SourceMetadata.SavedAtUtcEpoch, NativePath(StageFLogs));
+                if (!StageFMigration.success)
+                {
+                    RecordErrorMessage(TEXT("LoadCore Stage E to Stage F migration"),
+                        ToFString(StageFMigration.error));
+                    return false;
+                }
+                FString MetadataError;
+                if (!FStageDSaveMetadata::WriteVerified(
+                    Save, SaveMetadataPath(), SourceMetadata.SavedAtUtcEpoch, MetadataError))
+                {
+                    RecordErrorMessage(TEXT("LoadCore Stage F migrated metadata"), MetadataError);
+                    return false;
+                }
+                UE_LOG(LogNationSimulationStageD, Display,
+                    TEXT("STAGE_F_SAVE_MIGRATED save=%s backup=%s metadata_backup=%s source_sha256=%s"),
+                    *Save, *ToFString(StageFMigration.save_backup_path.generic_string()),
+                    *ToFString(StageFMigration.metadata_backup_path.generic_string()),
+                    *ToFString(StageFMigration.source_save_sha256));
+            }
+            std::filesystem::path VisibleCoreSave;
+            nation_sim::StageFSaveResult LoadResult;
+            Core->StageFRuntime = MakeUnique<nation_sim::StageFProductionRuntime>(
+                nation_sim::StageFProductionRuntime::load_generation(
+                    NativePath(StageFData), NativePath(Save), VisibleCoreSave, LoadResult, NativePath(StageFLogs)));
             Core->Simulation = MakeUnique<nation_sim::Simulation>(
                 nation_sim::Simulation::load_save_with_overlay(
-                    NativePath(Fixture), NativePath(Overlay), NativePath(Save), TCHAR_TO_UTF8(*DefinitionSha256)));
-            if (Migration.bMigrated)
-            {
-                UE_LOG(LogNationSimulationStageD, Display,
-                    TEXT("STAGE_E_SAVE_MIGRATED save=%s backup=%s metadata_backup=%s source_sha256=%s"),
-                    *Save, *Migration.SaveBackupPath, *Migration.MetadataBackupPath, *Migration.SourceSaveSha256);
-            }
+                    NativePath(Fixture), NativePath(Overlay), VisibleCoreSave, TCHAR_TO_UTF8(*DefinitionSha256)));
+            UE_LOG(LogNationSimulationStageD, Display, TEXT("%s generation=%s"),
+                *ToFString(LoadResult.audit_message), *ToFString(LoadResult.generation_id));
             if (bApplyOfflineElapsed)
             {
                 const FStageDSaveMetadataReadResult Metadata =
@@ -142,14 +210,22 @@ bool UNationSimulationGameInstanceSubsystem::LoadCore(bool bApplyOfflineElapsed)
         }
         else
         {
+            Core->StageFRuntime = MakeUnique<nation_sim::StageFProductionRuntime>(
+                nation_sim::StageFProductionRuntime::load(NativePath(StageFData), NativePath(StageFLogs)));
             Core->Simulation = MakeUnique<nation_sim::Simulation>(
                 nation_sim::Simulation::from_fixture_with_overlay(
                     NativePath(Fixture), NativePath(Overlay), TCHAR_TO_UTF8(*DefinitionSha256)));
         }
-        RecentEvent = TEXT("Stage E causal core ready");
+        RecentEvent = TEXT("Stage F production-scale causal core ready");
+        const auto& Counters = Core->StageFRuntime->counters();
         UE_LOG(LogNationSimulationStageD, Display,
             TEXT("STAGE_E_CORE_READY overlay=stage_e_behavioral_depth_v1 definition_sha256=%s save=%s"),
             *DefinitionSha256, *Save);
+        UE_LOG(LogNationSimulationStageD, Display,
+            TEXT("STAGE_F_CORE_READY countries=%d ai_npcs=%d active=%d background=%d dormant=%d dataset_sha256=%s save=%s"),
+            static_cast<int32>(Counters.loaded_country_count), static_cast<int32>(Counters.ai_npc_total_count),
+            static_cast<int32>(Counters.active_count), static_cast<int32>(Counters.background_count),
+            static_cast<int32>(Counters.dormant_count), *ToFString(Core->StageFRuntime->scale_data_sha256()), *Save);
         OnCoreStateChanged.Broadcast();
         return true;
     }
@@ -226,18 +302,39 @@ bool UNationSimulationGameInstanceSubsystem::EnterLocation(const FString& Locati
 
 bool UNationSimulationGameInstanceSubsystem::SaveMidChain()
 {
-    if (!Core || !Core->Simulation) return false;
+    if (!Core || !Core->Simulation || !Core->StageFRuntime) return false;
     try
     {
-        Core->Simulation->save(NativePath(SavePath()));
+        const FString VisibleCoreTemporary = SavePath() + TEXT(".visible.next");
+        Core->Simulation->save(NativePath(VisibleCoreTemporary));
+        FString VisibleCoreJson;
+        if (!FFileHelper::LoadFileToString(VisibleCoreJson, *VisibleCoreTemporary))
+        {
+            RecordErrorMessage(TEXT("SaveMidChain Stage F visible core"), TEXT("temporary visible core could not be read"));
+            return false;
+        }
+        const int64 SavedAtUtcEpoch = FDateTime::UtcNow().ToUnixTimestamp();
+        const auto SaveResult = Core->StageFRuntime->save_generation(
+            NativePath(SavePath()), TCHAR_TO_UTF8(*VisibleCoreJson), SavedAtUtcEpoch);
+        IFileManager::Get().Delete(*VisibleCoreTemporary, false, true, true);
+        if (!SaveResult.success)
+        {
+            RecordErrorMessage(TEXT("SaveMidChain Stage F generation"), ToFString(SaveResult.error));
+            return false;
+        }
         FString MetadataError;
         if (!FStageDSaveMetadata::WriteVerified(
-            SavePath(), SaveMetadataPath(), FDateTime::UtcNow().ToUnixTimestamp(), MetadataError))
+            SavePath(), SaveMetadataPath(), SavedAtUtcEpoch, MetadataError))
         {
             RecordErrorMessage(TEXT("SaveMidChain metadata"), MetadataError);
             return false;
         }
-        RecentEvent = FString::Printf(TEXT("Saved with %d pending event(s)"), static_cast<int32>(Core->Simulation->pending_events().size()));
+        RecentEvent = FString::Printf(TEXT("Stage F世代保存 %s | 未処理 %d件"),
+            *ToFString(SaveResult.generation_id),
+            static_cast<int32>(Core->Simulation->pending_events().size()+Core->StageFRuntime->counters().pending_event_count));
+        UE_LOG(LogNationSimulationStageD, Display, TEXT("%s generation=%s manifest_sha256=%s"),
+            *ToFString(SaveResult.audit_message), *ToFString(SaveResult.generation_id),
+            *ToFString(SaveResult.manifest_sha256));
         LastError.Reset();
         OnCoreStateChanged.Broadcast();
         return true;
@@ -294,13 +391,20 @@ void UNationSimulationGameInstanceSubsystem::ClearTargetNpc(const FString& Reaso
 
 void UNationSimulationGameInstanceSubsystem::AdvancePresentation(float DeltaSeconds)
 {
-    if (!Core || !Core->Simulation) return;
+    if (!Core || !Core->Simulation || !Core->StageFRuntime) return;
     EventAccumulator += DeltaSeconds;
     if (EventAccumulator < 0.30f) return;
     EventAccumulator = 0.0f;
     RefreshTargetValidity();
     try
     {
+        if (Core->StageFRuntime->counters().pending_event_count > 0)
+        {
+            Core->StageFRuntime->process_pending(1);
+            RecentEvent = TEXT("Stage F partition event processed");
+            OnCoreStateChanged.Broadcast();
+            return;
+        }
         if (!Core->Simulation->pending_events().empty())
         {
             const int32 EventCount = static_cast<int32>(Core->Simulation->event_history().size());
@@ -315,7 +419,8 @@ void UNationSimulationGameInstanceSubsystem::AdvancePresentation(float DeltaSeco
             const int32 EventCount = static_cast<int32>(Core->Simulation->event_history().size());
             const int32 AuditCount = static_cast<int32>(Core->Simulation->audit_log().size());
             const auto Result = Core->Simulation->advance_offline(DeferredOfflineSeconds);
-            OfflineSecondsApplied = Result.applied_real_seconds;
+            const auto StageFResult = Core->StageFRuntime->advance_offline(DeferredOfflineSeconds);
+            OfflineSecondsApplied = FMath::Min<int64>(Result.applied_real_seconds, StageFResult.applied_real_seconds);
             DeferredOfflineSeconds = 0;
             RefreshProjection(EventCount, AuditCount);
             OnCoreStateChanged.Broadcast();
@@ -366,8 +471,34 @@ FStageDWorldView UNationSimulationGameInstanceSubsystem::GetWorldView() const
     View.Security = Simulation.country().security;
     View.CrimeLevel = Simulation.country().crime_level;
     View.SimulationTick = Simulation.simulation_tick();
-    View.PendingEventCount = static_cast<int32>(Simulation.pending_events().size());
+    View.PendingEventCount = static_cast<int32>(Simulation.pending_events().size())+
+        (Core->StageFRuntime ? static_cast<int32>(Core->StageFRuntime->counters().pending_event_count) : 0);
     View.TargetRole = GetNpcView(TargetNpcId).Role;
+    return View;
+}
+
+FStageFRuntimeView UNationSimulationGameInstanceSubsystem::GetStageFRuntimeView() const
+{
+    FStageFRuntimeView View;
+    if (!Core || !Core->StageFRuntime) return View;
+    const auto& Counters = Core->StageFRuntime->counters();
+    View.LoadedCountryCount = static_cast<int32>(Counters.loaded_country_count);
+    View.AiNpcTotalCount = static_cast<int32>(Counters.ai_npc_total_count);
+    View.ActiveCount = static_cast<int32>(Counters.active_count);
+    View.BackgroundCount = static_cast<int32>(Counters.background_count);
+    View.DormantCount = static_cast<int32>(Counters.dormant_count);
+    View.MaterializedNonAiCount = static_cast<int32>(Counters.materialized_non_ai_count);
+    View.PromotedNonAiCount = static_cast<int32>(Counters.promoted_non_ai_count);
+    View.PendingEventCount = static_cast<int32>(Counters.pending_event_count);
+    View.NextDueCount = static_cast<int32>(Counters.next_due_count);
+    View.CurrentSaveGeneration = static_cast<int64>(Counters.current_save_generation);
+    View.LoadedStateShardCount = static_cast<int32>(Counters.loaded_state_shard_count);
+    View.StateCacheSize = static_cast<int32>(Counters.state_cache_size);
+    View.LastOfflineDurationSeconds = Counters.last_offline_duration_seconds;
+    View.LastSaveDurationMilliseconds = Counters.last_save_duration_milliseconds;
+    View.LastLoadDurationMilliseconds = Counters.last_load_duration_milliseconds;
+    View.DatasetSha256 = ToFString(Core->StageFRuntime->scale_data_sha256());
+    View.bCoreReady = Counters.loaded_country_count == 5 && Counters.ai_npc_total_count == 2500;
     return View;
 }
 
@@ -471,7 +602,9 @@ TArray<FStageDNpcView> UNationSimulationGameInstanceSubsystem::GetAllNpcViews() 
 
 bool UNationSimulationGameInstanceSubsystem::HasPendingEvents() const
 {
-    return Core && Core->Simulation && !Core->Simulation->pending_events().empty();
+    return Core && Core->Simulation &&
+        (!Core->Simulation->pending_events().empty() ||
+         (Core->StageFRuntime && Core->StageFRuntime->counters().pending_event_count > 0));
 }
 
 bool UNationSimulationGameInstanceSubsystem::ValidateInteractionTarget(
