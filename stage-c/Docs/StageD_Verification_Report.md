@@ -5,6 +5,9 @@
 - Accepted Stage C commit: `18be9721b184cf9529c62ec24405de6d7ee7a62b`
 - Accepted Stage C tag: `stage-c-baseline-v0.1.0`
 - Remote branch and annotated tag were verified after push.
+- Stage D baseline implementation commit: `49ffdb638624dda3496b9382d66db779dcf31321`
+- Stage D annotated tag: `stage-d-playable-v0.1.0`
+- Tag target and remote `main` were verified as the same commit on `2026-07-11 +09:00`.
 
 ## Automated results
 
