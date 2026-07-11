@@ -3,11 +3,18 @@
   "EngineAssociation": "5.8",
   "Category": "Simulation",
   "Description": "Stage C Unreal Engine C++ causal-system validation project.",
-  "Modules": [
+	"Modules": [
     {
       "Name": "NationSimulationStageC",
       "Type": "Runtime",
       "LoadingPhase": "Default"
     }
-  ]
+	],
+	"Plugins": [
+		{
+			"Name": "PythonScriptPlugin",
+			"Enabled": true,
+			"TargetAllowList": [ "Editor" ]
+		}
+	]
 }

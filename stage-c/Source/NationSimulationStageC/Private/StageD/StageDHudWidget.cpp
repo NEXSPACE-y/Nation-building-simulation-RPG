@@ -1,0 +1,153 @@
+#include "StageD/StageDHudWidget.h"
+
+#include "Blueprint/WidgetTree.h"
+#include "Components/Border.h"
+#include "Components/Button.h"
+#include "Components/HorizontalBox.h"
+#include "Components/HorizontalBoxSlot.h"
+#include "Components/TextBlock.h"
+#include "Components/VerticalBox.h"
+#include "Components/VerticalBoxSlot.h"
+#include "Engine/GameInstance.h"
+#include "StageD/NationSimulationGameInstanceSubsystem.h"
+#include "StageD/StageDPlayerCharacter.h"
+#include "Styling/CoreStyle.h"
+
+namespace
+{
+UTextBlock* AddText(UWidgetTree* Tree, UVerticalBox* Parent, const FString& Initial, int32 Size, const FLinearColor& Color)
+{
+    UTextBlock* Text = Tree->ConstructWidget<UTextBlock>();
+    Text->SetText(FText::FromString(Initial));
+    Text->SetColorAndOpacity(FSlateColor(Color));
+    Text->SetFont(FCoreStyle::GetDefaultFontStyle(TEXT("Regular"), Size));
+    Text->SetAutoWrapText(true);
+    Text->SetWrapTextAt(700.0f);
+    Parent->AddChildToVerticalBox(Text)->SetPadding(FMargin(2.0f));
+    return Text;
+}
+
+UButton* AddButton(UWidgetTree* Tree, UHorizontalBox* Parent, const FString& Label)
+{
+    UButton* Button = Tree->ConstructWidget<UButton>();
+    UTextBlock* Text = Tree->ConstructWidget<UTextBlock>();
+    Text->SetText(FText::FromString(Label));
+    Text->SetColorAndOpacity(FSlateColor(FLinearColor::White));
+    Text->SetFont(FCoreStyle::GetDefaultFontStyle(TEXT("Regular"), 12));
+    Button->AddChild(Text);
+    Parent->AddChildToHorizontalBox(Button)->SetPadding(FMargin(2.0f));
+    return Button;
+}
+}
+
+void UStageDHudWidget::NativeOnInitialized()
+{
+    Super::NativeOnInitialized();
+
+    // The hierarchy must exist before UUserWidget rebuilds its Slate widget.
+    // Creating the root in NativeConstruct is too late for a native-only widget
+    // and produces an invisible HUD in a packaged build.
+    UBorder* Backdrop = WidgetTree->ConstructWidget<UBorder>();
+    Backdrop->SetBrushColor(FLinearColor(0.012f, 0.016f, 0.024f, 0.88f));
+    Backdrop->SetPadding(FMargin(9.0f));
+    WidgetTree->RootWidget = Backdrop;
+
+    UVerticalBox* Root = WidgetTree->ConstructWidget<UVerticalBox>();
+    Backdrop->SetContent(Root);
+    AddText(WidgetTree, Root, TEXT("STAGE D | プレイ可能な検証版"), 16, FLinearColor(0.2f, 0.85f, 1.0f));
+    WorldText = AddText(WidgetTree, Root, TEXT("因果コアを読み込み中..."), 13, FLinearColor::White);
+    TargetText = AddText(WidgetTree, Root, TEXT("対象: なし | NPCへ近づいてTab"), 15, FLinearColor(1.0f, 0.35f, 0.9f));
+
+    UHorizontalBox* Actions = WidgetTree->ConstructWidget<UHorizontalBox>();
+    Root->AddChildToVerticalBox(Actions)->SetPadding(FMargin(0.0f, 3.0f));
+    UButton* Talk = AddButton(WidgetTree, Actions, TEXT("1 会話")); Talk->OnClicked.AddDynamic(this, &UStageDHudWidget::OnTalk);
+    UButton* Help = AddButton(WidgetTree, Actions, TEXT("2 支援")); Help->OnClicked.AddDynamic(this, &UStageDHudWidget::OnHelp);
+    UButton* Harm = AddButton(WidgetTree, Actions, TEXT("3 危害")); Harm->OnClicked.AddDynamic(this, &UStageDHudWidget::OnHarm);
+    UButton* Trade = AddButton(WidgetTree, Actions, TEXT("4 取引")); Trade->OnClicked.AddDynamic(this, &UStageDHudWidget::OnTrade);
+    UButton* Steal = AddButton(WidgetTree, Actions, TEXT("5 盗む")); Steal->OnClicked.AddDynamic(this, &UStageDHudWidget::OnSteal);
+    UButton* Wait = AddButton(WidgetTree, Actions, TEXT("6 待機")); Wait->OnClicked.AddDynamic(this, &UStageDHudWidget::OnWait);
+    UButton* Move = AddButton(WidgetTree, Actions, TEXT("7 場所移動")); Move->OnClicked.AddDynamic(this, &UStageDHudWidget::OnMove);
+
+    UHorizontalBox* Utilities = WidgetTree->ConstructWidget<UHorizontalBox>();
+    Root->AddChildToVerticalBox(Utilities)->SetPadding(FMargin(0.0f, 1.0f, 0.0f, 3.0f));
+    UButton* Save = AddButton(WidgetTree, Utilities, TEXT("F5 中間保存")); Save->OnClicked.AddDynamic(this, &UStageDHudWidget::OnSave);
+    UButton* Load = AddButton(WidgetTree, Utilities, TEXT("F9 読込")); Load->OnClicked.AddDynamic(this, &UStageDHudWidget::OnLoad);
+    UButton* Debug = AddButton(WidgetTree, Utilities, TEXT("F1 デバッグ")); Debug->OnClicked.AddDynamic(this, &UStageDHudWidget::OnDebug);
+
+    DialogueText = AddText(WidgetTree, Root, TEXT("会話: -"), 13, FLinearColor(1.0f, 0.85f, 0.55f));
+    EventText = AddText(WidgetTree, Root, TEXT("直近イベント: -"), 12, FLinearColor(0.8f, 0.8f, 0.85f));
+    ReactionText = AddText(WidgetTree, Root, TEXT("AI反応: -"), 12, FLinearColor(0.35f, 0.9f, 1.0f));
+    ActionStatusText = AddText(WidgetTree, Root, TEXT("行動可能"), 12, FLinearColor(0.45f, 1.0f, 0.55f));
+    DebugText = AddText(WidgetTree, Root, TEXT(""), 12, FLinearColor(1.0f, 0.45f, 0.3f));
+    DebugText->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void UStageDHudWidget::NativeConstruct()
+{
+    Super::NativeConstruct();
+}
+
+void UStageDHudWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+    Super::NativeTick(MyGeometry, InDeltaTime);
+    if (!GetGameInstance()) return;
+    const auto* Subsystem = GetGameInstance()->GetSubsystem<UNationSimulationGameInstanceSubsystem>();
+    if (!Subsystem) return;
+    const FStageDWorldView World = Subsystem->GetWorldView();
+    const FStageDNpcView Npc = Subsystem->GetNpcView(World.TargetNpcId);
+    WorldText->SetText(FText::FromString(FString::Printf(
+        TEXT("現在地: %s | 治安 %d | 犯罪 %d | tick %lld | 未処理 %d | オフライン +%lld秒"),
+        *World.CurrentLocationId, World.Security, World.CrimeLevel, World.SimulationTick,
+        World.PendingEventCount, World.OfflineRealSecondsApplied)));
+    TargetText->SetText(FText::FromString(World.TargetNpcId.IsEmpty()
+        ? TEXT("対象: なし | NPCへ近づいてTab")
+        : FString::Printf(TEXT("対象: %s | %s | Tabで次へ"), *World.TargetNpcId, *World.TargetRole)));
+    DialogueText->SetText(FText::FromString(TEXT("会話: ") + (World.Dialogue.IsEmpty() ? TEXT("-（1キーで会話）") : World.Dialogue)));
+    EventText->SetText(FText::FromString(TEXT("直近イベント: ") + World.RecentEvent));
+    TArray<FString> Reactions;
+    for (const FStageDNpcView& View : Subsystem->GetAllNpcViews())
+    {
+        const bool bRequiredReaction =
+            View.SelectedAction == TEXT("REPORT") ||
+            View.SelectedAction == TEXT("WARN") ||
+            View.SelectedAction == TEXT("REFUSE_TRADE") ||
+            View.SelectedAction == TEXT("FLEE");
+        if (!bRequiredReaction) continue;
+        Reactions.Add(View.SelectedTargetId.IsEmpty()
+            ? FString::Printf(TEXT("%s %s"), *View.NpcId, *View.SelectedAction)
+            : FString::Printf(TEXT("%s -> %s %s"), *View.NpcId, *View.SelectedTargetId, *View.SelectedAction));
+    }
+    Reactions.Sort();
+    ReactionText->SetText(FText::FromString(Reactions.IsEmpty()
+        ? TEXT("AI反応: -")
+        : TEXT("AI反応: ") + FString::Join(Reactions, TEXT(" | "))));
+    ActionStatusText->SetText(FText::FromString(World.ActionBlockedReason.IsEmpty()
+        ? TEXT("行動可能")
+        : TEXT("行動不可: ") + World.ActionBlockedReason));
+    DebugText->SetText(FText::FromString(FString::Printf(
+        TEXT("current_state_id=%d | player_evaluation=%d\nselected_rule=%s\nselected_action=%s | root_event_id=%s"),
+        Npc.CurrentStateId, Npc.PlayerEvaluation, *Npc.SelectedRule, *Npc.SelectedAction, *Npc.RootEventId)));
+}
+
+void UStageDHudWidget::Submit(const FString& Action)
+{
+    if (!GetOwningPlayerPawn()) return;
+    if (auto* Character = Cast<AStageDPlayerCharacter>(GetOwningPlayerPawn())) Character->ExecuteCoreAction(Action);
+}
+
+void UStageDHudWidget::OnTalk() { Submit(TEXT("TALK")); }
+void UStageDHudWidget::OnHelp() { Submit(TEXT("HELP")); }
+void UStageDHudWidget::OnHarm() { Submit(TEXT("HARM")); }
+void UStageDHudWidget::OnTrade() { Submit(TEXT("TRADE")); }
+void UStageDHudWidget::OnSteal() { Submit(TEXT("STEAL")); }
+void UStageDHudWidget::OnWait() { Submit(TEXT("WAIT")); }
+void UStageDHudWidget::OnMove() { if (auto* Character = Cast<AStageDPlayerCharacter>(GetOwningPlayerPawn())) Character->MoveToNextLocation(); }
+void UStageDHudWidget::OnSave() { if (GetGameInstance()) GetGameInstance()->GetSubsystem<UNationSimulationGameInstanceSubsystem>()->SaveMidChain(); }
+void UStageDHudWidget::OnLoad() { if (GetGameInstance()) GetGameInstance()->GetSubsystem<UNationSimulationGameInstanceSubsystem>()->ReloadSave(); }
+void UStageDHudWidget::OnDebug() { ToggleDebug(); }
+
+void UStageDHudWidget::ToggleDebug()
+{
+    bDebugVisible = !bDebugVisible;
+    if (DebugText) DebugText->SetVisibility(bDebugVisible ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+}

@@ -15,11 +15,18 @@ public class NationSimulationStageC : ModuleRules
             "Core",
             "CoreUObject",
             "Engine",
+            "InputCore",
             "Json",
-            "Projects"
+            "Projects",
+            "Slate",
+            "SlateCore",
+            "UMG"
         });
 
         PublicIncludePaths.Add(Path.GetFullPath(Path.Combine(ModuleDirectory, "../../../include")));
         PublicSystemIncludePaths.Add(Path.Combine(ModuleDirectory, "ThirdParty"));
+
+        string Fixture = Path.GetFullPath(Path.Combine(ModuleDirectory, "../../../data/stage_a_fixture.json"));
+        RuntimeDependencies.Add("$(TargetOutputDir)/Data/stage_a_fixture.json", Fixture, StagedFileType.NonUFS);
     }
 }
