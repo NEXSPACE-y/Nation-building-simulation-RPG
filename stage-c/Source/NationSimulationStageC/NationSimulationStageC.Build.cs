@@ -12,11 +12,15 @@ public class NationSimulationStageC : ModuleRules
 
         PublicDependencyModuleNames.AddRange(new[]
         {
+            "AIModule",
             "Core",
             "CoreUObject",
+            "DeveloperSettings",
             "Engine",
             "InputCore",
             "Json",
+            "NavigationSystem",
+            "Paper2D",
             "Projects",
             "Slate",
             "SlateCore",
