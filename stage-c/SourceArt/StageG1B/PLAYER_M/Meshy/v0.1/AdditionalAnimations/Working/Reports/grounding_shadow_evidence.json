@@ -1,0 +1,8 @@
+{
+	"ground_trace_hit": true,
+	"mesh_bottom_ground_gap_uu": -0.90100597094829027,
+	"dynamic_shadow": true,
+	"contact_shadow": true,
+	"capsule_radius_uu": 42,
+	"capsule_half_height_uu": 96
+}

@@ -1,0 +1,12 @@
+{
+	"anim_instance_mode": "Ignore Root Motion",
+	"idle_enable_root_motion": false,
+	"walk_enable_root_motion": false,
+	"run_enable_root_motion": false,
+	"dash_enable_root_motion": false,
+	"idle_force_root_lock": true,
+	"walk_force_root_lock": true,
+	"run_force_root_lock": true,
+	"dash_force_root_lock": true,
+	"actor_motion_owned_by_character_movement": true
+}

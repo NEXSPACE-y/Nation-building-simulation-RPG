@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-07-14T22:20:20.361098+09:00",
+  "skeletal_mesh": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Mesh/SK_PLAYER_M_Meshy_v0_1.SK_PLAYER_M_Meshy_v0_1",
+  "skeleton": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Skeleton/SKEL_PLAYER_M_Meshy_v0_1.SKEL_PLAYER_M_Meshy_v0_1",
+  "physics_asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Skeleton/PHYS_PLAYER_M_Meshy_v0_1.PHYS_PLAYER_M_Meshy_v0_1",
+  "initial_import_uniform_scale": 1.0,
+  "initial_world_height_uu": 174.99999833106995,
+  "final_import_uniform_scale": 1.0,
+  "final_component_scale": 1.0,
+  "final_world_height_uu": 174.99999833106995,
+  "world_height_in_170_180_band": true,
+  "material_slot_count": 1,
+  "material": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Materials/M_PLAYER_M_Meshy_v0_1.M_PLAYER_M_Meshy_v0_1",
+  "material_instance": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Materials/MI_PLAYER_M_Meshy_v0_1.MI_PLAYER_M_Meshy_v0_1",
+  "animation_sequence_count": 7,
+  "normal_import_method": "Import Normals and Tangents",
+  "convert_scene": true,
+  "force_front_x_axis": false,
+  "external_communication": 0
+}

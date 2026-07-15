@@ -1,0 +1,53 @@
+{
+  "created_at": "2026-07-15T10:40:45+09:00",
+  "source": "Win64 Development packaged build-in capture",
+  "capture_run": "out/stage-g1b-meshy/visual-idle-dash/20260715T013707454Z",
+  "motion_blur_during_capture": false,
+  "capture_count": 5,
+  "captures": [
+    {
+      "name": "PLAYER_M_IDLE.png",
+      "bytes": 1902817,
+      "sha256": "16afede32c8bd398486e3725b89ad9d2af094941a9396de0ff654038f145cbf6",
+      "result": "PASS"
+    },
+    {
+      "name": "PLAYER_M_WALK.png",
+      "bytes": 2096030,
+      "sha256": "21d2533096cbba30f3e9a5a21904a3d56a1624efdc95ea70ad7088271badd9ed",
+      "result": "PASS"
+    },
+    {
+      "name": "PLAYER_M_RUN.png",
+      "bytes": 2053005,
+      "sha256": "ad4a417b036c7fb09ccfc6c6299dd9eb9cb5f31444d993018d53d8aa487ea2a5",
+      "result": "PASS"
+    },
+    {
+      "name": "PLAYER_M_DASH.png",
+      "bytes": 2088736,
+      "sha256": "e0bf27ee87606fc288f16281490755633a0c9efd4ce76b8d532ac794cd35250f",
+      "result": "PASS"
+    },
+    {
+      "name": "PLAYER_M_F1_IDLE_DASH.png",
+      "bytes": 2120075,
+      "sha256": "4f6801b13dc564f8cde81a024c0d253798b83a0de96e7326053c50ef8742dc7c",
+      "result": "PASS"
+    }
+  ],
+  "verified_visible_contracts": [
+    "Meshy PLAYER_M",
+    "formal Idle_11 presentation",
+    "Walking",
+    "Running",
+    "Run_02 DASH",
+    "three-mode UI",
+    "DASH configured and horizontal speed 750",
+    "Root Motion Ignored",
+    "Manny Fallback false",
+    "Idle Provisional false",
+    "Lit material and shadow"
+  ],
+  "status": "PASS"
+}

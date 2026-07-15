@@ -1,0 +1,12 @@
+{
+  "source_zip": "C:\\Users\\rinpa\\Desktop\\PLAYER_M_Meshy_Rigged_AllAnimations_v0.1.zip",
+  "expected_size": 33506378,
+  "actual_size": 33506378,
+  "expected_sha256": "EBD21F89AC9441E4E9D94EAD79A0A7B5F58B8F0BCE3BCEDAD3A07553050B3367",
+  "actual_sha256": "EBD21F89AC9441E4E9D94EAD79A0A7B5F58B8F0BCE3BCEDAD3A07553050B3367",
+  "internal_file_count": 6,
+  "zip_crc": "PASS",
+  "contract_status": "PASS",
+  "external_communication": 0,
+  "meshy_credit_consumption": 0
+}

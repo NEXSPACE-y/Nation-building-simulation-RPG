@@ -1,0 +1,11 @@
+{
+	"cycle": "WALK->RUN->DASH->WALK",
+	"destination_maintained": true,
+	"nav_path_maintained": true,
+	"move_active_after_each_toggle": true,
+	"destination_update_count_unchanged": true,
+	"selected_target_unchanged": true,
+	"world_move_command_generated": false,
+	"causal_event_generated": false,
+	"ui_click_pass_through": false
+}

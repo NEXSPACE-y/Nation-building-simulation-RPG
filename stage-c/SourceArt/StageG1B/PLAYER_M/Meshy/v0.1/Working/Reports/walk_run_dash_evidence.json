@@ -1,0 +1,18 @@
+{
+	"configured_walk_speed_uu_s": 250,
+	"configured_run_speed_uu_s": 500,
+	"configured_dash_speed_uu_s": 750,
+	"observed_walk_speed_uu_s": 250,
+	"observed_run_speed_uu_s": 500,
+	"observed_dash_speed_uu_s": 750,
+	"walk_play_rate": 1,
+	"run_play_rate": 1,
+	"dash_play_rate": 1,
+	"walk_sequence_observed": true,
+	"run_sequence_observed": true,
+	"dash_sequence_observed": true,
+	"idle_return_observed": true,
+	"destination_maintained": true,
+	"nav_path_maintained": true,
+	"move_active_after_each_toggle": true
+}

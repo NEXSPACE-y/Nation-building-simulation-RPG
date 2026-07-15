@@ -1,0 +1,11 @@
+{
+  "created_at": "2026-07-15T08:57:16+09:00",
+  "status": "BLOCKED",
+  "attempts": 2,
+  "failure": "Computer Use native pipe is unavailable: Error: failed to connect native pipe: 指定されたファイルが見つかりません。 (os error 2)",
+  "helper_process_spawned": false,
+  "fallback": "Packaged build-in screenshot capture",
+  "fallback_result": "PASS",
+  "computer_use_pass_claimed": false,
+  "user_real_machine_confirmation_required": true
+}

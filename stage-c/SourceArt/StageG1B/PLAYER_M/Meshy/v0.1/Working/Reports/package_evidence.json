@@ -1,0 +1,20 @@
+{
+  "configuration": "Development",
+  "configured_default_map": "/Game/Maps/StageG1B_OriginalPlayerPoC",
+  "launch_map_argument": "NONE",
+  "executable": "C:\\Users\\rinpa\\Desktop\\TITLE\\out\\stage-g1b-meshy\\package\\Windows\\NationSimulationStageC.exe",
+  "executable_sha256": "7931c90fa1b8c11845d8a6782b02b03bef463de800ffbb7da258f37d1e2bcc64",
+  "runtime_log": "C:\\Users\\rinpa\\Desktop\\TITLE\\out\\stage-g1b-meshy\\package-user\\20260715T013623409Z\\Saved\\Logs\\NationSimulationStageC.log",
+  "no_argument_default_map": "PASS",
+  "player_m_meshy": "PASS",
+  "manny_fallback": false,
+  "texture_lit_shadow": "PASS",
+  "idle_mode": "Meshy Idle_11 formal",
+  "walk": "PASS",
+  "run": "PASS",
+  "dash": "PASS",
+  "walk_run_dash_toggle_path_maintained": "PASS",
+  "explicit_stage_g1a_package_regression": "PASS",
+  "external_communication": 0,
+  "meshy_credit_consumption": 0
+}

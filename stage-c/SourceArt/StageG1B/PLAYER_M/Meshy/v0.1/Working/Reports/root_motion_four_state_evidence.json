@@ -1,0 +1,9 @@
+{
+	"mode": "Ignore Root Motion",
+	"idle_isolated": true,
+	"walk_isolated": true,
+	"run_isolated": true,
+	"dash_isolated": true,
+	"actor_motion_owned_by_character_movement": true,
+	"double_movement_observed": false
+}

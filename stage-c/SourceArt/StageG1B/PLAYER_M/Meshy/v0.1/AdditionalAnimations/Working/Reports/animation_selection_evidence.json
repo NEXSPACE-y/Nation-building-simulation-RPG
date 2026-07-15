@@ -1,0 +1,8 @@
+{
+	"idle": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/IDLE/A_PLAYER_M_Meshy_v0_1_IDLE_Idle11.A_PLAYER_M_Meshy_v0_1_IDLE_Idle11",
+	"walk": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/PLAYER_M_Meshy_v0_1_AllAnimationsWalking_frame_rate_60_fbx.PLAYER_M_Meshy_v0_1_AllAnimationsWalking_frame_rate_60_fbx",
+	"run": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/PLAYER_M_Meshy_v0_1_AllAnimationsRunning_frame_rate_60_fbx.PLAYER_M_Meshy_v0_1_AllAnimationsRunning_frame_rate_60_fbx",
+	"dash": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/DASH/A_PLAYER_M_Meshy_v0_1_DASH_Run02.A_PLAYER_M_Meshy_v0_1_DASH_Run02",
+	"idle_provisional": false,
+	"unused_policy": "Charge, Head, merged Run_02 and Run_03 remain unconnected"
+}

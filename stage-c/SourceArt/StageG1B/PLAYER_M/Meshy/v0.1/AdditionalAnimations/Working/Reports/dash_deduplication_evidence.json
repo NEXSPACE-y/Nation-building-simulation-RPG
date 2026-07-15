@@ -1,0 +1,27 @@
+{
+  "source_take": "Run_02",
+  "existing_asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/PLAYER_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx.PLAYER_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx",
+  "existing_play_length_seconds": 1.4666666984558105,
+  "existing_sampled_frame_count": 89,
+  "single_fbx_asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/DASH/A_PLAYER_M_Meshy_v0_1_DASH_Run02.A_PLAYER_M_Meshy_v0_1_DASH_Run02",
+  "single_fbx_play_length_seconds": 0.7333333492279053,
+  "single_fbx_sampled_frame_count": 45,
+  "single_fbx_blender_frame_range": [
+    1,
+    45
+  ],
+  "existing_merged_fbx_blender_frame_range": [
+    1,
+    45
+  ],
+  "bone_count": 24,
+  "root_bone": "Hips",
+  "sampled_pose_value_count": 17280,
+  "sampled_local_basis_max_abs_difference": 0.0016358345746994019,
+  "sampled_local_basis_mean_abs_difference": 1.958141725164268e-06,
+  "comparison_tolerance": 0.002,
+  "pose_content_matches_within_fbx_export_precision": true,
+  "timing_matches": false,
+  "decision": "IMPORT_SINGLE_FBX_AS_DISTINCT_ASSET",
+  "duplicate_asset_created": false
+}

@@ -1,0 +1,50 @@
+{
+  "created_at": "2026-07-15T08:57:16+09:00",
+  "source": "packaged Win64 Development build-in screenshot capture",
+  "camera_contract": "accepted Stage G-1A fixed camera",
+  "motion_blur_during_capture": false,
+  "capture_count": 6,
+  "captures": [
+    {
+      "name": "PLAYER_M_Front.png",
+      "purpose": "PLAYER_M front",
+      "bytes": 883897,
+      "sha256": "abb2a580726b1c91002a4efc850d50aba28605fa3deeda98c328f88aa888b3b6"
+    },
+    {
+      "name": "PLAYER_M_Angled.png",
+      "purpose": "PLAYER_M angled view",
+      "bytes": 876660,
+      "sha256": "30f3f716e44d4e08a54a15194599403e4fc9365b77b84529c3f0477159e344fa"
+    },
+    {
+      "name": "PLAYER_M_Idle_Quinn.png",
+      "purpose": "provisional reference-pose idle and Quinn size comparison",
+      "bytes": 876974,
+      "sha256": "04e3088964a14d24284504cd88df5d79101cc480a92ce80016dece368b4636e0"
+    },
+    {
+      "name": "PLAYER_M_Walk.png",
+      "purpose": "WALK presentation",
+      "bytes": 974716,
+      "sha256": "bdc553f1db618e28153aa25f674e336c66b83061017497ec5c1ecef5c86d1264"
+    },
+    {
+      "name": "PLAYER_M_Run.png",
+      "purpose": "RUN presentation",
+      "bytes": 974101,
+      "sha256": "9416cd75a2d975dcc41ee86121e1c1eab4c6a1e2fdb153b35e6329769c02bb9c"
+    },
+    {
+      "name": "PLAYER_M_F1.png",
+      "purpose": "F1 Meshy skeleton, locomotion, root-motion, and fallback overlay",
+      "bytes": 965351,
+      "sha256": "537964da4201e6bcf8c98b9e13714485d3abce530ed97d1a65cb8904e60b6f92"
+    }
+  ],
+  "visual_result": "PASS",
+  "notes": [
+    "Textured PLAYER_M, Lit shading, dynamic/contact shadow, WALK, RUN, Quinn comparison, and F1 fallback=false were visible.",
+    "This evidence does not substitute for the required user real-machine motion and clipping review."
+  ]
+}

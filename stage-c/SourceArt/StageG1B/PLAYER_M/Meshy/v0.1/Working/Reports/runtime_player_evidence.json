@@ -1,0 +1,18 @@
+{
+	"player_mesh": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Mesh/SK_PLAYER_M_Meshy_v0_1.SK_PLAYER_M_Meshy_v0_1",
+	"animation_blueprint": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/AnimationBlueprint/ABP_PLAYER_M_Meshy_v0_1.ABP_PLAYER_M_Meshy_v0_1_C",
+	"world_height_uu": 174.99999833106995,
+	"vertex_count_lod0": 75249,
+	"triangle_count_lod0": 38862,
+	"lod_count": 1,
+	"bone_count": 24,
+	"root_bone": "Hips",
+	"material_slot_count": 1,
+	"component_scale": 1,
+	"meshy_visual_active": true,
+	"manny_fallback": false,
+	"idle_source": "Meshy Idle_11",
+	"idle_provisional": false,
+	"dash_source": "Meshy Run_02 single FBX",
+	"distance_moved_uu": 1970.5841977919276
+}

@@ -1,0 +1,27 @@
+{
+  "material": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Materials/M_PLAYER_M_Meshy_v0_1.M_PLAYER_M_Meshy_v0_1",
+  "material_instance": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Materials/MI_PLAYER_M_Meshy_v0_1.MI_PLAYER_M_Meshy_v0_1",
+  "base_color": {
+    "asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Textures/T_PLAYER_M_BaseColor_2K.T_PLAYER_M_BaseColor_2K",
+    "srgb": true,
+    "compression": "Default"
+  },
+  "normal": {
+    "asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Textures/T_PLAYER_M_Normal_2K.T_PLAYER_M_Normal_2K",
+    "srgb": false,
+    "compression": "Normalmap"
+  },
+  "metallic": {
+    "asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Textures/T_PLAYER_M_Metallic_2K.T_PLAYER_M_Metallic_2K",
+    "srgb": false,
+    "compression": "Masks"
+  },
+  "roughness": {
+    "asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Textures/T_PLAYER_M_Roughness_2K.T_PLAYER_M_Roughness_2K",
+    "srgb": false,
+    "compression": "Masks"
+  },
+  "color_correction": false,
+  "texture_content_modified": false,
+  "status": "PASS"
+}

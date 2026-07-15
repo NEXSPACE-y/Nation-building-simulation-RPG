@@ -1,0 +1,15 @@
+{
+  "asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/IDLE/A_PLAYER_M_Meshy_v0_1_IDLE_Idle11.A_PLAYER_M_Meshy_v0_1_IDLE_Idle11",
+  "source_take": "Idle_11",
+  "skeleton": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Skeleton/SKEL_PLAYER_M_Meshy_v0_1.SKEL_PLAYER_M_Meshy_v0_1",
+  "bone_count": 24,
+  "root_bone": "Hips",
+  "play_length_seconds": 1.899999976158142,
+  "sampled_frame_count": 115,
+  "effective_sample_rate": 60.00000075290079,
+  "enable_root_motion": false,
+  "force_root_lock": true,
+  "root_motion_mode": "Ignore Root Motion",
+  "reference_pose_provisional": false,
+  "status": "PASS"
+}

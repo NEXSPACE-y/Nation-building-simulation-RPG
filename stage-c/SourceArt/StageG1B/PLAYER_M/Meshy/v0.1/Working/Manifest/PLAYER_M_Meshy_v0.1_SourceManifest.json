@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-14T21:49:13.201326+09:00",
+  "zip_source_path": "C:\\Users\\rinpa\\Desktop\\PLAYER_M_Meshy_Rigged_AllAnimations_v0.1.zip",
+  "zip_original_preservation_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Original\\Meshy_AI_Brave_Little_Adventur_biped.zip",
+  "zip_size": 33506378,
+  "zip_sha256": "EBD21F89AC9441E4E9D94EAD79A0A7B5F58B8F0BCE3BCEDAD3A07553050B3367",
+  "zip_original_copy_sha256": "EBD21F89AC9441E4E9D94EAD79A0A7B5F58B8F0BCE3BCEDAD3A07553050B3367",
+  "internal_file_count": 6,
+  "internal_files": [
+    {
+      "internal_file_name": "Meshy_AI_Brave_Little_Adventur_biped_Character_output.fbx",
+      "internal_archive_path": "Meshy_AI_Brave_Little_Adventur_biped/Meshy_AI_Brave_Little_Adventur_biped_Character_output.fbx",
+      "internal_file_size": 9443948,
+      "internal_file_sha256": "69813126B4BFA16D4773108D3B59788B00EA22731BF660636D1C8A1482F7A4BE",
+      "working_file_name": "PLAYER_M_Meshy_v0.1_Base_Rigged.fbx",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Working\\FBX\\PLAYER_M_Meshy_v0.1_Base_Rigged.fbx",
+      "working_file_sha256": "69813126B4BFA16D4773108D3B59788B00EA22731BF660636D1C8A1482F7A4BE",
+      "sha_match": true,
+      "contract": {
+        "format": "Kaydara FBX Binary",
+        "version": 7400,
+        "version_family": "7.4"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Brave_Little_Adventur_biped_Meshy_AI_Meshy_Merged_Animations.fbx",
+      "internal_archive_path": "Meshy_AI_Brave_Little_Adventur_biped/Meshy_AI_Brave_Little_Adventur_biped_Meshy_AI_Meshy_Merged_Animations.fbx",
+      "internal_file_size": 10365452,
+      "internal_file_sha256": "8CE545F9D599AA7519840A7C8BF514BB24C576F914141D456A0E15108D169264",
+      "working_file_name": "PLAYER_M_Meshy_v0.1_AllAnimations.fbx",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Working\\FBX\\PLAYER_M_Meshy_v0.1_AllAnimations.fbx",
+      "working_file_sha256": "8CE545F9D599AA7519840A7C8BF514BB24C576F914141D456A0E15108D169264",
+      "sha_match": true,
+      "contract": {
+        "format": "Kaydara FBX Binary",
+        "version": 7400,
+        "version_family": "7.4"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Brave_Little_Adventur_biped_texture_0.png",
+      "internal_archive_path": "Meshy_AI_Brave_Little_Adventur_biped/Meshy_AI_Brave_Little_Adventur_biped_texture_0.png",
+      "internal_file_size": 6539128,
+      "internal_file_sha256": "4B1EDF673CED2533CED143FD4B3C7E89B7F506EB5EFF6E12453AEDC6946151F3",
+      "working_file_name": "T_PLAYER_M_BaseColor_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Working\\Textures\\T_PLAYER_M_BaseColor_2K.png",
+      "working_file_sha256": "4B1EDF673CED2533CED143FD4B3C7E89B7F506EB5EFF6E12453AEDC6946151F3",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "RGB"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Brave_Little_Adventur_biped_texture_0_metallic.png",
+      "internal_archive_path": "Meshy_AI_Brave_Little_Adventur_biped/Meshy_AI_Brave_Little_Adventur_biped_texture_0_metallic.png",
+      "internal_file_size": 32928,
+      "internal_file_sha256": "0EE166AA8E4E8EF70D1892C53CA58E5B45B5EB9FDD56869F2EC62921B07E9C5F",
+      "working_file_name": "T_PLAYER_M_Metallic_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Working\\Textures\\T_PLAYER_M_Metallic_2K.png",
+      "working_file_sha256": "0EE166AA8E4E8EF70D1892C53CA58E5B45B5EB9FDD56869F2EC62921B07E9C5F",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "Grayscale"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Brave_Little_Adventur_biped_texture_0_normal.png",
+      "internal_archive_path": "Meshy_AI_Brave_Little_Adventur_biped/Meshy_AI_Brave_Little_Adventur_biped_texture_0_normal.png",
+      "internal_file_size": 7483028,
+      "internal_file_sha256": "4C145DF755B7D76F3EC82CD79F78CB0DC06187990AAB89A273A69167D05D61CE",
+      "working_file_name": "T_PLAYER_M_Normal_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Working\\Textures\\T_PLAYER_M_Normal_2K.png",
+      "working_file_sha256": "4C145DF755B7D76F3EC82CD79F78CB0DC06187990AAB89A273A69167D05D61CE",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "RGB"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Brave_Little_Adventur_biped_texture_0_roughness.png",
+      "internal_archive_path": "Meshy_AI_Brave_Little_Adventur_biped/Meshy_AI_Brave_Little_Adventur_biped_texture_0_roughness.png",
+      "internal_file_size": 814352,
+      "internal_file_sha256": "B4E8E7BE3F1C81E1CC85CC111DC02438603FB978C23D6BD526D1C7F21F356B23",
+      "working_file_name": "T_PLAYER_M_Roughness_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\Working\\Textures\\T_PLAYER_M_Roughness_2K.png",
+      "working_file_sha256": "B4E8E7BE3F1C81E1CC85CC111DC02438603FB978C23D6BD526D1C7F21F356B23",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "Grayscale"
+      }
+    }
+  ],
+  "external_communication": 0,
+  "meshy_credit_consumption": 0,
+  "validation_status": "PASS"
+}

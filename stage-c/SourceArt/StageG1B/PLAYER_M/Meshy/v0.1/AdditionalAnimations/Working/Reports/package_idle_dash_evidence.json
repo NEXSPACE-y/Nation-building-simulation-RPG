@@ -1,0 +1,13 @@
+{
+  "package": "C:\\Users\\rinpa\\Desktop\\TITLE\\out\\stage-g1b-meshy\\package\\Windows\\NationSimulationStageC.exe",
+  "no_argument_default_map": "PASS",
+  "idle_11": "PASS",
+  "idle_loop": "PASS",
+  "walking_250": "PASS",
+  "running_500": "PASS",
+  "dash_run_02_750": "PASS",
+  "three_mode_toggle": "PASS",
+  "destination_nav_path_maintained": "PASS",
+  "root_motion_four_state_isolated": "PASS",
+  "manny_fallback": false
+}

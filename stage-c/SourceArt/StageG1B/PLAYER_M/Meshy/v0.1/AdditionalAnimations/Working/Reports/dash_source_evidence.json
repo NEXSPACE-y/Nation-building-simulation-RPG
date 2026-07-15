@@ -1,0 +1,15 @@
+{
+  "source_take": "Run_02",
+  "source_fbx": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG1B\\PLAYER_M\\Meshy\\v0.1\\AdditionalAnimations\\Working\\DASH\\PLAYER_M_Meshy_v0.1_DASH_Run02.fbx",
+  "existing_asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/PLAYER_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx.PLAYER_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx",
+  "selected_dash_asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/DASH/A_PLAYER_M_Meshy_v0_1_DASH_Run02.A_PLAYER_M_Meshy_v0_1_DASH_Run02",
+  "skeleton": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Skeleton/SKEL_PLAYER_M_Meshy_v0_1.SKEL_PLAYER_M_Meshy_v0_1",
+  "bone_count": 24,
+  "root_bone": "Hips",
+  "play_length_seconds": 0.7333333492279053,
+  "sampled_frame_count": 45,
+  "effective_sample_rate": 59.99999869953505,
+  "enable_root_motion": false,
+  "force_root_lock": true,
+  "status": "PASS"
+}

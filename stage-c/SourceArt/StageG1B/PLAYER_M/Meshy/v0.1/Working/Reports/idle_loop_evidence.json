@@ -1,0 +1,11 @@
+{
+	"idle_asset": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Animations/IDLE/A_PLAYER_M_Meshy_v0_1_IDLE_Idle11.A_PLAYER_M_Meshy_v0_1_IDLE_Idle11",
+	"play_length_seconds": 1.8999999761581421,
+	"sample_start_time": 0.25022980570793152,
+	"sample_after_multiple_cycles_time": 0.45010212063789368,
+	"idle_sequence_observed": true,
+	"animation_time_progressed": true,
+	"loop_maintained": true,
+	"actor_location_rotation_stable": true,
+	"reference_pose_provisional": false
+}
