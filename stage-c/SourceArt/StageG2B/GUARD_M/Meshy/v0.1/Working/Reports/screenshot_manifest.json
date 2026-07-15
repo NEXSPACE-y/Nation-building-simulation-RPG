@@ -1,0 +1,72 @@
+[
+  {
+    "file": "01_guard_standard_front.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1085233,
+    "sha256": "A8756D78234101E7789C503453E972651B9CA758CDA1323582AE5E1D32BD1CFE"
+  },
+  {
+    "file": "02_guard_standard_close.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 976007,
+    "sha256": "BE1DFABBF843FA407A00F0BDF8E710F458539B0A4B50E2C97F5B96772D327BB2"
+  },
+  {
+    "file": "03_guard_standard_side.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 845362,
+    "sha256": "B089B75540B48FEF7293A9C3DF0A6E7BEE019072F68F906535BC96F5E3EF0EB6"
+  },
+  {
+    "file": "04_guard_standard_back.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 779600,
+    "sha256": "566FBF2EE0137899EE65257D75D161EC9F9B6ADD8E91C6870618BF3D464B0278"
+  },
+  {
+    "file": "05_guard_player_scale_compare.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 902130,
+    "sha256": "46EDBF8C768B7930A3548A3148D5065E9DC8399D9CC170B8576BE7F5D89739A1"
+  },
+  {
+    "file": "06_guard_tactical_initial.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1136874,
+    "sha256": "EE6C5810313D5BF5C263F1689E763EB9EF531090301B2BD50A128BF71B3E6A7C"
+  },
+  {
+    "file": "07_guard_tactical_zoom_max.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1020643,
+    "sha256": "DA235D9CEC4FD3CC74A35A6B79AEE53AE92D1573B84F7A398E8BDAC258BD7303"
+  },
+  {
+    "file": "08_guard_material_close.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1063079,
+    "sha256": "CE2500A45353EA0BB065D36226EC0A7294137D174F07F685AACE5A3DE8AE74D1"
+  },
+  {
+    "file": "09_guard_collision_near_wall.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 916205,
+    "sha256": "6C4F79FFAF832CCC623C91914A426E0AFB354EA9523665DD12BBA1DD736D1BB2"
+  },
+  {
+    "file": "10_return_to_standard_with_guard.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 850085,
+    "sha256": "650FDB5F325FD42243A23C8FBF95114791AC97C06A390055864DA7BC05DE7413"
+  }
+]

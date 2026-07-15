@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-07-15T20:30:58.153815+09:00",
+  "source_map": "/Game/Maps/StageG2A_CameraRedesignPoC",
+  "target_map": "/Game/Maps/StageG2B_GuardM_PoC",
+  "g1b_player_adapter_count": 1,
+  "g2a_camera_adapter_count": 1,
+  "guard_actor_count": 1,
+  "guard_actor_blueprint": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Blueprints/BP_StageG2B_GUARD_M",
+  "guard_location": {
+    "x": 925.0,
+    "y": -1750.0,
+    "z": 88.0
+  },
+  "distance_from_player_start_uu": 425.0,
+  "ai_connected": false,
+  "causal_core_connected": false,
+  "save_schema_connected": false,
+  "status": "PASS"
+}

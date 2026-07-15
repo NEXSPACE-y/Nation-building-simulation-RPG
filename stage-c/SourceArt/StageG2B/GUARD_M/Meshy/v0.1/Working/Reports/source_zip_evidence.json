@@ -1,0 +1,13 @@
+{
+  "source_zip": "C:\\Users\\rinpa\\Desktop\\Meshy_AI_Lioncrest_Knight_biped.zip",
+  "expected_size": 52772677,
+  "actual_size": 52772677,
+  "expected_sha256": "AC7DEB2B0238970E413B8784FF46941860F08C29C51F03F88A3FFC88BDDFD6A8",
+  "actual_sha256": "AC7DEB2B0238970E413B8784FF46941860F08C29C51F03F88A3FFC88BDDFD6A8",
+  "internal_file_count": 6,
+  "zip_crc": "PASS",
+  "clean_pack_used": false,
+  "contract_status": "PASS",
+  "external_communication": 0,
+  "meshy_credit_consumption": 0
+}

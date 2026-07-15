@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-15T20:06:51.946374+09:00",
+  "zip_source_path": "C:\\Users\\rinpa\\Desktop\\Meshy_AI_Lioncrest_Knight_biped.zip",
+  "zip_original_preservation_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Original\\Meshy_AI_Lioncrest_Knight_biped.zip",
+  "zip_size": 52772677,
+  "zip_sha256": "AC7DEB2B0238970E413B8784FF46941860F08C29C51F03F88A3FFC88BDDFD6A8",
+  "zip_original_copy_sha256": "AC7DEB2B0238970E413B8784FF46941860F08C29C51F03F88A3FFC88BDDFD6A8",
+  "internal_file_count": 6,
+  "internal_files": [
+    {
+      "internal_file_name": "Meshy_AI_Lioncrest_Knight_biped_Character_output.fbx",
+      "internal_archive_path": "Meshy_AI_Lioncrest_Knight_biped/Meshy_AI_Lioncrest_Knight_biped_Character_output.fbx",
+      "internal_file_size": 20152828,
+      "internal_file_sha256": "5DD041F01A9CB8136E26FB992C68D88B3A32FA54CFBC078042B74A7FBDCCDEF2",
+      "working_file_name": "GUARD_M_Meshy_v0.1_Base_Rigged.fbx",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Working\\FBX\\GUARD_M_Meshy_v0.1_Base_Rigged.fbx",
+      "working_file_sha256": "5DD041F01A9CB8136E26FB992C68D88B3A32FA54CFBC078042B74A7FBDCCDEF2",
+      "sha_match": true,
+      "contract": {
+        "format": "Kaydara FBX Binary",
+        "version": 7400,
+        "version_family": "7.4"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Lioncrest_Knight_biped_Meshy_AI_Meshy_Merged_Animations.fbx",
+      "internal_archive_path": "Meshy_AI_Lioncrest_Knight_biped/Meshy_AI_Lioncrest_Knight_biped_Meshy_AI_Meshy_Merged_Animations.fbx",
+      "internal_file_size": 20836876,
+      "internal_file_sha256": "E72C1471B01B5F20C62EBD20506D3823D21958A80EE0657210602E2BAFE19370",
+      "working_file_name": "GUARD_M_Meshy_v0.1_AllAnimations.fbx",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Working\\FBX\\GUARD_M_Meshy_v0.1_AllAnimations.fbx",
+      "working_file_sha256": "E72C1471B01B5F20C62EBD20506D3823D21958A80EE0657210602E2BAFE19370",
+      "sha_match": true,
+      "contract": {
+        "format": "Kaydara FBX Binary",
+        "version": 7400,
+        "version_family": "7.4"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Lioncrest_Knight_biped_texture_0.png",
+      "internal_archive_path": "Meshy_AI_Lioncrest_Knight_biped/Meshy_AI_Lioncrest_Knight_biped_texture_0.png",
+      "internal_file_size": 5995942,
+      "internal_file_sha256": "BCCF1B18A49E54A1BFF73286F6B2ECAD1CE65AB0FF71D159B2B7BED80B83F56C",
+      "working_file_name": "T_GUARD_M_BaseColor_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Working\\Textures\\T_GUARD_M_BaseColor_2K.png",
+      "working_file_sha256": "BCCF1B18A49E54A1BFF73286F6B2ECAD1CE65AB0FF71D159B2B7BED80B83F56C",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "RGB"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Lioncrest_Knight_biped_texture_0_metallic.png",
+      "internal_archive_path": "Meshy_AI_Lioncrest_Knight_biped/Meshy_AI_Lioncrest_Knight_biped_texture_0_metallic.png",
+      "internal_file_size": 422872,
+      "internal_file_sha256": "CD8892B2A7B0705DAB989D2AD918F93A90FDCC53D1A546A3774177349637ADAE",
+      "working_file_name": "T_GUARD_M_Metallic_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Working\\Textures\\T_GUARD_M_Metallic_2K.png",
+      "working_file_sha256": "CD8892B2A7B0705DAB989D2AD918F93A90FDCC53D1A546A3774177349637ADAE",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "Grayscale"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Lioncrest_Knight_biped_texture_0_normal.png",
+      "internal_archive_path": "Meshy_AI_Lioncrest_Knight_biped/Meshy_AI_Lioncrest_Knight_biped_texture_0_normal.png",
+      "internal_file_size": 7441109,
+      "internal_file_sha256": "B003AA79CC55AF7A8A752FC4D72C2ABEAE4D98D27A19887044C727F903532995",
+      "working_file_name": "T_GUARD_M_Normal_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Working\\Textures\\T_GUARD_M_Normal_2K.png",
+      "working_file_sha256": "B003AA79CC55AF7A8A752FC4D72C2ABEAE4D98D27A19887044C727F903532995",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "RGB"
+      }
+    },
+    {
+      "internal_file_name": "Meshy_AI_Lioncrest_Knight_biped_texture_0_roughness.png",
+      "internal_archive_path": "Meshy_AI_Lioncrest_Knight_biped/Meshy_AI_Lioncrest_Knight_biped_texture_0_roughness.png",
+      "internal_file_size": 1019113,
+      "internal_file_sha256": "0AF32C86E4E14AA44D39369EA89C881338A3929E9E30AA53EEA5AC01B5469104",
+      "working_file_name": "T_GUARD_M_Roughness_2K.png",
+      "working_path": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG2B\\GUARD_M\\Meshy\\v0.1\\Working\\Textures\\T_GUARD_M_Roughness_2K.png",
+      "working_file_sha256": "0AF32C86E4E14AA44D39369EA89C881338A3929E9E30AA53EEA5AC01B5469104",
+      "sha_match": true,
+      "contract": {
+        "width": 2048,
+        "height": 2048,
+        "bit_depth": 8,
+        "mode": "Grayscale"
+      }
+    }
+  ],
+  "clean_pack_used": false,
+  "external_communication": 0,
+  "meshy_credit_consumption": 0,
+  "validation_status": "PASS"
+}

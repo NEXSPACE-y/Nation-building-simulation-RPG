@@ -1,0 +1,9 @@
+{
+	"idle_sequence": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx",
+	"animation_method": "GUARD source AnimationSingleNode",
+	"guard_source_idle_11": true,
+	"is_playing": true,
+	"reference_pose": false,
+	"retarget_used": false,
+	"player_animation_modified": false
+}

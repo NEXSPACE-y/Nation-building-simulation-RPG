@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-07-15T20:10:00.127307+09:00",
+  "skeletal_mesh": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Mesh/SK_GUARD_M_Meshy_v0_1.SK_GUARD_M_Meshy_v0_1",
+  "skeleton": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+  "physics_asset": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/PHYS_GUARD_M_Meshy_v0_1.PHYS_GUARD_M_Meshy_v0_1",
+  "player_skeleton_shared": false,
+  "initial_import_uniform_scale": 1.0,
+  "initial_world_height_uu": 175.0000002384186,
+  "final_import_uniform_scale": 1.0,
+  "final_component_scale": 1.0,
+  "final_world_height_uu": 175.0000002384186,
+  "world_height_in_170_180_band": true,
+  "material_slot_count": 1,
+  "material": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Materials/M_GUARD_M_Meshy_v0_1.M_GUARD_M_Meshy_v0_1",
+  "material_instance": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Materials/MI_GUARD_M_Meshy_v0_1.MI_GUARD_M_Meshy_v0_1",
+  "animation_sequence_count": 12,
+  "guard_idle_candidates": [
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 3.799999952316284
+    }
+  ],
+  "normal_import_method": "Import Normals and Tangents",
+  "convert_scene": true,
+  "force_front_x_axis": false,
+  "lod_policy": "LOD0 source retained; additional LOD required before multiple placement",
+  "multiple_guard_placement_allowed": false,
+  "external_communication": 0
+}

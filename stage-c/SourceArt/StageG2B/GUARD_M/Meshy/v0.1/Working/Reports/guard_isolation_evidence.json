@@ -1,0 +1,9 @@
+{
+	"player_mesh": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Mesh/SK_PLAYER_M_Meshy_v0_1.SK_PLAYER_M_Meshy_v0_1",
+	"player_skeleton": "/Game/StageG1B/Characters/PLAYER_M/MeshyV01/Skeleton/SKEL_PLAYER_M_Meshy_v0_1.SKEL_PLAYER_M_Meshy_v0_1",
+	"player_skeleton_shared": false,
+	"player_mesh_modified": false,
+	"player_animation_modified": false,
+	"causal_core_connected": false,
+	"save_schema_connected": false
+}

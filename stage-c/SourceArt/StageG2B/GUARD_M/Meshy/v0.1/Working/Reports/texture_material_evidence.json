@@ -1,0 +1,27 @@
+{
+  "material": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Materials/M_GUARD_M_Meshy_v0_1.M_GUARD_M_Meshy_v0_1",
+  "material_instance": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Materials/MI_GUARD_M_Meshy_v0_1.MI_GUARD_M_Meshy_v0_1",
+  "base_color": {
+    "asset": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Textures/T_GUARD_M_BaseColor_2K.T_GUARD_M_BaseColor_2K",
+    "srgb": true,
+    "compression": "Default"
+  },
+  "normal": {
+    "asset": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Textures/T_GUARD_M_Normal_2K.T_GUARD_M_Normal_2K",
+    "srgb": false,
+    "compression": "Normalmap"
+  },
+  "metallic": {
+    "asset": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Textures/T_GUARD_M_Metallic_2K.T_GUARD_M_Metallic_2K",
+    "srgb": false,
+    "compression": "Masks"
+  },
+  "roughness": {
+    "asset": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Textures/T_GUARD_M_Roughness_2K.T_GUARD_M_Roughness_2K",
+    "srgb": false,
+    "compression": "Masks"
+  },
+  "player_material_changed": false,
+  "texture_content_modified": false,
+  "status": "PASS"
+}

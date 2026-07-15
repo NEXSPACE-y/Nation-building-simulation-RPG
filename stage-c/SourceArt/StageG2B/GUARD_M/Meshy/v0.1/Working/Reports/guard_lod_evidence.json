@@ -1,0 +1,7 @@
+{
+	"lod_count": 1,
+	"lod0_triangles": 178245,
+	"lod0_policy": "Original source retained",
+	"multiple_placement_allowed": false,
+	"future_requirement": "Additional LOD required before multiple GUARD placement"
+}

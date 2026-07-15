@@ -1,0 +1,76 @@
+{
+  "sequences": [
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsCharacter_output_fbx.GUARD_M_Meshy_v0_1_AllAnimationsCharacter_output_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsCharacter_output_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 0.03333333507180214
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsChest_Pound_Taunt_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsChest_Pound_Taunt_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsChest_Pound_Taunt_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 9.666666984558105
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsDead_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsDead_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsDead_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 5.933333396911621
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsFall_Dead_from_Abdominal_Injury_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsFall_Dead_from_Abdominal_Injury_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsFall_Dead_from_Abdominal_Injury_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 7.0
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsIdle_11_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 3.799999952316284
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsRun_02_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 1.4666666984558105
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsRun_03_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsRun_03_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsRun_03_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 1.600000023841858
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsRunning_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsRunning_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsRunning_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 1.2666666507720947
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsShort_Breathe_and_Look_Around_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsShort_Breathe_and_Look_Around_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsShort_Breathe_and_Look_Around_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 15.733333587646484
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsShrug_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsShrug_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsShrug_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 4.0
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsWalking_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsWalking_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsWalking_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 2.066666603088379
+    },
+    {
+      "asset_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Animations/GUARD_M_Meshy_v0_1_AllAnimationsWave_One_Hand_frame_rate_60_fbx.GUARD_M_Meshy_v0_1_AllAnimationsWave_One_Hand_frame_rate_60_fbx",
+      "name": "GUARD_M_Meshy_v0_1_AllAnimationsWave_One_Hand_frame_rate_60_fbx",
+      "skeleton_path": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+      "play_length_seconds": 8.199999809265137
+    }
+  ]
+}

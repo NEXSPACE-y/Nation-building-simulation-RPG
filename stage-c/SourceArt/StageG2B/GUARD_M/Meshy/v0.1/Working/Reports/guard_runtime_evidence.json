@@ -1,0 +1,17 @@
+{
+	"guard_mesh": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Mesh/SK_GUARD_M_Meshy_v0_1.SK_GUARD_M_Meshy_v0_1",
+	"guard_skeleton": "/Game/StageG2B/Characters/GUARD_M/MeshyV01/Skeleton/SKEL_GUARD_M_Meshy_v0_1.SKEL_GUARD_M_Meshy_v0_1",
+	"bone_count": 24,
+	"root_bone": "Hips",
+	"vertices_lod0": 297881,
+	"triangles_lod0": 178245,
+	"world_height_uu": 175.00000023841861,
+	"material_slot_count": 1,
+	"guard_actor_count": 1,
+	"player_distance_uu": 425,
+	"guard_visual_active": true,
+	"player_fallback": false,
+	"player_skeleton_shared": false,
+	"dynamic_shadow": true,
+	"contact_shadow": true
+}
