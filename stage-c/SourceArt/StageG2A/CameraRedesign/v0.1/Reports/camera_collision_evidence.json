@@ -1,0 +1,14 @@
+{
+	"do_collision_test": true,
+	"probe_channel": "Camera",
+	"standard_probe_size": 12,
+	"standard_min_distance": 180,
+	"standard_recovery_seconds": 0.20000000298023224,
+	"unobstructed_arm": 537.1466064453125,
+	"collision_arm": 244.23838806152344,
+	"recovered_arm": 537.14697265625,
+	"collision_shortened": true,
+	"distance_recovered_after_clear": true,
+	"camera_channel_trace_hit_fixture": true,
+	"camera_channel_trace_cleared_after_remove": true
+}

@@ -1,0 +1,13 @@
+{
+  "archive_root": "C:\\Users\\rinpa\\Desktop\\TITLE_StageG2A_Old_Rejected_Archive_20260715",
+  "archived_unique_file_count": 5370,
+  "archived_total_bytes": 1993620739,
+  "sha256_match_count": 5370,
+  "validation_fail_count": 0,
+  "removed_old_g2a_file_count": 5368,
+  "old_g2a_untracked_after_cleanup": 0,
+  "old_g2a_ignored_after_cleanup": 0,
+  "stage_g1b_head": "985155fa86586295b804601bbee33d01bf0b115f",
+  "current_redesign_instruction_preserved": true,
+  "commit_tag_push": 0
+}

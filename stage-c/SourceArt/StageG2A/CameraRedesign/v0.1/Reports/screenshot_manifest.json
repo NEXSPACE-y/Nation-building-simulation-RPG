@@ -1,0 +1,86 @@
+[
+  {
+    "file": "01_standard_initial.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1073022,
+    "sha256": "2FFE81B9B48A59628929960861D6F2224BB526E9370F068C0922315CC2433BB9"
+  },
+  {
+    "file": "02_standard_min_zoom.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1018117,
+    "sha256": "9099448E34DBBE5C154D75151DFDC48EF801A5C6EDEFB89EED366F7208CA7E38"
+  },
+  {
+    "file": "03_standard_max_zoom.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 861908,
+    "sha256": "6C9178818D24924E614EBD52B13458BEA7A702D741ACE163AE301B87AE46784A"
+  },
+  {
+    "file": "04_standard_pitch_min.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1081580,
+    "sha256": "AD8ACB10E9658295EBF1D3DF9B1B400F82135102CBA65C6F79F066E336D85331"
+  },
+  {
+    "file": "05_standard_pitch_max.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1117420,
+    "sha256": "70E25692066A6851D2677B16678EF14A916E01401059A9F0F930A13BD6C99CFD"
+  },
+  {
+    "file": "06_tactical_initial.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1132767,
+    "sha256": "72AA028DF02C7A2FD69D625AD3A04C838F4AD2AE75CE00EF635EE153B5A3F349"
+  },
+  {
+    "file": "07_tactical_min_zoom.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1183943,
+    "sha256": "BC9B8CD6D598BF36629A7ED9FF0A485B7CB72C42362EDAC9B5E70E2ED83A0963"
+  },
+  {
+    "file": "08_tactical_max_zoom.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 891131,
+    "sha256": "A5F1A408A5A71AC909BF63371DA175DB50C5B5C1AC46AA587ECC91ECD98519D3"
+  },
+  {
+    "file": "09_tactical_yaw_90.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 850548,
+    "sha256": "569A458D155DB874BE4E2874944D38DCBF8D75C6FBE120C0D7D69C5FF5BD2F18"
+  },
+  {
+    "file": "10_tactical_yaw_180.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 845288,
+    "sha256": "8AD2AC9FB658677A8DDF63A7F589956CE789A53162FA6857326F2ACA083EC274"
+  },
+  {
+    "file": "11_collision_near_wall.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1171108,
+    "sha256": "520BA8A00359D669E629F27C39F93630746FA109ACC84600785C2693F3782324"
+  },
+  {
+    "file": "12_return_to_standard.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 842667,
+    "sha256": "F0546F85E3287596E50B53C2CB50FFB953A8B33410D104441CFF0C5C6E266A33"
+  }
+]

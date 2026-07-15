@@ -1,0 +1,16 @@
+{
+  "configuration": "Development",
+  "configured_default_map": "/Game/Maps/StageG2A_CameraRedesignPoC",
+  "launch_map_argument": "NONE",
+  "executable": "C:\\Users\\rinpa\\Desktop\\TITLE\\out\\stage-g2a-redesign\\package\\Windows\\NationSimulationStageC.exe",
+  "executable_sha256": "7931C90FA1B8C11845D8A6782B02B03BEF463DE800FFBB7DA258F37D1E2BCC64",
+  "no_argument_default_map": "PASS",
+  "initial_standard_non_overhead": "PASS",
+  "f6_tactical_toggle": "PASS",
+  "return_to_standard": "PASS",
+  "camera_collision": "PASS",
+  "player_m_meshy": "PASS",
+  "manny_fallback": false,
+  "explicit_stage_g1b_package_regression": "PASS",
+  "commit_tag_push": 0
+}

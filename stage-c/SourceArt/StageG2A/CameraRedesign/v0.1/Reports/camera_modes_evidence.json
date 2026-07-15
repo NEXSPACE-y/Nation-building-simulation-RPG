@@ -1,0 +1,13 @@
+{
+	"initial_mode": "StandardCharacterCamera",
+	"standard_is_non_overhead": true,
+	"tactical_reached_by_toggle": true,
+	"returned_to_standard": true,
+	"standard_distance": 520,
+	"standard_pitch": -15,
+	"standard_fov": 75,
+	"tactical_distance": 1200,
+	"tactical_pitch": -55,
+	"tactical_fov": 60,
+	"parameter_leakage": false
+}

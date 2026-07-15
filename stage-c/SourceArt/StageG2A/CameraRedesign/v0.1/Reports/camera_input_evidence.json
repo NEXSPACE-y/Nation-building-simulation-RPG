@@ -1,0 +1,14 @@
+{
+	"yaw_input_source": "PlayerInput.GetRawKeyValue(MouseX)",
+	"pitch_input_source": "PlayerInput.GetRawKeyValue(MouseY)",
+	"standard_yaw_sensitivity": 0.5,
+	"standard_pitch_sensitivity": 0.15000000596046448,
+	"tactical_yaw_sensitivity": 1.25,
+	"tactical_pitch_sensitivity": 0.18000000715255737,
+	"tactical_yaw_vs_old_observed": 2.5,
+	"tactical_pitch_vs_old_observed": 1.2000000476837158,
+	"right_drag_both_modes": true,
+	"wheel_zoom_both_modes": true,
+	"ui_guard_enabled": true,
+	"movement_or_causal_side_effect": false
+}
