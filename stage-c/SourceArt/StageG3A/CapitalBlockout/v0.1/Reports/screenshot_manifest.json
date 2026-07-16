@@ -1,0 +1,156 @@
+[
+  {
+    "file": "01_overview_tactical_full.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1085029,
+    "sha256": "8F7A343D962E3F3019E451F0991E8654974F4B32DF8C1DDC0D47F331A5FE4B91"
+  },
+  {
+    "file": "02_south_gate_standard.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 991034,
+    "sha256": "F4779BCE068495274D195122B7EA5A5CFFB0B6B404057961C5B5089B44FAB652"
+  },
+  {
+    "file": "03_south_gate_tactical.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 811463,
+    "sha256": "3826CA06121763F58E834DE3C64B2541D264C044298715119DB03B0F0C162C73"
+  },
+  {
+    "file": "04_main_street_standard.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1023631,
+    "sha256": "1FBDCFEC6EB7E2AFCCF479D4CFDC0D09D852802F208A532C85E054A8BFEA431E"
+  },
+  {
+    "file": "05_central_plaza_standard.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 906329,
+    "sha256": "9983CFEDF504A322D7F16036408D80B4387327954A4B93449044059EC558FAAE"
+  },
+  {
+    "file": "06_central_plaza_tactical.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1015045,
+    "sha256": "370697E569E305629B53915F713D9587B424F469B9734E3510A0F9B43CD5D89C"
+  },
+  {
+    "file": "07_market_district.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1033563,
+    "sha256": "FABDAE44B047255806A53723C6C3AB7D8209DE28E2B66B7CC8BD5671D39006B1"
+  },
+  {
+    "file": "08_residential_district.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1013233,
+    "sha256": "FD7E3740E2A6FE221B24690AF13DFF3247BA2F1D9326F0815FA21C0A76EEFCB6"
+  },
+  {
+    "file": "09_noble_district.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1078784,
+    "sha256": "79A91243D50A9C620E7AFD47F86E0E89464D3AD3C4AD6F0D8B48DC925D49591C"
+  },
+  {
+    "file": "10_workshop_district.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1011397,
+    "sha256": "E1F84DD7D82FC840B00080668202F60C49F1785D9D1FC5F9F49FB7CBF800B9D6"
+  },
+  {
+    "file": "11_castle_approach_standard.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 994866,
+    "sha256": "1DC2FCCA6346E41E4B5496A2F18DBC18B9C03FAC4C107BAFF18C2C3D30DB265C"
+  },
+  {
+    "file": "12_castle_overlook.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1054086,
+    "sha256": "2C1781D8821A5A8C61CEF1891D78EF8E0DFCC1944478069B3815611CB52B9BDA"
+  },
+  {
+    "file": "13_outskirts_farmland_forest.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 829702,
+    "sha256": "2893648231B6758FC7720FF72B1AB8389F953AAADAB455D3B8C29078A7416CAD"
+  },
+  {
+    "file": "14_camera_collision_wall.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 976107,
+    "sha256": "B5132010E178DDA97942A49CB51544200EB33B284731B71ED83ACEE9BA7674FE"
+  },
+  {
+    "file": "15_navmesh_route_gate_to_plaza.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 967697,
+    "sha256": "C7064F6589AB0F3D2975E9649A4D2BEF951632018EB37F9E7BAC19BDE509B1F2"
+  },
+  {
+    "file": "16_return_to_standard_after_tactical.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 885734,
+    "sha256": "70149274C9773B6C00628F2AD4ECAD5DA977A0AB2CA95F8A48C8A8D125E61B21"
+  },
+  {
+    "file": "standard_autofollow_move_start.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 997746,
+    "sha256": "658655E67198534770247DC7497075AA9B8663A4B183E2DB0CEB68E96AAF7DC3"
+  },
+  {
+    "file": "standard_autofollow_while_moving.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 965830,
+    "sha256": "324B843596B735F2E1632ACDC0BDDA7A135555138963E26A98139832B40F6088"
+  },
+  {
+    "file": "standard_manual_drag_override.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 956945,
+    "sha256": "10CAEFE7CFE54D93D1BED24F3907F919C627D4296B0F69D3B03F3A1A63658432"
+  },
+  {
+    "file": "standard_autofollow_resume_after_drag.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1020480,
+    "sha256": "9B78994F6C1DE17A8FFAAD710C293F67BF70A1BC03AA30FA9FE1F6EF9E5D46E5"
+  },
+  {
+    "file": "tactical_no_autofollow.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1027779,
+    "sha256": "125599D64A470CF74FA6C015DC97BE9967D15371B81A764F92E143A58CDF53B4"
+  },
+  {
+    "file": "return_standard_autofollow.png",
+    "width": 1280,
+    "height": 720,
+    "bytes": 999761,
+    "sha256": "374FFEE78F86200CD8E4416713474B49D28CF2023A40C21CBB3C7438EC201343"
+  }
+]

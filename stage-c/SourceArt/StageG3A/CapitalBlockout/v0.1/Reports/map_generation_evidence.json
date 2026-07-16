@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-07-16T20:03:40.182027+09:00",
+  "source_map": "/Game/Maps/StageG2B_GuardM_PoC",
+  "target_map": "/Game/Maps/StageG3A_CapitalBlockout_PoC",
+  "reference_image": "C:\\Users\\rinpa\\Desktop\\TITLE\\Docs\\ChatGPT Image 2026年7月11日 21_50_21.png",
+  "reference_usage": "capital silhouette, medieval atmosphere, district hierarchy, roofs, towers, gate, and streets",
+  "excluded_reference_usage": "2.5D character and fang-rat rendering specifications",
+  "blockout_bounds_uu": {
+    "width": 6000,
+    "depth": 6000
+  },
+  "inner_city_bounds_uu": {
+    "width": 5200,
+    "depth": 4800
+  },
+  "player_start": {
+    "x": 0,
+    "y": -3000,
+    "z": 96,
+    "yaw": 90
+  },
+  "guard_count": 1,
+  "guard_location": {
+    "x": -255,
+    "y": -2410,
+    "z": 88
+  },
+  "g1b_player_adapter_count": 1,
+  "g2a_camera_adapter_count": 1,
+  "g3a_standard_camera_autofollow_count": 1,
+  "blockout_actor_count": 527,
+  "material_asset_count": 21,
+  "walkable_surface_actor_count": 1,
+  "click_move_trace_contract": "WalkableSurface blocks ECC_GameTraceChannel1 at runtime",
+  "visual_language": "pitched roofs, timber frames, articulated stone walls, gate towers, castle spires",
+  "engine_primitives_only": true,
+  "external_assets": 0,
+  "marketplace_assets": 0,
+  "meshy_generation": 0,
+  "foliage_system_used": false,
+  "status": "PASS"
+}

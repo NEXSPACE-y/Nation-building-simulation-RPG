@@ -1,0 +1,18 @@
+{
+	"scope": "Stage G-3A StandardCharacterCamera auto Yaw follow",
+	"yaw_interp_speed": 5,
+	"manual_override_seconds": 1.25,
+	"movement_speed_threshold": 10,
+	"destination_direction_min_distance": 25,
+	"standard_autofollow_observed": true,
+	"manual_drag_priority_observed": true,
+	"manual_release_hold_observed": true,
+	"standard_autofollow_resumed_after_drag": true,
+	"tactical_autofollow_disabled": true,
+	"return_standard_autofollow_observed": true,
+	"tactical_max_uncommanded_yaw_delta": 0,
+	"autofollow_apply_count": 12307,
+	"visual_springarm_target_yaw": 98.089958190917969,
+	"visual_target_error_degrees": 0.00144195556640625,
+	"target_priority": "velocity_then_destination_then_hold_current"
+}

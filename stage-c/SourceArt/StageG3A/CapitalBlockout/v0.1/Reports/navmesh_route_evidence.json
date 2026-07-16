@@ -1,0 +1,79 @@
+{
+	"route_count": 10,
+	"passed_route_count": 10,
+	"all_routes_passed": true,
+	"click_move_surface_passed": true,
+	"actual_player_movement_passed": true,
+	"routes": [
+		{
+			"name": "player_start_to_south_gate",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "south_gate_to_main_street",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "main_street_to_central_plaza",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "central_plaza_to_market",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 2
+		},
+		{
+			"name": "central_plaza_to_residential",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 2
+		},
+		{
+			"name": "central_plaza_to_castle_approach",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "castle_approach_to_noble",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 2
+		},
+		{
+			"name": "south_gate_to_workshop",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "building_corner_route",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 2
+		},
+		{
+			"name": "outer_wall_side_route",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 2
+		}
+	]
+}

@@ -1,0 +1,8 @@
+{
+	"standard_initial": true,
+	"tactical_reached": true,
+	"returned_to_standard": true,
+	"collision_actor_count": 58,
+	"camera_blocking_actor_count": 58,
+	"camera_collision_contract": true
+}
