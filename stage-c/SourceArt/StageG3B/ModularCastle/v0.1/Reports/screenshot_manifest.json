@@ -1,0 +1,118 @@
+{
+  "created_at": "2026-07-17T10:49:03.9628088+09:00",
+  "image_count": 16,
+  "images": [
+    {
+      "file": "01_modular_castle_tactical_overview.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1043640,
+      "sha256": "270C62B770CB00F0F987193FC20B24B776C8D21FF5B7B98CB8776A57762E0F70"
+    },
+    {
+      "file": "02_modular_castle_standard_approach.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1045079,
+      "sha256": "EC3279753A5DCC60D494A4F13E37D3C47D327143B7587F9B5ADEA8E2AFE9B62B"
+    },
+    {
+      "file": "03_modular_castle_gate_standard.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1084251,
+      "sha256": "43223B5F4CF73020FBE89ABFFACABFD3A4A6FB7FFEFFA22CFD232547591927A6"
+    },
+    {
+      "file": "04_modular_castle_plaza_standard.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1017250,
+      "sha256": "BE07E34091BD4FD23698A40DF8F3F8DE252033A93FA0E51B65FECB962220CBA3"
+    },
+    {
+      "file": "05_modular_castle_towers_front.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1080595,
+      "sha256": "49F9D9D6051BBB8A7AAD37A610E2551F1085962A3893556D428B18D2AF99D6EE"
+    },
+    {
+      "file": "06_modular_castle_gate_depth.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1052650,
+      "sha256": "8208E7955E180A39B83A965C4F671681D8880551B051D1613C9708EFE9F7CF5F"
+    },
+    {
+      "file": "07_modular_castle_wall_detail.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1006002,
+      "sha256": "198522CAB9CE9BF897B475FC3E3AF2E9C08D80E1E4D716DAFA5E207DAF454480"
+    },
+    {
+      "file": "08_modular_castle_side_silhouette.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1238240,
+      "sha256": "11A1AA67DDAE5EDC5E5F169D65C94447A59A385CC714649D546A7B5ABCE98A95"
+    },
+    {
+      "file": "09_modular_castle_magic_markers.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1013796,
+      "sha256": "07283EF17D49E4E38B1E26666801035E290AD3514FA60BB9139799FE74A09C76"
+    },
+    {
+      "file": "10_modular_castle_collision_gate.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 922326,
+      "sha256": "C1610BB8A0E9D437251887AE5586ABD5179AAEB11904AF1214AE786D20BAE338"
+    },
+    {
+      "file": "11_modular_castle_collision_wall.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1161267,
+      "sha256": "0C4143800D5416ACD68B5233D14EFF6BED08EABCBE891F924FBD9EE7C9ABA6F3"
+    },
+    {
+      "file": "12_modular_castle_nav_route_plaza_to_gate.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 980395,
+      "sha256": "3CABA28ACD336AB2B556281D24FEB4B3746A10B20BAA20848F71459B530B4109"
+    },
+    {
+      "file": "13_modular_castle_return_tactical.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 936464,
+      "sha256": "6CC043765246D96907489D697722CF5F926AD8292577503F729EB1D01B3684DA"
+    },
+    {
+      "file": "14_modular_castle_return_standard_autofollow.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 979744,
+      "sha256": "676979A910B120D3818226BA6E7AF718299C2A210E7ED8D33E36AA2B950104EC"
+    },
+    {
+      "file": "15_modular_castle_player_scale.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 996090,
+      "sha256": "E004DC4997AE67B85F7B3C6D203039F3A95ED9A6BEB27F4F9A1D5F401C963868"
+    },
+    {
+      "file": "16_modular_castle_gate_from_city_entrance.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1055376,
+      "sha256": "EEF51E573AD71A442C12D232117DE45D58B4F7E43027C26F8B07B9AA0AE7081D"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "created_at": "2026-07-17T10:32:45.738354+09:00",
+  "stage": "G-3B-R",
+  "module_count": 22,
+  "coordinate_unit": "centimeter",
+  "external_assets": 0,
+  "marketplace_assets": 0,
+  "files": [
+    {
+      "asset_name": "SM_G3BR_WallBay_300",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_WallBay_300.fbx",
+      "material_role": "stone",
+      "bytes": 25052,
+      "sha256": "E0A0DA58544BA52492C4064414208682FD5408ADDC4AB1DEC806521E6E48C677"
+    },
+    {
+      "asset_name": "SM_G3BR_WallBayTall_300",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_WallBayTall_300.fbx",
+      "material_role": "stone",
+      "bytes": 25100,
+      "sha256": "D0FC52F1F92C9CC8AADED14E3A89DE75EB94E142C33ABAA07E426D8E74E9CD0C"
+    },
+    {
+      "asset_name": "SM_G3BR_GateArch_600",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_GateArch_600.fbx",
+      "material_role": "stone",
+      "bytes": 82780,
+      "sha256": "7A468202EDB92E608DFDDD91B3EA88D3EB31E8D8443C24B70A5999F31AF7516B"
+    },
+    {
+      "asset_name": "SM_G3BR_TunnelWall",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_TunnelWall.fbx",
+      "material_role": "stone",
+      "bytes": 14956,
+      "sha256": "68612651EA2602AB5E07CED984DEE055A516D72B0C391132E2750993E90FBBF4"
+    },
+    {
+      "asset_name": "SM_G3BR_TunnelRoof",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_TunnelRoof.fbx",
+      "material_role": "roof",
+      "bytes": 23932,
+      "sha256": "F85CFDC4AECF65B85AE651B34D2E09D292EFB67072FEBE568CF7DD785B1FEF69"
+    },
+    {
+      "asset_name": "SM_G3BR_RoofBaySteep_320",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_RoofBaySteep_320.fbx",
+      "material_role": "roof",
+      "bytes": 23580,
+      "sha256": "85438C93C606D3DA12BF58AFB0F6CAE1B794CA3E25B0FFC56997752A3CD176A8"
+    },
+    {
+      "asset_name": "SM_G3BR_RoofCentral_680",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_RoofCentral_680.fbx",
+      "material_role": "roof",
+      "bytes": 23772,
+      "sha256": "D3E65FEE8DABA2A9A0AEDD57B5A4ADCCC7ABB0BDC13DCB1343A643575962AFA9"
+    },
+    {
+      "asset_name": "SM_G3BR_SideTower_400",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_SideTower_400.fbx",
+      "material_role": "stone",
+      "bytes": 38988,
+      "sha256": "128193A74BE754A8B913437DB36F72F4847D921B282B9E07276CFE0DCF9D4BC7"
+    },
+    {
+      "asset_name": "SM_G3BR_CentralTower_520",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_CentralTower_520.fbx",
+      "material_role": "stone",
+      "bytes": 45628,
+      "sha256": "9883A22FF065C76949C2B3F1D227815E840F079E52370B7FDF8EF38396F430DC"
+    },
+    {
+      "asset_name": "SM_G3BR_CornerTurret_180",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_CornerTurret_180.fbx",
+      "material_role": "stone_light",
+      "bytes": 39276,
+      "sha256": "D001389D25CF2C2FBA103070D2B20E2F7A89AAE90F939414D0586076080F333A"
+    },
+    {
+      "asset_name": "SM_G3BR_SideSpire_500",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_SideSpire_500.fbx",
+      "material_role": "roof",
+      "bytes": 24412,
+      "sha256": "9196978952682E105E5866F82419297FC778F310025228E40B9D5C449E3A9E26"
+    },
+    {
+      "asset_name": "SM_G3BR_CentralSpire_640",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_CentralSpire_640.fbx",
+      "material_role": "roof",
+      "bytes": 24556,
+      "sha256": "89B0732FE91631D192E4844A5A326B4BA12D9AD2649309CAA4C294E9321ACDCC"
+    },
+    {
+      "asset_name": "SM_G3BR_CornerSpire_220",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_CornerSpire_220.fbx",
+      "material_role": "roof",
+      "bytes": 22300,
+      "sha256": "690419C325BE9106CB31D7A0CC3BAEAAB67311EA04AF4F868C25FD4C84C27D8F"
+    },
+    {
+      "asset_name": "SM_G3BR_ButtressStepped",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_ButtressStepped.fbx",
+      "material_role": "stone_light",
+      "bytes": 34892,
+      "sha256": "5FF5E318EA6ED57BA14512C94D280ECBB39B8CF2EAB9F15491D5F3004FF07ABD"
+    },
+    {
+      "asset_name": "SM_G3BR_WindowFramePointed",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_WindowFramePointed.fbx",
+      "material_role": "stone_light",
+      "bytes": 80524,
+      "sha256": "76394255B3F54F619920B3C27B64DD90299CEF9D269DBB8D10CB2FD2BE1CDF15"
+    },
+    {
+      "asset_name": "SM_G3BR_WindowInsetPointed",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_WindowInsetPointed.fbx",
+      "material_role": "window",
+      "bytes": 14908,
+      "sha256": "5A7F026BF9080E065F251BBC88BAF3C25850EBC8678ED8CAAA95CEE972993D41"
+    },
+    {
+      "asset_name": "SM_G3BR_Crenellation_300",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_Crenellation_300.fbx",
+      "material_role": "stone_light",
+      "bytes": 26172,
+      "sha256": "0106A20DE5EB154347DD9839CA61ADA067F7E7877536E84B9B3FB7205E47FA66"
+    },
+    {
+      "asset_name": "SM_G3BR_EntranceStair",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_EntranceStair.fbx",
+      "material_role": "plaza",
+      "bytes": 32892,
+      "sha256": "D7EA1346C93863C1B322E6D5A74826F7BA4A6823567D6A60CA2A22A70527D44C"
+    },
+    {
+      "asset_name": "SM_G3BR_BannerPole",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_BannerPole.fbx",
+      "material_role": "metal",
+      "bytes": 14972,
+      "sha256": "AB89425BC771F87EFF7A5705A8105EF7A49D2BF758F9A03F9571490311AF0179"
+    },
+    {
+      "asset_name": "SM_G3BR_BannerCloth",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_BannerCloth.fbx",
+      "material_role": "banner",
+      "bytes": 11132,
+      "sha256": "33DE12156F4908B5022769FE78CD42D086AD8DDFE26CCD7AA27A0684218ED7A3"
+    },
+    {
+      "asset_name": "SM_G3BR_MagicPlinth",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_MagicPlinth.fbx",
+      "material_role": "stone_dark",
+      "bytes": 27820,
+      "sha256": "8339366A77E7FFE75158C6C6C58E6AE210F85F00C2FC2413FE07DACAB233075A"
+    },
+    {
+      "asset_name": "SM_G3BR_MagicCrystal",
+      "source_file": "C:\\Users\\rinpa\\Desktop\\TITLE\\stage-c\\SourceArt\\StageG3B\\ModularCastle\\v0.1\\Models\\SM_G3BR_MagicCrystal.fbx",
+      "material_role": "magic",
+      "bytes": 15884,
+      "sha256": "C794EDE2A92F3AD6D4BAB61F015FDFC5D90399F0673ADA6719F058E4B109B6E7"
+    }
+  ],
+  "status": "PASS"
+}

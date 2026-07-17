@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-07-17T10:52:37.1924067+09:00",
+  "executable": "C:\\Users\\rinpa\\Desktop\\TITLE\\out\\stage-g3br-modular-castle\\package\\Windows\\NationSimulationStageC.exe",
+  "executable_sha256": "7931C90FA1B8C11845D8A6782B02B03BEF463DE800FFBB7DA258F37D1E2BCC64",
+  "development_package": "PASS",
+  "no_argument_g3br_map": "PASS",
+  "explicit_g3a_map": "PASS",
+  "explicit_g2b_map": "PASS",
+  "explicit_g2a_map": "PASS",
+  "explicit_g1b_map": "PASS",
+  "navmesh_routes": "5/5 PASS",
+  "guard_actor_count": 1,
+  "player_fallback": false,
+  "guard_player_skeleton_shared": false,
+  "new_background_asset_over_50mb": 0,
+  "external_communication": 0
+}

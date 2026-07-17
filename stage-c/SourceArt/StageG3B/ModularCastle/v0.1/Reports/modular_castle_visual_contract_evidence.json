@@ -1,0 +1,18 @@
+{
+	"wall_bay_count": 11,
+	"gate_arch_count": 1,
+	"tunnel_wall_count": 2,
+	"side_tower_count": 2,
+	"central_tower_count": 1,
+	"small_spire_count": 4,
+	"steep_roof_count": 13,
+	"buttress_count": 14,
+	"window_frame_count": 20,
+	"crenellation_count": 11,
+	"banner_count": 5,
+	"magic_marker_count": 3,
+	"overall_width_uu": 2360,
+	"overall_depth_uu": 1120,
+	"highest_point_uu": 2000,
+	"single_front_wall_over_1000uu": false
+}

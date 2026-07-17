@@ -1,0 +1,13 @@
+{
+	"map": "/Game/Maps/StageG3B_ModularCastle_PoC",
+	"guard_actor_count": 1,
+	"player_fallback": false,
+	"guard_player_skeleton_shared": false,
+	"movement_command_issued": true,
+	"movement_distance_uu": 4330.6728515625,
+	"movement_passed": true,
+	"walk_run_dash_preserved": true,
+	"external_assets_used": false,
+	"causal_core_connected": false,
+	"save_schema_connected": false
+}

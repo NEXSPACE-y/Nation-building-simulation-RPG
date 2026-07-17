@@ -1,0 +1,42 @@
+{
+	"route_count": 5,
+	"passed_route_count": 5,
+	"all_routes_passed": true,
+	"routes": [
+		{
+			"name": "city_to_castle_plaza",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "plaza_to_gate",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "gate_tunnel",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "gate_to_inner_court",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 3
+		},
+		{
+			"name": "plaza_side_route",
+			"start_projected": true,
+			"end_projected": true,
+			"path_valid": true,
+			"path_points": 2
+		}
+	]
+}

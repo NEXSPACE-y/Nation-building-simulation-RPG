@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-07-17T10:33:29.629269+09:00",
+  "stage": "G-3B-R",
+  "source_map": "/Game/Maps/StageG3A_CapitalBlockout_PoC",
+  "target_map": "/Game/Maps/StageG3B_ModularCastle_PoC",
+  "removed_g3a_placeholder_actor_count": 55,
+  "imported_module_asset_count": 22,
+  "placed_module_actor_count": 116,
+  "wall_bay_width_uu": 300,
+  "gate_opening_width_uu": 600,
+  "gate_opening_height_uu": 565,
+  "gate_tunnel_depth_uu": 380,
+  "side_tower_diameter_uu": 400,
+  "side_tower_height_uu": 1080,
+  "central_tower_diameter_uu": 520,
+  "central_tower_height_uu": 1480,
+  "overall_bounds_uu": {
+    "width": 2360,
+    "depth": 1120,
+    "height": 2000
+  },
+  "forecourt_bounds_uu": {
+    "width": 1800,
+    "depth": 1100
+  },
+  "buttress_count": 14,
+  "window_frame_count": 20,
+  "crenellation_module_count": 11,
+  "banner_count": 5,
+  "magic_marker_count": 3,
+  "guard_count": 1,
+  "external_assets": 0,
+  "marketplace_assets": 0,
+  "high_resolution_textures": 0,
+  "status": "PASS"
+}
