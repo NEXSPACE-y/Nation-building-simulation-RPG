@@ -192,3 +192,36 @@ Epic公式では、古いEngine versionで保存されたAssetは同じか新し
 - [Epic: Migrating Assets in Unreal Engine 5.8](https://dev.epicgames.com/documentation/unreal-engine/migrating-assets-in-unreal-engine?lang=en-US)
 - [Poly Haven Asset License](https://polyhaven.com/license)
 - [ambientCG Plaster 002（ページ内にCC0説明を含む）](https://ambientcg.com/view?id=Plaster002)
+
+## 15. Stage V-1実績反映と実装順規則
+
+### 15.1 Stage V-1／F5正式基準点
+
+- F5 `Paving Stones 149`は、2026-07-18 JSTの豆虎Gateで正式合格し、commit `f08a16c489bdfdaed2e118f99c989ae88728c026`、annotated tag `stage-v1-f5-paving-stones149-v0.1.0`として基準点固定済みである。
+- 合格範囲は、単一2K Texture set、地面用Master Material、Material Instance 1件、Tiling 1.0、Base Color、NormalDX、Roughness、Ambient Occlusion、175uu人物との尺度感、Standard近距離／通常距離／最大Zoom Out、Tactical可読性、同一模様反復時の外観である。
+- F5は再取得、再import、再検証しない。既存の合格済みMaterial／Material Instanceを後続PoCで参照利用する。
+- F5合格は街路完成を意味しない。街路geometry、縁石、排水溝、段差、建物際処理、曲がり、交差・分岐、Height／Displacement、色違い、回転Variation、ランダム化、複数舗装パターン、正式王都Map採用、他Assetとの統合品質は合格範囲外である。
+
+### 15.2 候補検証順と実装順
+
+- F1～F11はAsset候補IDであり、採用、取得許可、実装順を意味しない。
+- 候補検証順と実装順を分離する。実装順は、対象導線と対象構造物を入口側から完成させる順序で決定する。
+- Material候補は、対象建築、対象部位、対象Mesh、勾配または面角度、UV方式、UV密度、Material Slotが確定した後に適合検証する。
+- F10は対象建築、屋根Mesh、勾配、UV、Material Slotが確定するまで停止する。
+- F11は対象建築、壁Mesh、壁構成、UV、Material Slotが確定するまで停止する。
+- F4 `Modular Fantasy Castle`はLEGO／Minecraft／直方体中心の外観riskが正式ビジュアル要件と衝突するため、外観Pre-Gate不合格としてActive候補から除外する。取得、import、使用は行わない。Stage V-0時点の調査記録は調査履歴として保持する。
+- F6、F2、F8、F9は、新しい実装順が確定するまで停止する。
+- 次工程は`Stage V-2 王都主要街路Geometry PoC`とし、王都南門の王都内側接続部から主要街路を経て市場入口手前までを対象にする。後続Assetの検索・取得は別裁定とする。
+
+### 15.3 用語定義
+
+- Gate A／B／C：Asset検査工程。物理的な門ではない。
+- 王都南門：王都入口側にある街の物理門。
+- 王都城壁：王都外周側の城壁。
+- 王城正門：王城前広場から王城へ入る物理門。
+- 王城正門門楼：王城正門の門洞上部と周辺を構成する建築。
+- 王城正門左右塔：王城正門の左右に配置する塔。
+- 王城外郭城壁：王城敷地を囲う城壁。
+- 王城中央棟：王城正面奥の主要高層建築。
+
+実装指示では「門」「城門」「屋根」「壁」だけの曖昧な表現を使用せず、対象導線、対象建築または対象部位を必ず付記する。本節はStage V-0作成時点の要件、観察事項、技術条件、ライセンス条件および調査履歴を削除・再解釈せず、後続の正式裁定を追補するものである。
